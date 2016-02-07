@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Spanish Grammar App</string>
+
+    <string name="learn">Learn</string>
+    <string name="practice">Practice</string>
+    <string name="revise">Revise</string>
+    <string name="resources">Resources</string>
+    <string name="glossary">Glossary</string>
+    <string name="credits">Credits</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_learn">LearnActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_practice">PracticeActivity</string>
+    <string name="title_activity_revise">ReviseActivity</string>
+    <string name="title_activity_resources">ResourcesActivity</string>
+    <string name="title_activity_glossary">GlossaryActivity</string>
+    <string name="alphabet">El Alfabeto</string>
+    <string name="numbers">Los Números</string>
+    <string name="days">Los Días</string>
+    <string name="calendar">El Calendario</string>
+    <string name="holidays">Festividades</string>
+    <string name="seasons_months">Estaciones y Meses</string>
+    <string name="time">La Hora</string>
+    <string name="creditsDialog">Credits</string>
+</resources>
