@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        UserProgress up1 = new UserProgress(this.getBaseContext());
+        up1.saveProgress();
     }
 
     public void learnActivity(View view){

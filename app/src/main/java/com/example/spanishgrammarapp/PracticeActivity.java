@@ -1,9 +1,11 @@
 package com.example.spanishgrammarapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class PracticeActivity extends AppCompatActivity {
 
@@ -18,6 +20,12 @@ public class PracticeActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_practice, menu);
         return true;
+    }
+
+    public void enterTopic(View view){
+        Intent intent = new Intent(this, SubtopicsActivity.class);
+        intent.putExtra("TOPIC", (String) view.getTag());
+        startActivity(intent);
     }
 
     @Override

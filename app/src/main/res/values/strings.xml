@@ -23,4 +23,6 @@
     <string name="seasons_months">Estaciones y Meses</string>
     <string name="time">La Hora</string>
     <string name="creditsDialog">Credits</string>
+    <string name="title_activity_exercises">ExercisesActivity</string>
+    <string name="title_activity_subtopics">SubtopicsActivity</string>
 </resources>

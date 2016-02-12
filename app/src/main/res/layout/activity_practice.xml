@@ -27,7 +27,9 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            android:ellipsize="marquee" />
+            android:ellipsize="marquee"
+            android:tag="Greetings"
+            android:onClick="enterTopic" />
 
         <Button
             android:layout_width="wrap_content"
@@ -41,7 +43,9 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            android:ellipsize="marquee" />
+            android:ellipsize="marquee"
+            android:tag="Checking-in"
+            android:onClick="enterTopic"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -56,7 +60,9 @@
             android:layout_rowSpan="1"
             android:singleLine="true"
             android:enabled="true"
-            android:ellipsize="marquee" />
+            android:ellipsize="marquee"
+            android:tag="Sightseeing"
+            android:onClick="enterTopic"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -70,7 +76,9 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            android:ellipsize="marquee" />
+            android:ellipsize="marquee"
+            android:tag="Directions"
+            android:onClick="enterTopic"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -84,7 +92,9 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            android:ellipsize="marquee" />
+            android:ellipsize="marquee"
+            android:tag="Eating"
+            android:onClick="enterTopic"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -98,7 +108,9 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            android:ellipsize="marquee" />
+            android:ellipsize="marquee"
+            android:tag="Likes"
+            android:onClick="enterTopic"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -112,7 +124,9 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            android:ellipsize="marquee" />
+            android:ellipsize="marquee"
+            android:tag="Planning"
+            android:onClick="enterTopic"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -126,7 +140,9 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            android:ellipsize="marquee" />
+            android:ellipsize="marquee"
+            android:tag="Shopping"
+            android:onClick="enterTopic"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -140,6 +156,8 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            android:ellipsize="marquee" />
+            android:ellipsize="marquee"
+            android:tag="Dating"
+            android:onClick="enterTopic"/>
     </GridLayout>
 </RelativeLayout>
