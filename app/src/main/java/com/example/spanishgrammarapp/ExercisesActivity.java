@@ -6,11 +6,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,20 +25,23 @@ import java.util.ArrayList;
 @SuppressWarnings("ResourceType")
 public class ExercisesActivity extends AppCompatActivity {
 
-    private Intent intent;
     private RelativeLayout relativeLayout;
-    private TextView question;
     private String cAnswer;
     private ArrayList<String> answers;
+    public static final String multipleChoice = "mc";
+    public static final String trueFalse = "tf";
+    public static final String dragAndDrop = "dnd";
+    public static final String typing = "t";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
-        intent = getIntent();
+        Intent intent = getIntent();
         relativeLayout = new RelativeLayout(this);
-        question = new TextView(this);
+        TextView question = new TextView(this);
+        question.setTextSize(30);
         cAnswer = intent.getStringExtra("cAnswer");
         answers = intent.getStringArrayListExtra("answers");
 
@@ -48,19 +55,18 @@ public class ExercisesActivity extends AppCompatActivity {
         relativeLayout.addView(question);
 
         switch (intent.getStringExtra("questionType")){
-            case "mc":
+            case multipleChoice:
                 constructMultipleChoice();
                 return;
-            case "tf":
+            case trueFalse:
                 constructTrueFalse();
                 return;
-            case "dnd":
+            case dragAndDrop:
                 constructDragAndDrop();
                 return;
-            case "t":
+            case typing:
                 constructTypingActivity();
         }
-//        constructTrueFalse();
     }
 
     private void constructMultipleChoice(){
@@ -85,77 +91,46 @@ public class ExercisesActivity extends AppCompatActivity {
             optionsButton[i] = new Button(this);
             optionsButton[i].setLayoutParams(new ViewGroup.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.MATCH_PARENT));
             optionsButton[i].setText(answers.get(i));
+            optionsButton[i].setTag(answers.get(i));
             bottom.addView(optionsButton[i]);
-        }
-
-        // This code seems highly inefficient, but the reason for having two listeners rather than one is
-        // so that it is possible to use an anonymous inner class. Otherwise we'd have to deal with final variables,
-        // or having a separate class for the listener.
-        for (int i = 0; i < optionsButton.length; i++) {
-            if (optionsButton[i].getText().equals(cAnswer)) {
-                optionsButton[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog alert = new AlertDialog.Builder(ExercisesActivity.this).create();
-                        alert.setTitle("Well Done");
-                        alert.setMessage("This is the Correct Answer!");
-                        alert.setButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //write what it should do when the answer is incorrect
-                            }
-                        });
-                        alert.show();
-                    }
-                });
-            } else {
-                optionsButton[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog alert = new AlertDialog.Builder(ExercisesActivity.this).create();
-                        alert.setTitle("Try Again");
-                        alert.setMessage("Incorrect Answer!");
-                        alert.setButton("TryAgain", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //write what it should do when the answer is incorrect
-                            }
-                        });
-                        alert.show();
-                    }
-                });
-            }
+            optionsButton[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    results(multipleChoice, v);
+                }
+            });
         }
     }
 
-
-    /*
-    * Unfinished method
-    * */
     private void constructTrueFalse(){
-        Button trueButton = new Button(this);
+        final Button trueButton = new Button(this);
         trueButton.setText("True");
         trueButton.setId(1010);
+        trueButton.setTag("true");
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                results();
+                results(trueFalse, trueButton);
             }
         });
-
-        Button falseButton = new Button(this);
+        final Button falseButton = new Button(this);
         falseButton.setText("False");
         falseButton.setId(1020);
+        falseButton.setTag("false");
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                results();
+                results(trueFalse, falseButton);
             }
         });
 
         RelativeLayout.LayoutParams trueBtnParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        trueBtnParams.addRule(RelativeLayout.BELOW, 10000);
+        trueBtnParams.addRule(RelativeLayout.ABOVE, falseButton.getId());
+        trueBtnParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
         RelativeLayout.LayoutParams falseBtnParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        falseBtnParams.addRule(RelativeLayout.BELOW, trueButton.getId());
+        falseBtnParams.addRule(RelativeLayout.ALIGN_BOTTOM);
+        falseBtnParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
         relativeLayout.addView(trueButton, trueBtnParams);
         relativeLayout.addView(falseButton, falseBtnParams);
@@ -166,17 +141,57 @@ public class ExercisesActivity extends AppCompatActivity {
     }
 
     private void constructTypingActivity(){
-//        Placeholder
+        final EditText userInput = new EditText(this);
+        userInput.setId(10100);
+        userInput.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        userInput.setImeActionLabel("Check", KeyEvent.KEYCODE_ENTER);
+        userInput.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    results(typing, userInput);
+                }
+                return true;
+            }
+        });
+        RelativeLayout.LayoutParams editTextParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        editTextParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        relativeLayout.addView(userInput, editTextParams);
     }
 
-    public void results(){
-        Dialog resultsDialog = new Dialog(this);
-        resultsDialog.setTitle("Results");
-        TextView credits = new TextView(this);
-        credits.setText("*insert dank meme*");
-        resultsDialog.addContentView(credits,
-                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        resultsDialog.show();
+    public void results(String qType, View view){
+        boolean correct = false;
+        switch (qType){
+            case multipleChoice:
+                if (view.getTag().equals(cAnswer)){correct=true;}
+            case trueFalse:
+                if (view.getTag().equals(cAnswer.toLowerCase())){correct=true;}
+            case dragAndDrop:
+                //TODO: Drag and drop question type
+            case typing:
+                if (((EditText) view).getText().toString().trim().equals(cAnswer)){correct=true;}
+        }
+
+        AlertDialog alert = new AlertDialog.Builder(ExercisesActivity.this).create();
+        if(correct) {
+            alert.setTitle("Well Done");
+            alert.setMessage("This is the Correct Answer!");
+            alert.setButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    //write what it should do when the answer is correct
+                    //TODO: probably go to next question?
+                }
+            });
+        }else{
+            alert.setTitle("Try Again");
+            alert.setMessage("Incorrect Answer!");
+            alert.setButton("TryAgain", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    //write what it should do when the answer is incorrect
+                }
+            });
+        }
+        alert.show();
     }
 
     @Override

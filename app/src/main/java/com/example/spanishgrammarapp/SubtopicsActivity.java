@@ -22,10 +22,13 @@ public class SubtopicsActivity extends AppCompatActivity {
 
     public void startExercise(View view){
         //this small block of code is for testing purposes only. It will be removed later with the introduction of the API for CMS.
+//        ArrayList<String> answers = new ArrayList<>();
+//        answers.add("Because. And that's all I say.");
+//        answers.add("Because reasons");
+//        Question q = new Question("mc", "There is a 'd' in Fridge but not in Refrigerator, why?", answers.get(0) , answers);
         ArrayList<String> answers = new ArrayList<>();
-        answers.add("Because. And that's all I say.");
-        answers.add("Because reasons");
-        Question q = new Question("mc", "There is a 'd' in Fridge but not in Refrigerator, why?", answers.get(0) , answers);
+        answers.add("Golf");
+        Question q = new Question(ExercisesActivity.typing, "What does Thurnis Haley like to do the most?", "Golf", answers);
 
         Intent intent = new Intent(this, ExercisesActivity.class);
         intent.putExtra("questionType", q.getQuestionType());
