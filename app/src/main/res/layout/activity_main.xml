@@ -36,8 +36,8 @@
         android:layout_alignLeft="@+id/button_practice" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100"
+        android:layout_height="35"
         android:background="@drawable/resources"
         android:id="@+id/button_resources"
         android:layout_alignParentBottom="true"
@@ -46,8 +46,8 @@
         android:onClick="resourcesActivity" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100"
+        android:layout_height="35"
         android:background="@drawable/glossary"
         android:id="@+id/button_glossary"
         android:layout_alignParentBottom="true"
@@ -55,8 +55,8 @@
         android:onClick="glossaryActivity" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100"
+        android:layout_height="35"
         android:background="@drawable/credits"
         android:id="@+id/button_credits"
         android:layout_alignParentBottom="true"
