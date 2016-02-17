@@ -1,25 +1,34 @@
 package com.example.spanishgrammarapp;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
+import android.view.Display;
+import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 @SuppressWarnings("ResourceType")
@@ -32,6 +41,7 @@ public class ExercisesActivity extends AppCompatActivity {
     public static final String trueFalse = "tf";
     public static final String dragAndDrop = "dnd";
     public static final String typing = "t";
+    private TextView question;//This was previously declared in onCreate(), but it needs to be private for DragAndDrop
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +50,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         relativeLayout = new RelativeLayout(this);
-        TextView question = new TextView(this);
+        question = new TextView(this);
         question.setTextSize(30);
         cAnswer = intent.getStringExtra("cAnswer");
         answers = intent.getStringArrayListExtra("answers");
@@ -137,7 +147,71 @@ public class ExercisesActivity extends AppCompatActivity {
     }
 
     private void constructDragAndDrop(){
-//        Placeholder
+
+        GridLayout optionsLayout = new GridLayout(this);
+        optionsLayout.setOrientation(GridLayout.VERTICAL);
+        optionsLayout.setId(1001);
+
+        RelativeLayout.LayoutParams gridLayoutParams =
+                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        gridLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        relativeLayout.addView(optionsLayout, gridLayoutParams);
+
+
+        question.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    ClipData data = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+                    v.startDrag(data, shadowBuilder, v, 0);
+//                    v.setVisibility(View.INVISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        Display screen = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        screen.getSize(size);
+        int imageWidth = size.x / answers.size();
+        int imageHeight = size.y / answers.size();
+
+        ImageView[] images = new ImageView[answers.size()];
+        for (int i = 0; i < answers.size(); i++) {
+                images[i] = new ImageView(this);
+                images[i].setTag(answers.get(i));
+                new DownloadImageTask(images[i]).execute(answers.get(i));
+                images[i].setOnDragListener(new View.OnDragListener() {
+                    @Override
+                    public boolean onDrag(View v, DragEvent event) {
+                        switch(event.getAction())
+                        {
+                            case DragEvent.ACTION_DRAG_STARTED:
+                                break;
+                            case DragEvent.ACTION_DRAG_ENTERED:
+                                break;
+                            case DragEvent.ACTION_DRAG_EXITED:
+                                break;
+                            case DragEvent.ACTION_DRAG_LOCATION:
+                                break;
+                            case DragEvent.ACTION_DRAG_ENDED:
+                                break;
+                            case DragEvent.ACTION_DROP:
+                                results(dragAndDrop,v);
+                                break;
+                            default: break;
+                        }return true;}
+                });
+
+                images[i].setLayoutParams(new ViewGroup.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.MATCH_PARENT));
+                images[i].getLayoutParams().height=imageHeight;
+                images[i].getLayoutParams().width=imageWidth;
+                optionsLayout.addView(images[i]);
+        }
+
     }
 
     private void constructTypingActivity(){
@@ -167,7 +241,7 @@ public class ExercisesActivity extends AppCompatActivity {
             case trueFalse:
                 if (view.getTag().equals(cAnswer.toLowerCase())){correct=true;}
             case dragAndDrop:
-                //TODO: Drag and drop question type
+                if(view.getTag().equals(cAnswer)){correct=true;}
             case typing:
                 if (((EditText) view).getText().toString().trim().equals(cAnswer)){correct=true;}
         }
@@ -192,6 +266,32 @@ public class ExercisesActivity extends AppCompatActivity {
             });
         }
         alert.show();
+    }
+
+    //This private class is used to set an Image to an ImageView from the given URL
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 
     @Override
