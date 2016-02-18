@@ -28,7 +28,7 @@
     <Button
         android:layout_width="200"
         android:layout_height="70"
-        android:background="@drawable/rivise"
+        android:background="@drawable/revise"
         android:id="@+id/button_revise"
         android:onClick="reviseActivity"
         android:layout_marginBottom="100dp"
