@@ -14,7 +14,7 @@
         android:onClick="learnActivity"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="70dp" />
 
     <Button
         android:layout_width="200"
@@ -22,7 +22,7 @@
         android:background="@drawable/practice"
         android:id="@+id/button_practice"
         android:onClick="practiceActivity"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="180dp"
         android:layout_alignLeft="@+id/button_learn" />
 
     <Button
@@ -31,7 +31,7 @@
         android:background="@drawable/revise"
         android:id="@+id/button_revise"
         android:onClick="reviseActivity"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="90dp"
         android:layout_above="@+id/button_resources"
         android:layout_alignLeft="@+id/button_practice" />
 
