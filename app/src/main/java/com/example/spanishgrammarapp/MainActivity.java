@@ -9,15 +9,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    public final static String QUESTIONS = "QUESTIONS";
+    public final static String TOPIC = "TOPIC";
+    public final static String QUESTION_TYPE = "QUESTION_TYPE";
+    public final static String QUESTION_TEXT = "QUESTION";
+    public final static String ANSWERS = "ANSWERS";
+    public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout);
+//        relativeLayout.setBackground(getDrawable(R.drawable.bkg));
         UserProgress up1 = new UserProgress(this.getBaseContext());
         up1.saveProgress();
     }

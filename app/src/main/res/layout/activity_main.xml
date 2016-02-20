@@ -3,39 +3,45 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:id="@+id/relative_layout">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/learn"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:background="@drawable/learn"
         android:id="@+id/button_learn"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="learnActivity" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/practice"
-        android:id="@+id/button_practice"
-        android:layout_below="@+id/button_learn"
-        android:layout_centerHorizontal="true"
-        android:onClick="practiceActivity" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/revise"
-        android:id="@+id/button_revise"
+        android:onClick="learnActivity"
         android:layout_below="@+id/button_practice"
         android:layout_centerHorizontal="true"
-        android:onClick="reviseActivity" />
+        android:layout_marginBottom="20dp" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/resources"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:background="@drawable/practice"
+        android:id="@+id/button_practice"
+        android:onClick="practiceActivity"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/button_learn"
+        android:layout_alignStart="@+id/button_learn"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:background="@drawable/revise"
+        android:id="@+id/button_revise"
+        android:onClick="reviseActivity"
+        android:layout_below="@+id/button_learn"
+        android:layout_alignLeft="@+id/button_learn"
+        android:layout_alignStart="@+id/button_learn" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:background="@drawable/resources"
         android:id="@+id/button_resources"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -43,18 +49,18 @@
         android:onClick="resourcesActivity" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/glossary"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:background="@drawable/glossary"
         android:id="@+id/button_glossary"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:onClick="glossaryActivity" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/credits"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:background="@drawable/credits"
         android:id="@+id/button_credits"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"

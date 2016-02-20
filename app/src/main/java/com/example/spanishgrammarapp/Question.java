@@ -1,18 +1,19 @@
 package com.example.spanishgrammarapp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Admin on 2/12/2016.
  */
-public class Question {
+public class Question implements Serializable {
 
     private String questionType;
     private String question;
     private String correctAnswer;
     private ArrayList<String> answers;
     private int attempts = 0;
-    private boolean completed = false;
+    private boolean completed = false; //true when the user successfully answered the question
 
     public Question(String questionType, String question, String correctAnswer, ArrayList<String> answers){
         this.questionType = questionType;

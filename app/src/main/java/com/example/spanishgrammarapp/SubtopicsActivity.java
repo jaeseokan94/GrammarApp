@@ -7,35 +7,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.util.ArrayList;
-
 public class SubtopicsActivity extends AppCompatActivity {
 
+    private String topic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subtopics);
 
 //        This is how we tell what topic we've entered.
-        String topic = getIntent().getStringExtra("TOPIC");
+        topic = getIntent().getStringExtra("TOPIC");
     }
 
     public void startExercise(View view){
-        //this small block of code is for testing purposes only. It will be removed later with the introduction of the API for CMS.
-//        ArrayList<String> answers = new ArrayList<>();
-//        answers.add("Because. And that's all I say.");
-//        answers.add("Because reasons");
-//        Question q = new Question("mc", "There is a 'd' in Fridge but not in Refrigerator, why?", answers.get(0) , answers);
-        ArrayList<String> answers = new ArrayList<>();
-        answers.add("Golf");
-        Question q = new Question(ExercisesActivity.typing, "What does Thurnis Haley like to do the most?", "Golf", answers);
-
-        Intent intent = new Intent(this, ExercisesActivity.class);
-        intent.putExtra("questionType", q.getQuestionType());
-        intent.putExtra("question", q.getQuestion());
-        intent.putExtra("cAnswer", q.getCorrectAnswer());
-        intent.putExtra("answers", q.getAnswers());
-        startActivity(intent);
+        Exercise exercise = new Exercise(); //create a new Exercise, a set of questions (empty)
+        CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
+        connector.constructExercise(); //the connector populates it with data from the DB
+        Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
+        intent.putExtra(MainActivity.QUESTIONS, exercise); //pass in the exercise (populated)
+        startActivity(intent); //start the activity
     }
 
     @Override

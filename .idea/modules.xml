@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SpanishGrammarApp.iml" filepath="$PROJECT_DIR$/SpanishGrammarApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/spanishgrammarapp.iml" filepath="$PROJECT_DIR$/spanishgrammarapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/spanishgrammarapp.iml" filepath="$PROJECT_DIR$/spanishgrammarapp.iml" />
     </modules>
   </component>

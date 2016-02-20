@@ -2,6 +2,7 @@ package com.example.spanishgrammarapp;
 
 import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
@@ -20,6 +22,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
@@ -33,15 +37,18 @@ import java.util.ArrayList;
 
 @SuppressWarnings("ResourceType")
 public class ExercisesActivity extends AppCompatActivity {
-
-    private RelativeLayout relativeLayout;
-    private String cAnswer;
-    private ArrayList<String> answers;
+    // Member variables for question types, to prevent bugs due to typos.
     public static final String multipleChoice = "mc";
     public static final String trueFalse = "tf";
     public static final String dragAndDrop = "dnd";
     public static final String typing = "t";
+
+    private RelativeLayout relativeLayout; //accessed multiple times throughout the code in various methods.
+    private String cAnswer; //accessed in multiple methods.
+    private ArrayList<String> answers; //accessed in multiple methods.
     private TextView question;//This was previously declared in onCreate(), but it needs to be private for DragAndDrop
+    private ArrayList<Question> exerciseQuestions; //accessed in multiple methods.
+    private int currentQuestionIndex = 0;  //member variable because it is going to be accessed by review functionality
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,31 +56,35 @@ public class ExercisesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercises);
 
         Intent intent = getIntent();
+        Exercise exerciseReceived = intent.getParcelableExtra(MainActivity.QUESTIONS);
+        exerciseQuestions = exerciseReceived.getQuestions();
+
         relativeLayout = new RelativeLayout(this);
+        RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        addContentView(relativeLayout, relativeParams);
         question = new TextView(this);
         question.setTextSize(30);
-        cAnswer = intent.getStringExtra("cAnswer");
-        answers = intent.getStringArrayListExtra("answers");
-
-        RelativeLayout.LayoutParams relativeParams =
-                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        question.setText(intent.getStringExtra("question"));
         question.setId(10000);
+        reconstructGUI();
+    }
 
-        addContentView(relativeLayout, relativeParams);
+    private void reconstructGUI(){
+        relativeLayout.removeAllViews();
+        question.setText(exerciseQuestions.get(currentQuestionIndex).getQuestion());
         relativeLayout.addView(question);
+        cAnswer = exerciseQuestions.get(currentQuestionIndex).getCorrectAnswer();
+        answers = exerciseQuestions.get(currentQuestionIndex).getAnswers();
 
-        switch (intent.getStringExtra("questionType")){
+        switch (exerciseQuestions.get(currentQuestionIndex).getQuestionType()){
             case multipleChoice:
                 constructMultipleChoice();
-                return;
+                break;
             case trueFalse:
                 constructTrueFalse();
-                return;
+                break;
             case dragAndDrop:
                 constructDragAndDrop();
-                return;
+                break;
             case typing:
                 constructTypingActivity();
         }
@@ -120,6 +131,7 @@ public class ExercisesActivity extends AppCompatActivity {
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println(trueButton.getTag()+"");
                 results(trueFalse, trueButton);
             }
         });
@@ -127,20 +139,17 @@ public class ExercisesActivity extends AppCompatActivity {
         falseButton.setText("False");
         falseButton.setId(1020);
         falseButton.setTag("false");
-        trueButton.setOnClickListener(new View.OnClickListener() {
+        falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 results(trueFalse, falseButton);
             }
         });
-
-        RelativeLayout.LayoutParams trueBtnParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams trueBtnParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         trueBtnParams.addRule(RelativeLayout.ABOVE, falseButton.getId());
-        trueBtnParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
-        RelativeLayout.LayoutParams falseBtnParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        falseBtnParams.addRule(RelativeLayout.ALIGN_BOTTOM);
-        falseBtnParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        RelativeLayout.LayoutParams falseBtnParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        falseBtnParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
         relativeLayout.addView(trueButton, trueBtnParams);
         relativeLayout.addView(falseButton, falseBtnParams);
@@ -223,6 +232,8 @@ public class ExercisesActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     results(typing, userInput);
                 }
                 return true;
@@ -238,10 +249,14 @@ public class ExercisesActivity extends AppCompatActivity {
         switch (qType){
             case multipleChoice:
                 if (view.getTag().equals(cAnswer)){correct=true;}
+                break;
             case trueFalse:
-                if (view.getTag().equals(cAnswer.toLowerCase())){correct=true;}
+                System.out.println(view.getTag()+" <--- TAG | correct answer ---> "+cAnswer);
+                if (view.getTag().equals(cAnswer.toLowerCase().trim())){correct=true;}
+                break;
             case dragAndDrop:
                 if(view.getTag().equals(cAnswer)){correct=true;}
+                break;
             case typing:
                 if (((EditText) view).getText().toString().trim().equals(cAnswer)){correct=true;}
         }
@@ -252,8 +267,15 @@ public class ExercisesActivity extends AppCompatActivity {
             alert.setMessage("This is the Correct Answer!");
             alert.setButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    //write what it should do when the answer is correct
-                    //TODO: probably go to next question?
+                    exerciseQuestions.get(currentQuestionIndex).setCompleted(true);
+                    exerciseQuestions.get(currentQuestionIndex).addAttempt();
+                    if(currentQuestionIndex==exerciseQuestions.size()-1) {
+                        //we have reached the end of the exercise
+                        //TODO: Go to review.
+                    }else{
+                        ++currentQuestionIndex;
+                        reconstructGUI(); //goes to next question
+                    }
                 }
             });
         }else{
@@ -261,7 +283,7 @@ public class ExercisesActivity extends AppCompatActivity {
             alert.setMessage("Incorrect Answer!");
             alert.setButton("TryAgain", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    //write what it should do when the answer is incorrect
+                    exerciseQuestions.get(currentQuestionIndex).addAttempt(); //you tried, you failed.
                 }
             });
         }
