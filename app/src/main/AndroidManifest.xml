@@ -36,6 +36,15 @@
             android:name=".GlossaryActivity"
             android:label="@string/title_activity_glossary" >
         </activity>
+        <activity
+            android:name=".ExercisesActivity"
+            android:label="@string/title_activity_exercises" >
+        </activity>
+        <activity
+            android:name=".SubtopicsActivity"
+            android:label="@string/title_activity_subtopics" >
+        </activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
