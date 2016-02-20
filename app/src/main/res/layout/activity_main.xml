@@ -12,7 +12,8 @@
         android:background="@drawable/learn"
         android:id="@+id/button_learn"
         android:onClick="learnActivity"
-        android:layout_below="@+id/button_practice"
+        android:layout_alignParentTop="true"
+
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp" />
 
@@ -22,10 +23,9 @@
         android:background="@drawable/practice"
         android:id="@+id/button_practice"
         android:onClick="practiceActivity"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/button_learn"
         android:layout_alignLeft="@+id/button_learn"
         android:layout_alignStart="@+id/button_learn"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp" />
 
     <Button
@@ -34,9 +34,9 @@
         android:background="@drawable/revise"
         android:id="@+id/button_revise"
         android:onClick="reviseActivity"
-        android:layout_below="@+id/button_learn"
-        android:layout_alignLeft="@+id/button_learn"
-        android:layout_alignStart="@+id/button_learn" />
+        android:layout_below="@+id/button_practice"
+        android:layout_alignLeft="@+id/button_practice"
+        android:layout_alignStart="@+id/button_practice" />
 
     <Button
         android:layout_width="100dp"
