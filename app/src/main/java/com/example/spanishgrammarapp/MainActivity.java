@@ -1,10 +1,9 @@
 package com.example.spanishgrammarapp;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         UserProgress up1 = new UserProgress(this.getBaseContext());
         up1.saveProgress();
     }
+
 
     public void learnActivity(View view){
         Intent intent = new Intent(this, LearnActivity.class);
