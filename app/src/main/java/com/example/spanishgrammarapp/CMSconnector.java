@@ -1,6 +1,11 @@
 package com.example.spanishgrammarapp;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This class will be used to connect to the Database where questions are stored, and connect to the CMS to fetch
@@ -36,4 +41,28 @@ public class CMSconnector {
         }
         return q;
     }
+
+    /**
+     * This will be used to get the question structure from a link containing a JSON Object
+         */
+    public void downloadQuestions(){
+
+        try {
+            JSONArray jsonArray = new JSONParser().execute(
+                    "https://lang-it-up.herokuapp.com/polls/spanish/i/dating/subtopicList/").get();
+
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            String value = jsonObject.getString("subtopic_name");//use this to get the right part of the JSON Object
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 }
