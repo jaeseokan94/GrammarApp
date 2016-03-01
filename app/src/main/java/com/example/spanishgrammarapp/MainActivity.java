@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout);
 //        relativeLayout.setBackground(getDrawable(R.drawable.bkg));
-        UserProgress up1 = new UserProgress(this.getBaseContext());
-        up1.saveProgress();
+//        UserProgress up1 = new UserProgress(this.getBaseContext());
+//        up1.saveProgress();
     }
 
     public void learnActivity(View view){

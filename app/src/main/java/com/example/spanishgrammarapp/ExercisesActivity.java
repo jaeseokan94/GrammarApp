@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +9,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +52,7 @@ public class ExercisesActivity extends AppCompatActivity {
     private TextView question;//This was previously declared in onCreate(), but it needs to be private for DragAndDrop
     private ArrayList<Question> exerciseQuestions; //accessed in multiple methods.
     private int currentQuestionIndex = 0;  //member variable because it is going to be accessed by review functionality
+    private int correctlyAnswered = 0; //used for displaying results at the end of an exercise
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -244,24 +248,38 @@ public class ExercisesActivity extends AppCompatActivity {
         relativeLayout.addView(userInput, editTextParams);
     }
 
-    public void results(String qType, View view){
+    public void results(String qType, View view){ //needs rework
         boolean correct = false;
+        String userAnswer = view.getTag().toString();
+        exerciseQuestions.get(currentQuestionIndex).userGivenAnswer = userAnswer;
         switch (qType){
             case multipleChoice:
-                if (view.getTag().equals(cAnswer)){correct=true;}
+                userAnswer = view.getTag().toString();
+                if (view.getTag().equals(cAnswer)){
+                    correct=true;
+                    ++correctlyAnswered;
+                }
                 break;
             case trueFalse:
-                System.out.println(view.getTag()+" <--- TAG | correct answer ---> "+cAnswer);
-                if (view.getTag().equals(cAnswer.toLowerCase().trim())){correct=true;}
+                if (view.getTag().equals(cAnswer.toLowerCase().trim())){
+                    correct=true;
+                    ++correctlyAnswered;
+                }
                 break;
             case dragAndDrop:
-                if(view.getTag().equals(cAnswer)){correct=true;}
+                if(view.getTag().equals(cAnswer)){
+                    correct=true;
+                    ++correctlyAnswered;
+                }
                 break;
             case typing:
-                if (((EditText) view).getText().toString().trim().equals(cAnswer)){correct=true;}
+                if (((EditText) view).getText().toString().trim().equals(cAnswer)){
+                    correct=true;
+                    ++correctlyAnswered;
+                }
         }
 
-        AlertDialog alert = new AlertDialog.Builder(ExercisesActivity.this).create();
+        final AlertDialog alert = new AlertDialog.Builder(ExercisesActivity.this).create();
         if(correct) {
             alert.setTitle("Well Done");
             alert.setMessage("This is the Correct Answer!");
@@ -271,7 +289,7 @@ public class ExercisesActivity extends AppCompatActivity {
                     exerciseQuestions.get(currentQuestionIndex).addAttempt();
                     if(currentQuestionIndex==exerciseQuestions.size()-1) {
                         //we have reached the end of the exercise
-                        //TODO: Go to review.
+                        ratingDialog();
                     }else{
                         ++currentQuestionIndex;
                         reconstructGUI(); //goes to next question
@@ -287,7 +305,34 @@ public class ExercisesActivity extends AppCompatActivity {
                 }
             });
         }
+        System.out.println(exerciseQuestions.get(currentQuestionIndex).userGivenAnswer);
         alert.show();
+    }
+
+    /* This method displays the rating for the exercises with the appropriate pictures*/
+    private void ratingDialog(){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidth = displayMetrics.widthPixels;
+        Dialog dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams((int) (screenWidth*0.6), (int) (screenWidth*0.18));
+        ImageView rating = new ImageView(getBaseContext());
+        int totalQuestions = exerciseQuestions.size();
+        if(correctlyAnswered/totalQuestions<0.4) {
+            rating.setBackground(getDrawable(R.drawable.star0));
+        }else if(correctlyAnswered/totalQuestions<0.6){
+            rating.setBackground(getDrawable(R.drawable.star1));
+        }else if(correctlyAnswered/totalQuestions<0.8){
+            rating.setBackground(getDrawable(R.drawable.star2));
+        }else if(correctlyAnswered/totalQuestions>=0.8){
+            rating.setBackground(getDrawable(R.drawable.star3));
+        }
+
+        dialog.setTitle("Exercise complete");
+        dialog.addContentView(rating, rlp);
+        dialog.show();
     }
 
     //This private class is used to set an Image to an ImageView from the given URL
