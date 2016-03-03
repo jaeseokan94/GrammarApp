@@ -14,8 +14,9 @@ public class CMSconnector {
 
     public void constructExercise(){
         exercise.addQuestion(constructQuestions(2));
-//        exercise.addQuestion(constructQuestions(1));
-//        exercise.addQuestion(constructQuestions(0));
+        exercise.addQuestion(constructQuestions(0));
+        exercise.addQuestion(constructQuestions(0));
+        exercise.addQuestion(constructQuestions(2));
     }
 
     /*This will be later replaced with a method that*/

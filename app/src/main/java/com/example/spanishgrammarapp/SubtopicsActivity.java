@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,12 +21,39 @@ public class SubtopicsActivity extends AppCompatActivity {
     }
 
     public void startExercise(View view){
-        Exercise exercise = new Exercise(); //create a new Exercise, a set of questions (empty)
-        CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
-        connector.constructExercise(); //the connector populates it with data from the DB
+//        Exercise exercise = getExercise(view.getTag().toString());
         Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
-        intent.putExtra(MainActivity.QUESTIONS, exercise); //pass in the exercise (populated)
+        intent.putExtra(MainActivity.QUESTIONS, (Parcelable) getExercise(view.getTag().toString())); //pass in the exercise (populated)
+        intent.putExtra(MainActivity.TOPIC, topic);
+//        intent.putExtra("TEMPFIX", )
         startActivity(intent); //start the activity
+    }
+
+    /*Checks the UserProgress ArrayLists for existing exercise with matching identifier before
+    * creating a duplicate object for the same exercise. This is very important for serialization.*/
+    private Exercise getExercise(String subtopic){
+        String identifier = topic+"/"+subtopic;
+        Exercise exercise = new Exercise(identifier);
+        if(UserProgress.exercisesInProgress.size()>0) {
+            for (Exercise e : UserProgress.exercisesInProgress) {
+                if (e.getIdentifier().equals(identifier)) {
+                    System.out.println("We did it Reddit! Exercise in Progress detected.");
+                    exercise = e;
+                }
+            }
+        }else if(UserProgress.completedExercises.size()>0) {
+            for (Exercise e : UserProgress.completedExercises) {
+                if (e.getIdentifier().equals(identifier)) {
+                    System.out.println("We did it Reddit! Completed Exercise detected.");
+                    exercise = e;
+                }
+            }
+        }else{
+            System.out.println("Populating new exercise");
+            CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
+            connector.constructExercise(); //the connector populates it with data from the DB
+        }
+            return exercise; //create a new Exercise, a set of questions (empty)
     }
 
     @Override

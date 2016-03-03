@@ -57,7 +57,8 @@ public class Question implements Serializable {
         ++attempts;
     }
 
-    public boolean getCompleted(){
+    /*Used for resuming user progress*/
+    public boolean isCompleted(){
         return isCompleted;
     }
 

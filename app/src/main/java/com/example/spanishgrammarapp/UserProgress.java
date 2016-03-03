@@ -52,12 +52,12 @@ public class UserProgress implements java.io.Serializable {
         try{
             FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), "userProgress.ser"));
             ObjectInputStream ois = new ObjectInputStream(fis);
-            wrapper = (ArrayList<Exercise>) ois.readObject();
-            completedExercises = (ArrayList<Exercise>) wrapper.get(0);
-            exercisesInProgress = (ArrayList<Exercise>) wrapper.get(1);
-            fis.close();
+                wrapper = (ArrayList<Exercise>) ois.readObject();
+                completedExercises = (ArrayList<Exercise>) wrapper.get(0);
+                exercisesInProgress = (ArrayList<Exercise>) wrapper.get(1);
             ois.close();
-            System.out.println("User Progress loaded");
+            fis.close();
+            System.out.println("Progress loaded");
         }catch (IOException | ClassNotFoundException e){
             e.printStackTrace();
             System.out.println("ERROR: Progress not loaded");

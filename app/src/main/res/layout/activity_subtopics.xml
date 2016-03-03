@@ -14,6 +14,7 @@
         android:id="@+id/button"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:tag="Subtopic 1"
         android:onClick="startExercise" />
 
     <Button
@@ -23,6 +24,7 @@
         android:id="@+id/button2"
         android:layout_below="@+id/button"
         android:layout_centerHorizontal="true"
+        android:tag="Subtopic 2"
         android:onClick="startExercise" />
 
     <Button
@@ -32,6 +34,7 @@
         android:id="@+id/button3"
         android:layout_below="@+id/button2"
         android:layout_centerHorizontal="true"
+        android:tag="Subtopic 3"
         android:onClick="startExercise" />
 
     <Button
@@ -41,5 +44,6 @@
         android:id="@+id/button4"
         android:layout_below="@+id/button3"
         android:layout_centerHorizontal="true"
+        android:tag="Subtopic 4"
         android:onClick="startExercise" />
 </RelativeLayout>
