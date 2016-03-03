@@ -25,4 +25,6 @@
     <string name="creditsDialog">Credits</string>
     <string name="title_activity_exercises">ExercisesActivity</string>
     <string name="title_activity_subtopics">SubtopicsActivity</string>
+    <string name="title_activity_topics">Topics Activity</string>
+
 </resources>

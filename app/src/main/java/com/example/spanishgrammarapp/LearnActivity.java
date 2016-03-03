@@ -12,6 +12,8 @@ import android.view.WindowManager;
 
 public class LearnActivity extends AppCompatActivity {
 
+    private final static String EXTRA_MESSAGE = "TOPIC";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,8 +23,9 @@ public class LearnActivity extends AppCompatActivity {
     }
 
     public void enterTopic(View view){
-        Intent intent = new Intent(this, SubtopicsActivity.class);
-        intent.putExtra(MainActivity.TOPIC, (String) view.getTag());
+        Intent intent = new Intent(this, TopicActivity.class);
+        String message = (String) view.getTag();
+        intent.putExtra(EXTRA_MESSAGE, message );
         startActivity(intent);
     }
 
