@@ -25,6 +25,7 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
+            android:onClick="enterTopic"
             />
 
         <ImageButton
@@ -35,6 +36,7 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
+            android:onClick="enterTopic"
             />
 
         <ImageButton
@@ -46,6 +48,7 @@
             android:layout_rowSpan="1"
             android:singleLine="true"
             android:enabled="true"
+            android:onClick="enterTopic"
             />
 
         <ImageButton
@@ -56,6 +59,7 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
+            android:onClick="enterTopic"
             />
 
         <ImageButton
@@ -66,6 +70,7 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
+            android:onClick="enterTopic"
             />
 
         <ImageButton
@@ -76,6 +81,7 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
+            android:onClick="enterTopic"
             />
 
         <ImageButton
@@ -86,6 +92,7 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
+            android:onClick="enterTopic"
             />
 
         <ImageButton
@@ -96,6 +103,7 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
+            android:onClick="enterTopic"
             />
 
         <ImageButton
@@ -106,6 +114,7 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
+            android:onClick="enterTopic"
             />
     </GridLayout>
 </RelativeLayout>
