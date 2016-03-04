@@ -13,6 +13,10 @@ import java.util.concurrent.ExecutionException;
  */
 public class CMSconnector {
     Exercise exercise;
+
+    String questionText; // variable for question_text from API
+    String test;
+
     public CMSconnector(Exercise exercise, String topic){
         this.exercise = exercise;
     }
@@ -28,12 +32,14 @@ public class CMSconnector {
     private Question constructQuestions(int input){
         ArrayList<String> answers1 = new ArrayList<>();
         Question q;
+        String hi = downloadQuestions();
+
         if(input==0) {
             answers1.add("Correct answer");
             answers1.add("Wrong answer 1");
             answers1.add("Wrong answer 2");
             answers1.add("Wrong answer 3");
-            q = new Question(ExercisesActivity.multipleChoice, "Test question 1", answers1.get(0), answers1);
+            q = new Question(ExercisesActivity.multipleChoice, questionText+"test" , answers1.get(0), answers1);
         }else if(input==1){
             answers1.add("Correct answer");
             q = new Question(ExercisesActivity.typing, "Test question 2, the correct answer is: Correct answer", answers1.get(0), answers1);
@@ -46,14 +52,19 @@ public class CMSconnector {
     /**
      * This will be used to get the question structure from a link containing a JSON Object
          */
-    public void downloadQuestions(){
+    public String downloadQuestions(){
 
         try {
             JSONArray jsonArray = new JSONParser().execute(
-                    "https://lang-it-up.herokuapp.com/polls/spanish/i/dating/subtopicList/").get();
+                    "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/Pronouns/exerciseQuestion/").get(); //this link is temporary, it needs to be generalized
 
             JSONObject jsonObject = jsonArray.getJSONObject(0);
-            String value = jsonObject.getString("subtopic_name");//use this to get the right part of the JSON Object
+
+           // String value = jsonObject.getString("subtopic_name");//use this to get the right part of the JSON Object
+
+            questionText = jsonObject.getString("question_text"); // get question_text from API
+            System.out.println("pass1");
+
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -62,6 +73,8 @@ public class CMSconnector {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        return questionText;
 
 
     }
