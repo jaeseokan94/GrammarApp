@@ -1,20 +1,32 @@
 package com.example.spanishgrammarapp;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 
 public class LearnActivity extends AppCompatActivity {
+
+    private final static String EXTRA_MESSAGE = "TOPIC";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
         setDefaultImageButtonSizes();
+
+    }
+
+    public void enterTopic(View view){
+        Intent intent = new Intent(this, TopicActivity.class);
+        String message = (String) view.getTag();
+        intent.putExtra(EXTRA_MESSAGE, message );
+        startActivity(intent);
     }
 
     private void setDefaultImageButtonSizes(){

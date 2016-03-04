@@ -44,6 +44,14 @@
             android:name=".SubtopicsActivity"
             android:label="@string/title_activity_subtopics" >
         </activity>
+        <activity
+            android:name=".TopicActivity"
+            android:label="@string/title_activity_topics" >
+        </activity>
+        <activity
+            android:name=".SituationalVideoActivity"
+            android:label="@string/title_activity_situational_video" >
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS"></uses-permission>

@@ -8,7 +8,6 @@
     tools:context="com.example.spanishgrammarapp.LearnActivity"
     android:background="@drawable/bkg">
 
-
     <GridLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -26,7 +25,8 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            />
+            android:tag="Greetings"
+            android:onClick="enterTopic" />
 
         <ImageButton
             android:id="@+id/button_checking_in"
@@ -36,7 +36,8 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            />
+            android:tag="Checking-in"
+            android:onClick="enterTopic"/>
 
         <ImageButton
             android:id="@+id/button_sightseeing"
@@ -47,7 +48,8 @@
             android:layout_rowSpan="1"
             android:singleLine="true"
             android:enabled="true"
-            />
+            android:tag="Sightseeing"
+            android:onClick="enterTopic"/>
 
         <ImageButton
             android:id="@+id/button_directions"
@@ -57,7 +59,8 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            />
+            android:tag="Directions"
+            android:onClick="enterTopic"/>
 
         <ImageButton
             android:id="@+id/button_eating"
@@ -67,7 +70,8 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            />
+            android:tag="Eating"
+            android:onClick="enterTopic"/>
 
         <ImageButton
             android:id="@+id/button_likes"
@@ -77,7 +81,8 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            />
+            android:tag="Likes"
+            android:onClick="enterTopic"/>
 
         <ImageButton
             android:id="@+id/button_planning"
@@ -87,7 +92,8 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            />
+            android:tag="Planning"
+            android:onClick="enterTopic"/>
 
         <ImageButton
             android:id="@+id/button_shopping"
@@ -97,7 +103,8 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            />
+            android:tag="Shopping"
+            android:onClick="enterTopic"/>
 
         <ImageButton
             android:id="@+id/button_dating"
@@ -107,6 +114,7 @@
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:enabled="true"
-            />
+            android:tag="Dating"
+            android:onClick="enterTopic"/>
     </GridLayout>
 </RelativeLayout>
