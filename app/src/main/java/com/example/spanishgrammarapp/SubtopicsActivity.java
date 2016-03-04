@@ -1,16 +1,22 @@
 package com.example.spanishgrammarapp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 public class SubtopicsActivity extends AppCompatActivity {
 
     private String topic;
+    private Button button;
+    String subtopic_name; // this will parse subtopic_name from API, but it doenst work since I haven't made
+                          // subtopicConstructor in CMSconnector
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +24,14 @@ public class SubtopicsActivity extends AppCompatActivity {
 
 //        This is how we tell what topic we've entered.
         topic = getIntent().getStringExtra("TOPIC");
+
+        //subtopic button title
+        button = (Button)findViewById(R.id.button);
+        button.setText(subtopic_name);
+
+
+
+
     }
 
     public void startExercise(View view){
@@ -27,6 +41,8 @@ public class SubtopicsActivity extends AppCompatActivity {
         intent.putExtra(MainActivity.TOPIC, topic);
         startActivity(intent); //start the activity
     }
+
+
 
     /*Checks the UserProgress ArrayLists for existing exercise with matching identifier before
     * creating a duplicate object for the same exercise. This is very important for serialization.*/

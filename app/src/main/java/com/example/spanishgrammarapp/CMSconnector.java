@@ -15,20 +15,20 @@ public class CMSconnector {
     Exercise exercise;
 
     // Question data
-    int numberOfQuestion; // it gives an integer value of number of question in certain subtopic
-    String questionText; // variable for question_text from API
-    String choice_1;
-    String choice_2;
-    String choice_3;
-    String choice_4;
-    String choice_5;
-    String choice_6;
-    String correct_answer;
+    public int numberOfQuestion; // it gives an integer value of number of question in certain subtopic
+    public String questionText; // variable for question_text from API
+    public String choice_1;
+    public String choice_2;
+    public String choice_3;
+    public String choice_4;
+    public String choice_5;
+    public String choice_6;
+    public String correct_answer;
 
     //subtopic data
-    int numberOfSubtopic;
-    String subtopic_name;
-    String grammar_video_file; // url for grammar video file
+    public int numberOfSubtopic;
+    public String subtopic_name;
+    public String grammar_video_file; // url for grammar video file
 
 
     public CMSconnector(Exercise exercise, String topic){
