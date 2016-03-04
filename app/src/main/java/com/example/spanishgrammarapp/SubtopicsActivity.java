@@ -25,9 +25,9 @@ public class SubtopicsActivity extends AppCompatActivity {
 //        This is how we tell what topic we've entered.
         topic = getIntent().getStringExtra("TOPIC");
 
-        //subtopic button title
-        button = (Button)findViewById(R.id.button);
-        button.setText(subtopic_name);
+        //subtopic button title   Implement this after create subtopicConstructor class
+       // button = (Button)findViewById(R.id.button);
+       // button.setText(subtopic_name);
 
 
 
