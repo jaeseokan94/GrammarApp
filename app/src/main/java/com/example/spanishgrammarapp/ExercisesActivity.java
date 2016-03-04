@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +51,10 @@ public class ExercisesActivity extends AppCompatActivity {
     private TextView question;//This was previously declared in onCreate(), but it needs to be private for DragAndDrop
     private ArrayList<Question> exerciseQuestions; //accessed in multiple methods.
     private int currentQuestionIndex = 0;  //member variable because it is going to be accessed by review functionality
+    private int correctlyAnswered = 0; //used for displaying results at the end of an exercise
+    private int totalQuestions;
+    private Exercise exerciseReceived;
+    private Intent afterExerciseIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +62,32 @@ public class ExercisesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercises);
 
         Intent intent = getIntent();
-        Exercise exerciseReceived = intent.getParcelableExtra(MainActivity.QUESTIONS);
+        /*What object am I pointing to with exerciseReceived? Well, if it was a previously started
+        * or completed exercise, then it's that. Otherwise it's the one created in
+        * SubtopicsActivity, upon entering the subtopic/exercise. It is passed to CMSconnector
+        * which populates it with the actual data.*/
+        exerciseReceived = intent.getParcelableExtra(MainActivity.QUESTIONS);
+        if(UserProgress.exercisesInProgress.size()>0) {
+            for (Exercise e : UserProgress.exercisesInProgress) {
+                if (e.getIdentifier().equals(exerciseReceived.getIdentifier())) {
+                    System.out.println("We did it Reddit! Exercise in Progress detected.");
+                    exerciseReceived = e;
+                }
+            }
+        }else if(UserProgress.completedExercises.size()>0) {
+            for (Exercise e : UserProgress.completedExercises) {
+                if (e.getIdentifier().equals(exerciseReceived.getIdentifier())) {
+                    System.out.println("We did it Reddit! Completed Exercise detected.");
+                    exerciseReceived = e;
+                }
+            }
+        }
         exerciseQuestions = exerciseReceived.getQuestions();
+        totalQuestions = exerciseQuestions.size();
+
+
+        afterExerciseIntent = new Intent(this, SubtopicsActivity.class);
+        intent.putExtra(MainActivity.TOPIC, intent.getStringExtra(MainActivity.TOPIC));
 
         relativeLayout = new RelativeLayout(this);
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -65,6 +95,8 @@ public class ExercisesActivity extends AppCompatActivity {
         question = new TextView(this);
         question.setTextSize(30);
         question.setId(10000);
+
+        resumeUserProgress();
         reconstructGUI();
     }
 
@@ -245,34 +277,32 @@ public class ExercisesActivity extends AppCompatActivity {
     }
 
     public void results(String qType, View view){
+        exerciseStarted(); //mark this exercise as started after completing first question
         boolean correct = false;
-        switch (qType){
-            case multipleChoice:
-                if (view.getTag().equals(cAnswer)){correct=true;}
-                break;
-            case trueFalse:
-                System.out.println(view.getTag()+" <--- TAG | correct answer ---> "+cAnswer);
-                if (view.getTag().equals(cAnswer.toLowerCase().trim())){correct=true;}
-                break;
-            case dragAndDrop:
-                if(view.getTag().equals(cAnswer)){correct=true;}
-                break;
-            case typing:
-                if (((EditText) view).getText().toString().trim().equals(cAnswer)){correct=true;}
+        String userAnswer;
+        if (qType.equals(typing)){
+            userAnswer = ((EditText) view).getText().toString().trim();
+        }else{
+            userAnswer = view.getTag().toString();
         }
+        if (userAnswer.equals(cAnswer)){
+            correct=true;
+            ++correctlyAnswered;
+        }
+        exerciseQuestions.get(currentQuestionIndex).userGivenAnswer = userAnswer;
 
-        AlertDialog alert = new AlertDialog.Builder(ExercisesActivity.this).create();
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
         if(correct) {
             alert.setTitle("Well Done");
             alert.setMessage("This is the Correct Answer!");
-            alert.setButton("OK", new DialogInterface.OnClickListener() {
+            exerciseQuestions.get(currentQuestionIndex).setCompleted(true);
+            exerciseQuestions.get(currentQuestionIndex).addAttempt();
+            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    exerciseQuestions.get(currentQuestionIndex).setCompleted(true);
-                    exerciseQuestions.get(currentQuestionIndex).addAttempt();
-                    if(currentQuestionIndex==exerciseQuestions.size()-1) {
+                    if (currentQuestionIndex == exerciseQuestions.size() - 1) {
                         //we have reached the end of the exercise
-                        //TODO: Go to review.
-                    }else{
+                        endOfExercise(correctlyAnswered / totalQuestions);
+                    } else {
                         ++currentQuestionIndex;
                         reconstructGUI(); //goes to next question
                     }
@@ -281,13 +311,115 @@ public class ExercisesActivity extends AppCompatActivity {
         }else{
             alert.setTitle("Try Again");
             alert.setMessage("Incorrect Answer!");
-            alert.setButton("TryAgain", new DialogInterface.OnClickListener() {
+            alert.setPositiveButton("TryAgain", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     exerciseQuestions.get(currentQuestionIndex).addAttempt(); //you tried, you failed.
+                    ++currentQuestionIndex;
+                    reconstructGUI();
                 }
             });
         }
+        MainActivity.userProgress.saveProgress();
+        System.out.println("USER ANSWER   :" + exerciseQuestions.get(currentQuestionIndex).userGivenAnswer);
+        alert.create();
         alert.show();
+    }
+
+    /*This method is used to identify an exercise as in-progress*/
+    private void exerciseStarted(){
+        if(!UserProgress.exercisesInProgress.contains(exerciseReceived)){
+            UserProgress.exercisesInProgress.add(exerciseReceived);
+        }
+    }
+
+    /*This method does a couple of necessary things when we reach the end of the exercise.*/
+    private void endOfExercise(double correctnessRating){
+        exerciseReceived.setCorrectnessRating(correctnessRating);
+        UserProgress.completedExercises.add(exerciseReceived);
+        UserProgress.exercisesInProgress.remove(exerciseReceived); //we've completed the exercise, it's no longer in progress
+        MainActivity.userProgress.saveProgress();
+        ratingDialog(correctnessRating);
+    }
+
+    /* This method displays the rating for the exercises with the appropriate pictures*/
+    private void ratingDialog(double correctnessRating){
+        Dialog dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams((int) (getScreenWidth()*0.6), (int) (getScreenWidth()*0.18));
+        ImageView rating = new ImageView(getBaseContext());
+        //unfortunately switch does not work with double
+        if(correctnessRating<0.4) {
+            rating.setBackground(getDrawable(R.drawable.star0));
+        }else if(correctnessRating<0.6){
+            rating.setBackground(getDrawable(R.drawable.star1));
+        }else if(correctnessRating<0.8){
+            rating.setBackground(getDrawable(R.drawable.star2));
+        }else if(correctnessRating>=0.8){
+            rating.setBackground(getDrawable(R.drawable.star3));
+        }
+        dialog.setTitle("Exercise complete");
+        dialog.addContentView(rating, rlp);
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                startActivity(afterExerciseIntent);
+            }
+        });
+        dialog.show();
+    }
+
+    private int getScreenWidth(){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidth = displayMetrics.widthPixels;
+        return screenWidth;
+    }
+
+    private void resumeUserProgress(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        System.out.println("Executing: resumeUserProgress()");
+        if (UserProgress.completedExercises.contains(exerciseReceived)) {
+            System.out.println("User has completed this exercise");
+            dialogBuilder.setTitle("You have already completed this exercise");
+            dialogBuilder.setMessage("Would you like to restart this exercise?");
+        }else if(UserProgress.exercisesInProgress.contains(exerciseReceived)){
+            System.out.println("User has previously started this exercise");
+            dialogBuilder.setTitle("You have previously started this exercise");
+            dialogBuilder.setMessage("Would you like to resume from where you have finished?\n" +
+                    "Pressing \"No\" will restart this exercise.");
+        }else{
+            return; //currently only returning, the if statements are not working
+        }
+            dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (UserProgress.completedExercises.contains(exerciseReceived)) {
+                        //restart the exercise
+                    /*Remove from completed,
+                    * start constructing the questions from scratch*/
+                    }
+                    if(UserProgress.exercisesInProgress.contains(exerciseReceived)){
+                        //resume from first uncompleted question
+                        while (exerciseQuestions.get(currentQuestionIndex).isCompleted()) {
+                            System.out.println("Completed question detected");
+                            ++currentQuestionIndex;
+                        }
+                        reconstructGUI();
+                    }
+                }
+            });
+            dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(afterExerciseIntent);
+                }
+            });
+            System.out.println("I didn't do anything, but we should have completed the exercise");
+
+        dialogBuilder.create();
+        dialogBuilder.show();
     }
 
     //This private class is used to set an Image to an ImageView from the given URL

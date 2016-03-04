@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public final static String QUESTION_TEXT = "QUESTION";
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
+    public static UserProgress userProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout);
-//        relativeLayout.setBackground(getDrawable(R.drawable.bkg));
-        UserProgress up1 = new UserProgress(this.getBaseContext());
-        up1.saveProgress();
+
+        userProgress = new UserProgress(this.getBaseContext());
+        userProgress.loadProgress();
     }
 
 
