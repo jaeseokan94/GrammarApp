@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout);
 
-        userProgress = new UserProgress(this.getBaseContext());
-        userProgress.loadProgress();
+//        userProgress = new UserProgress(this.getBaseContext());
+//        userProgress.loadProgress();
     }
 
 

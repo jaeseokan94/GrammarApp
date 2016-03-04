@@ -67,24 +67,25 @@ public class ExercisesActivity extends AppCompatActivity {
         * SubtopicsActivity, upon entering the subtopic/exercise. It is passed to CMSconnector
         * which populates it with the actual data.*/
         exerciseReceived = intent.getParcelableExtra(MainActivity.QUESTIONS);
-        if(UserProgress.exercisesInProgress.size()>0) {
-            for (Exercise e : UserProgress.exercisesInProgress) {
-                if (e.getIdentifier().equals(exerciseReceived.getIdentifier())) {
-                    System.out.println("We did it Reddit! Exercise in Progress detected.");
-                    exerciseReceived = e;
-                }
-            }
-        }else if(UserProgress.completedExercises.size()>0) {
-            for (Exercise e : UserProgress.completedExercises) {
-                if (e.getIdentifier().equals(exerciseReceived.getIdentifier())) {
-                    System.out.println("We did it Reddit! Completed Exercise detected.");
-                    exerciseReceived = e;
-                }
-            }
-        }
+//        if(intent.getStringExtra("TEMPFIX")!=null) {
+//            if (intent.getStringExtra("TEMPFIX").equals("progress")) {
+//                for (Exercise e : UserProgress.exercisesInProgress) {
+//                    if (e.getIdentifier().equals(exerciseReceived.getIdentifier())) {
+//                        System.out.println("We did it Reddit! Exercise in Progress detected.");
+//                        exerciseReceived = e;
+//                    }
+//                }
+//            } else if (intent.getStringExtra("TEMPFIX").equals("completed")) {
+//                for (Exercise e : UserProgress.completedExercises) {
+//                    if (e.getIdentifier().equals(exerciseReceived.getIdentifier())) {
+//                        System.out.println("We did it Reddit! Completed Exercise detected.");
+//                        exerciseReceived = e;
+//                    }
+//                }
+//            }
+//        }
         exerciseQuestions = exerciseReceived.getQuestions();
         totalQuestions = exerciseQuestions.size();
-
 
         afterExerciseIntent = new Intent(this, SubtopicsActivity.class);
         intent.putExtra(MainActivity.TOPIC, intent.getStringExtra(MainActivity.TOPIC));
@@ -96,7 +97,7 @@ public class ExercisesActivity extends AppCompatActivity {
         question.setTextSize(30);
         question.setId(10000);
 
-        resumeUserProgress();
+//        resumeUserProgress();
         reconstructGUI();
     }
 
@@ -163,7 +164,7 @@ public class ExercisesActivity extends AppCompatActivity {
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(trueButton.getTag()+"");
+                System.out.println(trueButton.getTag() + "");
                 results(trueFalse, trueButton);
             }
         });
@@ -264,7 +265,7 @@ public class ExercisesActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     results(typing, userInput);
                 }
@@ -296,30 +297,24 @@ public class ExercisesActivity extends AppCompatActivity {
             alert.setTitle("Well Done");
             alert.setMessage("This is the Correct Answer!");
             exerciseQuestions.get(currentQuestionIndex).setCompleted(true);
-            exerciseQuestions.get(currentQuestionIndex).addAttempt();
-            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    if (currentQuestionIndex == exerciseQuestions.size() - 1) {
-                        //we have reached the end of the exercise
-                        endOfExercise(correctlyAnswered / totalQuestions);
-                    } else {
-                        ++currentQuestionIndex;
-                        reconstructGUI(); //goes to next question
-                    }
-                }
-            });
         }else{
             alert.setTitle("Try Again");
             alert.setMessage("Incorrect Answer!");
-            alert.setPositiveButton("TryAgain", new DialogInterface.OnClickListener() {
+        }
+        exerciseQuestions.get(currentQuestionIndex).addAttempt();
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    exerciseQuestions.get(currentQuestionIndex).addAttempt(); //you tried, you failed.
+                    if (currentQuestionIndex == exerciseQuestions.size() - 1) {
+                    //we have reached the end of the exercise
+                    endOfExercise(correctlyAnswered / totalQuestions);
+                    } else {
                     ++currentQuestionIndex;
-                    reconstructGUI();
+                    reconstructGUI(); //goes to next question
+                    }
                 }
             });
-        }
-        MainActivity.userProgress.saveProgress();
+
+//        MainActivity.userProgress.saveProgress();
         System.out.println("USER ANSWER   :" + exerciseQuestions.get(currentQuestionIndex).userGivenAnswer);
         alert.create();
         alert.show();

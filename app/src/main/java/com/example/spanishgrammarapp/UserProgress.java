@@ -29,7 +29,6 @@ public class UserProgress implements java.io.Serializable {
         wrapper.add(exercisesInProgress);
     }
 
-
     /*
     * This method will save a serializable object as a file on the device.
     * This is crucial for the app regardless of synchronization.
@@ -53,8 +52,10 @@ public class UserProgress implements java.io.Serializable {
             FileInputStream fis = new FileInputStream(new File(context.getFilesDir(), "userProgress.ser"));
             ObjectInputStream ois = new ObjectInputStream(fis);
                 wrapper = (ArrayList<Exercise>) ois.readObject();
+            if(wrapper.size()==2){
                 completedExercises = (ArrayList<Exercise>) wrapper.get(0);
                 exercisesInProgress = (ArrayList<Exercise>) wrapper.get(1);
+            }
             ois.close();
             fis.close();
             System.out.println("Progress loaded");
