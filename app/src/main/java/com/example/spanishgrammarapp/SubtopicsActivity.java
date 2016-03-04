@@ -14,7 +14,7 @@ public class SubtopicsActivity extends AppCompatActivity {
     private String topic;
     private Button button;
     String subtopic_name; // this will parse subtopic_name from API, but it doenst work since I haven't made
-                          // subtopicConstructor in CMSconnector
+                          // subtopicConstructor in CMSconnector a
 
 
     @Override
