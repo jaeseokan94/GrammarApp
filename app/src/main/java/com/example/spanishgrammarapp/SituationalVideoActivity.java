@@ -16,9 +16,7 @@ public class SituationalVideoActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_situational_video);
-
-                //VideoView videoView = (VideoView) findViewById(R.id.vv_situational_video);
-
+        
             String uri = urlCMS + "media/FACE_PALM.mp4";
             Uri vidUri = Uri.parse(uri);
 
