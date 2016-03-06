@@ -32,5 +32,7 @@
     <string name="button_situational_video">Situational Video</string>
     <string name="subtitle_subtopics">Grammar Topics and Vocabulary</string>
 
+    <string name="activity_situational_video_with_transcript">With Transcript</string>
+    <string name="activity_situational_video_without_transcript">Without Transcript</string>
 
 </resources>

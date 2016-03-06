@@ -15,6 +15,15 @@ public class SituationalVideoActivity extends AppCompatActivity  {
      * Current topic of this situational video
      */
     private String current_topic;
+    /**
+     * Url of situational video with transcript
+     */
+    private String url_with_transcript;
+    /**
+     * Url of situational video without transcript
+     */
+    private String url_without_transcript;
+
 
 
     /**
@@ -25,8 +34,8 @@ public class SituationalVideoActivity extends AppCompatActivity  {
     private String getJsonUri(String topic_name) {
         //TODO code here for getting url for situational video from JSONParser
         //String url is temporary
-        String url = "https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3";
-        return url;
+        String url_with_transcript = "https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3";
+        return url_with_transcript;
     }
 
     @Override
