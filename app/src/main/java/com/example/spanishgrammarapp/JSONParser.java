@@ -103,7 +103,7 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
     }
 
     /**
-     * return grammar video url
+     * return grammar video url of a subtopic
      * @param topicName
      * @param subtopicName
      * @return grammar video url
