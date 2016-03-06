@@ -16,18 +16,20 @@ public class SituationalVideoActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_situational_video);
-        
-            String uri = urlCMS + "media/FACE_PALM.mp4";
-            Uri vidUri = Uri.parse(uri);
 
-            VideoView video_player_view = (VideoView) findViewById(R.id.vv_situational_video);
+            //String uri = "https://ia700401.us.archive.org/19/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
 
-            video_player_view.setVideoURI(vidUri);
-            video_player_view.requestFocus();
-            video_player_view.start();
+        String uri = "https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3";
+        Uri vidUri = Uri.parse(uri);
 
-            MediaController vidControl = new MediaController(this);
-            vidControl.setAnchorView(video_player_view);
-            video_player_view.setMediaController(vidControl);
+        VideoView video_player_view = (VideoView) findViewById(R.id.vv_situational_video);
+
+        video_player_view.setVideoURI(vidUri);
+        video_player_view.requestFocus();
+        video_player_view.start();
+
+        MediaController vidControl = new MediaController(this);
+        vidControl.setAnchorView(video_player_view);
+        video_player_view.setMediaController(vidControl);
     }
 }

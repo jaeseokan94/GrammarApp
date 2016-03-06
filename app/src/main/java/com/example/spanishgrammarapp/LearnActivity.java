@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.WindowManager;
 
 public class LearnActivity extends AppCompatActivity {
-
     private final static String EXTRA_MESSAGE = "TOPIC";
 
     @Override
