@@ -24,20 +24,6 @@ public class SituationalVideoActivity extends AppCompatActivity  {
      */
     private String url_without_transcript;
 
-
-
-    /**
-     * gets JSON uri of situational video  transcript and without transcript
-     * @param topic_name
-     * @return uri of situational video with transcript
-     */
-    private String getJsonUri(String topic_name) {
-        //TODO code here for getting url for situational video from JSONParser
-        //String url is temporary
-        String url_with_transcript = "https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3";
-        return url_with_transcript;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +33,10 @@ public class SituationalVideoActivity extends AppCompatActivity  {
         current_topic = getIntent().getStringExtra(TopicActivity.CURRENT_TOPIC);
 
         //get situational video url
-        String uri = getJsonUri(current_topic);
-        Uri vidUri = Uri.parse(uri);
+        String uri[] = JSONParser.getSituationalVideoURLs(current_topic);
+        url_with_transcript = uri[0];
+        url_without_transcript = uri[1];
+        Uri vidUri = Uri.parse(url_with_transcript);
 
         //View dynamic setup
         VideoView video_player_view = (VideoView) findViewById(R.id.vv_situational_video);
