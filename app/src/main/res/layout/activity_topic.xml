@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/main_layout_id">
 
 
     <TextView
@@ -31,29 +32,5 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/subtitle_subtopics"
         android:id="@+id/tv_subtopic_title" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Subtopic 1"
-        android:id="@+id/btn_subtopic_1"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Subtopic 2"
-        android:id="@+id/btn_subtopic_2"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Subtopic 3"
-        android:id="@+id/btn_subtopic_3"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Subtopic 4"
-        android:id="@+id/btn_subtopic_4"/>
 
 </LinearLayout>

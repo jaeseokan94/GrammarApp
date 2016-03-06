@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class JSONParser extends AsyncTask<String,String,JSONArray>{
 
@@ -68,11 +69,11 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
 
     /**
      * gets urls of situational video transcript and without transcript
-     * @param topic_name
+     * @param topicName
      * @return urls[0] of situational video with transcript;
      *          urls[1] situational video without transcript
      */
-    public static String[] getSituationalVideoURLs(String topic_name) {
+    public static String[] getSituationalVideoURLs(String topicName) {
         //TODO code here for getting url for situational video
         //String url is temporary
         String[] urls = new String[2];
@@ -82,5 +83,15 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
         urls[1] = "https://lang-it-up.herokuapp.com/media/U01-01.mp4";
 
         return urls;
+    }
+
+    public static ArrayList<String> getSubtopics(String topicName) {
+        ArrayList<String> subtopicsList = new ArrayList<String>();
+        subtopicsList.add("Pronouns");
+        subtopicsList.add("Llamarse");
+        subtopicsList.add("Ser y Estar");
+        subtopicsList.add("Vocabulary");
+
+        return subtopicsList;
     }
 }
