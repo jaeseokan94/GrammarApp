@@ -32,7 +32,7 @@ public class TopicActivity extends AppCompatActivity {
         for (String subtopicTitle: subtopics) {
             Button button = new Button(this);
             button.setText(subtopicTitle);
-            
+
             mainLayout.addView(button);
         }
     }
