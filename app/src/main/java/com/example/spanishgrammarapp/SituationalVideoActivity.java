@@ -11,9 +11,17 @@ import android.widget.VideoView;
  */
 public class SituationalVideoActivity extends AppCompatActivity  {
     //private static final String urlCMS = "https://lang-it-up.herokuapp.com/";
-    private String uri;
+    /**
+     * Current topic of this situational video
+     */
+    private String current_topic;
 
 
+    /**
+     * gets JSON uri of situational video  transcript and without transcript
+     * @param topic_name
+     * @return uri of situational video with transcript
+     */
     private String getJsonUri(String topic_name) {
         //TODO code here for getting url for situational video from JSONParser
         //String url is temporary
@@ -26,9 +34,14 @@ public class SituationalVideoActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_situational_video);
 
-        uri = getJsonUri("");
+        //get current topic from intent
+        current_topic = getIntent().getStringExtra(TopicActivity.CURRENT_TOPIC);
+
+        //get situational video url
+        String uri = getJsonUri(current_topic);
         Uri vidUri = Uri.parse(uri);
 
+        //View dynamic setup
         VideoView video_player_view = (VideoView) findViewById(R.id.vv_situational_video);
 
         video_player_view.setVideoURI(vidUri);
