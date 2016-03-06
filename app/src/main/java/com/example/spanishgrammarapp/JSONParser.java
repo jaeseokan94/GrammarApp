@@ -1,5 +1,6 @@
 package com.example.spanishgrammarapp;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -73,14 +74,14 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
      * @return urls[0] of situational video with transcript;
      *          urls[1] situational video without transcript
      */
-    public static String[] getSituationalVideoURLs(String topicName) {
+    public static Uri[] getSituationalVideoURLs(String topicName) {
         //TODO code here for getting url for situational video
         //String url is temporary
-        String[] urls = new String[2];
+        Uri[] urls = new Uri[2];
         //without transcript
-        urls[0] = "https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3";
+        urls[0] = Uri.parse("https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3");
         //with transcript
-        urls[1] = "https://lang-it-up.herokuapp.com/media/U01-01.mp4";
+        urls[1] = Uri.parse("https://lang-it-up.herokuapp.com/media/U01-01.mp4");
 
         return urls;
     }
@@ -91,6 +92,7 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
      * @return ArrayList of subtopic names
      */
     public static ArrayList<String> getSubtopics(String topicName) {
+        //TODO implement this method
         ArrayList<String> subtopicsList = new ArrayList<String>();
         subtopicsList.add("Pronouns");
         subtopicsList.add("Llamarse");
@@ -98,5 +100,18 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
         subtopicsList.add("Vocabulary");
 
         return subtopicsList;
+    }
+
+    /**
+     * return grammar video url
+     * @param topicName
+     * @param subtopicName
+     * @return grammar video url
+     */
+    public static Uri getGrammarVideoUri(String topicName, String subtopicName) {
+        //TODO implement this method
+        String uri = "https://lang-it-up.herokuapp.com/media/U01-01.mp4";
+
+        return Uri.parse(uri);
     }
 }
