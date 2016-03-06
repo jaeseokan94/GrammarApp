@@ -69,14 +69,17 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
     /**
      * gets urls of situational video transcript and without transcript
      * @param topic_name
-     * @return urls[0] of situational video with transcript; urls[1] situational video without transcript
+     * @return urls[0] of situational video with transcript;
+     *          urls[1] situational video without transcript
      */
     public static String[] getSituationalVideoURLs(String topic_name) {
         //TODO code here for getting url for situational video
         //String url is temporary
         String[] urls = new String[2];
+        //without transcript
         urls[0] = "https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3";
-        urls[1] = "https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-01.mp4";
+        //with transcript
+        urls[1] = "https://lang-it-up.herokuapp.com/media/U01-01.mp4";
 
         return urls;
     }

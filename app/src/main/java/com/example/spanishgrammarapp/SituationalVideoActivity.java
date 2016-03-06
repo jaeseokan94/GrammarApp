@@ -3,7 +3,9 @@ package com.example.spanishgrammarapp;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.CompoundButton;
 import android.widget.MediaController;
+import android.widget.ToggleButton;
 import android.widget.VideoView;
 
 /**
@@ -18,11 +20,11 @@ public class SituationalVideoActivity extends AppCompatActivity  {
     /**
      * Url of situational video with transcript
      */
-    private String url_with_transcript;
+    private Uri uri_with_transcript;
     /**
      * Url of situational video without transcript
      */
-    private String url_without_transcript;
+    private Uri uri_without_transcript;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +36,38 @@ public class SituationalVideoActivity extends AppCompatActivity  {
 
         //get situational video url
         String uri[] = JSONParser.getSituationalVideoURLs(current_topic);
-        url_with_transcript = uri[0];
-        url_without_transcript = uri[1];
-        Uri vidUri = Uri.parse(url_with_transcript);
+        uri_without_transcript = Uri.parse(uri[0]);
+        uri_with_transcript = Uri.parse(uri[1]);
 
         //View dynamic setup
-        VideoView video_player_view = (VideoView) findViewById(R.id.vv_situational_video);
+        final VideoView video_player_view = (VideoView) findViewById(R.id.vv_situational_video);
 
-        video_player_view.setVideoURI(vidUri);
+        video_player_view.setVideoURI(uri_with_transcript);
         video_player_view.requestFocus();
         video_player_view.start();
 
         MediaController vidControl = new MediaController(this);
         vidControl.setAnchorView(video_player_view);
         video_player_view.setMediaController(vidControl);
+
+        ToggleButton toggleButton_transcript = (ToggleButton) findViewById(R.id.toggleButton_with_transcript);
+        toggleButton_transcript.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    //with transcript
+                    video_player_view.stopPlayback();
+                    video_player_view.setVideoURI(uri_with_transcript);
+                    video_player_view.requestFocus();
+                    video_player_view.start();
+                } else {
+                    //without transcript
+                    video_player_view.stopPlayback();
+                    video_player_view.setVideoURI(uri_without_transcript);
+                    video_player_view.requestFocus();
+                    video_player_view.start();
+                }
+            }
+        });
     }
 }
