@@ -16,9 +16,7 @@ public class SituationalVideoActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_situational_video);
-
-            //String uri = "https://ia700401.us.archive.org/19/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4";
-
+        
         String uri = "https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3";
         Uri vidUri = Uri.parse(uri);
 
