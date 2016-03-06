@@ -68,7 +68,7 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
     }
 
     /**
-     * gets urls of situational video transcript and without transcript
+     * returns urls of situational video transcript and without transcript
      * @param topicName
      * @return urls[0] of situational video with transcript;
      *          urls[1] situational video without transcript
@@ -85,6 +85,11 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
         return urls;
     }
 
+    /**
+     * returns ArrayList of subtopic names
+     * @param topicName
+     * @return ArrayList of subtopic names
+     */
     public static ArrayList<String> getSubtopics(String topicName) {
         ArrayList<String> subtopicsList = new ArrayList<String>();
         subtopicsList.add("Pronouns");
