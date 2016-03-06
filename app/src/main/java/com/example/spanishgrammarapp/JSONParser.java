@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class JSONParser extends AsyncTask<String,String,JSONArray>{
 
+
     @Override
     protected JSONArray doInBackground(String... params) {
         HttpURLConnection urlConnection = null;
@@ -66,6 +67,8 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
     @Override
     protected void onPostExecute(JSONArray s) {
         super.onPostExecute(s);
+
+
     }
 
     /**
@@ -114,4 +117,8 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
 
         return Uri.parse(uri);
     }
+
+
+
+
 }
