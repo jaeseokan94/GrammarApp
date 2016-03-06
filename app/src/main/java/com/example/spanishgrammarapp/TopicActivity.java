@@ -34,7 +34,7 @@ public class TopicActivity extends AppCompatActivity implements OnClickListener 
         for (String subtopicTitle: subtopics) {
             Button button = new Button(this);
             button.setText(subtopicTitle);
-
+            button.setOnClickListener(this);
             mainLayout.addView(button);
         }
     }
@@ -48,7 +48,7 @@ public class TopicActivity extends AppCompatActivity implements OnClickListener 
         intent.putExtra(CURRENT_TOPIC, currentTopic);
         startActivity(intent);
     }
-    
+
     @Override
     public void onClick(View v) {
         String subtopicTitle = ((TextView) v).getText().toString();

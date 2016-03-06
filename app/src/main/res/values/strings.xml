@@ -27,6 +27,7 @@
     <string name="title_activity_subtopics">SubtopicsActivity</string>
     <string name="title_activity_topics">Topics Activity</string>
     <string name="title_activity_situational_video">Situational Video Activity</string>
+    <string name="title_activity_grammar_video">Grammar Video Activity</string>
 
     <string name="subtitle_situational_video">Situational Video</string>
     <string name="button_situational_video">Situational Video</string>
