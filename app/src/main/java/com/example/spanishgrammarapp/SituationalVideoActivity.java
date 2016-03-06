@@ -10,14 +10,23 @@ import android.widget.VideoView;
  * Created by janaldoustorres on 03/03/2016.
  */
 public class SituationalVideoActivity extends AppCompatActivity  {
-    private static final String urlCMS = "https://lang-it-up.herokuapp.com/";
+    //private static final String urlCMS = "https://lang-it-up.herokuapp.com/";
+    private String uri;
+
+
+    private String getJsonUri(String topic_name) {
+        //TODO code here for getting url for situational video from JSONParser
+        //String url is temporary
+        String url = "https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3";
+        return url;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_situational_video);
-        
-        String uri = "https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3";
+
+        uri = getJsonUri("");
         Uri vidUri = Uri.parse(uri);
 
         VideoView video_player_view = (VideoView) findViewById(R.id.vv_situational_video);
