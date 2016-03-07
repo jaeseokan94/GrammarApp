@@ -38,4 +38,22 @@
         android:text="Subtopic 1"
         android:id="@+id/btn_subtopic_1"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subtopic 2"
+        android:id="@+id/btn_subtopic_2"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subtopic 3"
+        android:id="@+id/btn_subtopic_3"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subtopic 4"
+        android:id="@+id/btn_subtopic_4"/>
+
 </LinearLayout>
