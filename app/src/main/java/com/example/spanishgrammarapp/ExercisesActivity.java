@@ -13,7 +13,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -68,7 +67,7 @@ public class ExercisesActivity extends AppCompatActivity {
         * which populates it with the actual data.*/
 //        exerciseReceived = (Exercise) intent.getSerializableExtra(MainActivity.QUESTIONS);
 
-        exerciseReceived = getExercise(intent.getStringExtra(MainActivity.SUBTOPIC), intent.getStringExtra(MainActivity.TOPIC));
+        exerciseReceived = getOrMakeExercise(intent.getStringExtra(MainActivity.SUBTOPIC), intent.getStringExtra(MainActivity.TOPIC));
 
         exerciseQuestions = exerciseReceived.getQuestions();
         totalQuestions = exerciseQuestions.size();
@@ -88,27 +87,33 @@ public class ExercisesActivity extends AppCompatActivity {
         reconstructGUI();
     }
 
-    private Exercise getExercise(String subtopic, String topic){
+    /*This method will return an exercise if it either finds it in the collection of either completed or in-progress
+    * exercises, and if not found in there then it will make and populate a new exercise for this topic/subtopic
+    * @param subtopic The subtopic of the Topic that we want to get the exercise for
+    * @param topic The topic of the exercise
+    * @return Exercise for this configuration of topic/subtopic*/
+    private Exercise getOrMakeExercise(String subtopic, String topic){
         String identifier = topic+"/"+subtopic;
         Exercise exercise = new Exercise(identifier);
         CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
         connector.constructExercise(); //the connector populates it with data from the DB
-        if(UserProgress.exercisesInProgress.size()>0) {
-            for (Exercise e : UserProgress.exercisesInProgress) {
-                if (e.getIdentifier().equals(identifier)) {
-                    System.out.println("We did it Reddit! Exercise in Progress detected.");
-                    exercise = e;
-                }
-            }
-        }
-        if(UserProgress.completedExercises.size()>0) {
-            for (Exercise e : UserProgress.completedExercises) {
-                if (e.getIdentifier().equals(identifier)) {
-                    System.out.println("We did it Reddit! Completed Exercise detected.");
-                    exercise = e;
-                }
-            }
-        }
+        getExercise(identifier);
+//        if(UserProgress.exercisesInProgress.size()>0) {
+//            for (Exercise e : UserProgress.exercisesInProgress) {
+//                if (e.getIdentifier().equals(identifier)) {
+//                    System.out.println("We did it Reddit! Exercise in Progress detected.");
+//                    exercise = e;
+//                }
+//            }
+//        }
+//        if(UserProgress.completedExercises.size()>0) {
+//            for (Exercise e : UserProgress.completedExercises) {
+//                if (e.getIdentifier().equals(identifier)) {
+//                    System.out.println("We did it Reddit! Completed Exercise detected.");
+//                    exercise = e;
+//                }
+//            }
+//        }
         return exercise; //create a new Exercise, a set of questions (empty)
     }
 
@@ -312,6 +317,7 @@ public class ExercisesActivity extends AppCompatActivity {
         }else{
             alert.setTitle("Try Again");
             alert.setMessage("Incorrect Answer!");
+            exerciseQuestions.get(currentQuestionIndex).setCompleted(true); //the definition of "Completed" has changed.
         }
         exerciseQuestions.get(currentQuestionIndex).addAttempt();
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -327,7 +333,7 @@ public class ExercisesActivity extends AppCompatActivity {
         });
 
         MainActivity.userProgress.saveProgress();
-        System.out.println("USER ANSWER   :" + exerciseQuestions.get(currentQuestionIndex).userGivenAnswer);
+        System.out.println("USER ANSWER:    " + exerciseQuestions.get(currentQuestionIndex).userGivenAnswer);
         alert.create();
         alert.show();
     }
@@ -442,14 +448,7 @@ public class ExercisesActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (isCompletedExercise(identifier)) {
-                        //restart the exercise
-                    /*Remove from completed,
-                    * start constructing the questions from scratch*/
-                        for(Question q : getExercise(identifier).getQuestions()){
-                            q.setCompleted(false);
-                            q.userGivenAnswer = null;
-                        }
-                        UserProgress.completedExercises.remove(getExercise(identifier));
+                        restartExercise(identifier);
                     }
                     if(isInProgressExercise(identifier)){
                         //resume from first uncompleted question
@@ -464,12 +463,32 @@ public class ExercisesActivity extends AppCompatActivity {
             dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(afterExerciseIntent);
+                    if(isInProgressExercise(identifier)){
+                        restartExercise(identifier);
+                    } else{
+                        startActivity(afterExerciseIntent);
+                    }
                 }
             });
 
         dialogBuilder.create();
         dialogBuilder.show();
+    }
+
+    private void restartExercise(String identifier){
+        /* Restart the exercise:
+         * Remove from the list of completed exercises, set all questions to be not completed,
+         * set all the user answers to null
+         * start constructing the questions from scratch*/
+        for(Question q : getExercise(identifier).getQuestions()){
+            q.setCompleted(false);
+            q.userGivenAnswer = null;
+        }
+        if(isCompletedExercise(identifier)) { //we may only have the exercise in-progress
+            UserProgress.completedExercises.remove(getExercise(identifier));
+        }else if(isInProgressExercise(identifier)){
+            UserProgress.exercisesInProgress.remove(getExercise(identifier));
+        }
     }
 
     //This private class is used to set an Image to an ImageView from the given URL

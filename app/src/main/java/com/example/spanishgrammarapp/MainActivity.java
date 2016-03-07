@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout);
 
         userProgress = new UserProgress(this.getBaseContext());
         userProgress.loadProgress();
