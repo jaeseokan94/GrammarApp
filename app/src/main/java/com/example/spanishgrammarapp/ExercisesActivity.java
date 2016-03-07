@@ -56,7 +56,7 @@ public class ExercisesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
-        //trying to call database here which didnt work. 
+        //trying to call database here which didnt work.
         database = new DatabaseHelper(getApplicationContext());
 
         Intent intent = getIntent();

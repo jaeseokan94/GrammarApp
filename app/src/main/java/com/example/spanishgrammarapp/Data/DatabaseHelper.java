@@ -63,7 +63,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void addQuestion(String questionText) {
+    public void addQuestion(String questionText, String choice_1, String choice_2,
+                            String choice_3, String choice_4, String choice_5, String choice_6
+            , String correct_answer ) {
 
         System.out.println("Data added");
 
@@ -71,15 +73,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // To add column
         ContentValues values = new ContentValues(); // this class is used to store a values
         values.put(QUESTION_TEXT, questionText);
-        /*
-        values.put(CHOICE_1, Choice_1());
-        values.put(CHOICE_2, Choice_2());
-        values.put(CHOICE_3, Choice_3());
-        values.put(CHOICE_4, Choice_4());
-        values.put(CHOICE_5, Choice_5());
-        values.put(CHOICE_6, Choice_6());
-        values.put(CORRECT_ANSWER, questionData.getCorrect_answer());
-*/
+        values.put(CHOICE_1, choice_1);
+        values.put(CHOICE_2, choice_2);
+        values.put(CHOICE_3, choice_3);
+        values.put(CHOICE_4, choice_4);
+        values.put(CHOICE_5, choice_5);
+        values.put(CHOICE_6, choice_6);
+        values.put(CORRECT_ANSWER, correct_answer);
+
         db.insert(QUESTION_TABLE, null, values);
 
         db.close();
