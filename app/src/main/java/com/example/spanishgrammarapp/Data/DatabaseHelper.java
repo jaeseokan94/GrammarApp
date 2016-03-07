@@ -2,8 +2,12 @@ package com.example.spanishgrammarapp.Data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by JAESEOKAN on 06/03/2016.
@@ -62,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         // To add column
-        ContentValues values = new ContentValues(); // this class is used to store a values 
+        ContentValues values = new ContentValues(); // this class is used to store a values
         values.put(QUESTION_TEXT, questionData.getQuestionText());
         values.put(CHOICE_1, questionData.getChoice_1());
         values.put(CHOICE_2, questionData.getChoice_2());
@@ -75,6 +79,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(QUESTION_TABLE, null, values);
 
         db.close();
+    }
+
+    public List<QuestionData> getAllQuestion(String QUESTION_TEXT){
+        List<QuestionData> questions = new LinkedList<QuestionData>();
+
+        String query = "SELECT  * FROM " + QUESTION_TABLE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        QuestionData questionData = null ;
+
+        if(cursor.moveToFirst()){
+            do{
+                questionData = new QuestionData();
+                questionData.setQuestionText(cursor.getString(0));
+                questionData.setChoice_1(cursor.getString(1));
+                questionData.setChoice_2(cursor.getString(2));
+                questionData.setChoice_3(cursor.getString(3));
+                questionData.setChoice_4(cursor.getString(4));
+                questionData.setChoice_5(cursor.getString(5));
+                questionData.setChoice_6(cursor.getString(6));
+                questionData.setCorrect_answer(cursor.getString(7));
+
+                questions.add(questionData);
+
+
+            }while(cursor.moveToNext());
+        }
+        System.out.println("SELECT WORK!");
+
+        return questions;
     }
 
 

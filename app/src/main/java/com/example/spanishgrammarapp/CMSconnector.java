@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp;
 
-import com.example.spanishgrammarapp.Data.Database;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import com.example.spanishgrammarapp.Data.QuestionData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +16,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class CMSconnector {
     Exercise exercise;
-    private Database database;
+    private DatabaseHelper database;
 
 
     // Question data
@@ -80,6 +81,7 @@ public class CMSconnector {
 
             for(int i = 0 ; i < jsonArray.length(); i++ ){
 
+
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 questionText = jsonObject.getString("question_text"); // get question_text from API
@@ -91,7 +93,7 @@ public class CMSconnector {
                 choice_6= jsonObject.getString("choice_6");
                 correct_answer= jsonObject.getString("correct_answer");
 
-                database.updateQuestion(questionText, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer );
+                database.addQuestion(new QuestionData(questionText, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer ));
                 System.out.println("JSON PASSED TO DATABASE");
 
             }
