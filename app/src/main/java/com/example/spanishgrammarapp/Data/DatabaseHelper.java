@@ -1,5 +1,6 @@
 package com.example.spanishgrammarapp.Data;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -26,6 +27,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CORRECT_ANSWER = "correct_answer";
     private static final String QUESTION_TABLE = "question_data"; //table name
 
+    private static final String[] QUESTION_COLUMNS = {QUESTION_TEXT, CHOICE_1, CHOICE_2, CHOICE_3, CHOICE_4, CHOICE_5, CHOICE_6, CORRECT_ANSWER};
+
 
     private static final String CREATE_TABLE_QUESTION = "CREATE TABLE "+
             QUESTION_TABLE + "("+ "questionText VARCHAR(100) PRIMARY KEY, choice_1 VARCHAR(100), choice_2 VARCHAR(100), choice_3 VARCHAR(100) "
@@ -35,13 +38,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory) {
-        super(context, name, null, DB_VER);
+    public DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, DB_VER);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("Create table successfully"+ CREATE_TABLE_QUESTION);
+        db.execSQL("Create table successfully" + CREATE_TABLE_QUESTION);
 
     }
 
@@ -52,6 +55,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
 
     }
+
+    public void addQuestion(QuestionData questionData){
+
+        System.out.println("Data added");
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        // To add column
+        ContentValues values = new ContentValues(); // this class is used to store a values 
+        values.put(QUESTION_TEXT, questionData.getQuestionText());
+        values.put(CHOICE_1, questionData.getChoice_1());
+        values.put(CHOICE_2, questionData.getChoice_2());
+        values.put(CHOICE_3, questionData.getChoice_3());
+        values.put(CHOICE_4, questionData.getChoice_4());
+        values.put(CHOICE_5, questionData.getChoice_5());
+        values.put(CHOICE_6, questionData.getChoice_6());
+        values.put(CORRECT_ANSWER, questionData.getCorrect_answer());
+
+        db.insert(QUESTION_TABLE, null, values);
+
+        db.close();
+    }
+
+
+
     // check if data already exist
     public boolean insertQuestionArray(String questionText, String choice_1,
                                     String choice_2, String choice_3, String choice_4, String choice_5, String choice_6, String correct_answer){
@@ -65,3 +92,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 }
+
+/**String questionText, String choice_1, String choice_2,
+String choice_3, String choice_4, String choice_5, String choice_6
+        , String correct_answer
+ **/

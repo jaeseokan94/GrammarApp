@@ -89,4 +89,9 @@ public class QuestionData {
     public String getCorrect_answer() {
         return correct_answer;
     }
+
+    @Override
+    public String toString(){
+        return "Question text : "+questionText;
+    }
 }

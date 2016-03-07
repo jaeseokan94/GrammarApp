@@ -91,7 +91,7 @@ public class CMSconnector {
                 choice_6= jsonObject.getString("choice_6");
                 correct_answer= jsonObject.getString("correct_answer");
 
-                database.insertQuestionArray(questionText, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer );
+                database.updateQuestion(questionText, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer );
                 System.out.println("JSON PASSED TO DATABASE");
 
             }
