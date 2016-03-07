@@ -294,6 +294,8 @@ public class ExercisesActivity extends AppCompatActivity {
         String userAnswer;
         if (qType.equals(typing)){ //typing questions need a little different modification to the userAnswer
             userAnswer = ((EditText) view).getText().toString().trim();
+            System.out.println(userAnswer);
+            System.out.println(cAnswer);
         }else{
             userAnswer = view.getTag().toString();
         }
@@ -431,14 +433,13 @@ public class ExercisesActivity extends AppCompatActivity {
             dialogBuilder.setTitle("You have previously started this exercise");
             dialogBuilder.setMessage("Would you like to resume from where you have finished?\n" +
                     "Pressing \"No\" will restart this exercise.");
-        }
-
-        if (isCompletedExercise(identifier)) {
+        }else if (isCompletedExercise(identifier)) {
             System.out.println("User has completed this exercise");
             dialogBuilder.setTitle("You have already completed this exercise");
             dialogBuilder.setMessage("Would you like to restart this exercise?");
+        }else {
+            return;
         }
-
             dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
