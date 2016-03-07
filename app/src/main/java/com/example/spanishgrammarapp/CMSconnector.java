@@ -1,7 +1,8 @@
 package com.example.spanishgrammarapp;
 
+import android.content.Context;
+
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
-import com.example.spanishgrammarapp.Data.QuestionData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 public class CMSconnector {
     Exercise exercise;
     private DatabaseHelper database;
+    Context context;
 
 
     // Question data
@@ -31,8 +33,10 @@ public class CMSconnector {
     public String correct_answer;
 
 
-    public CMSconnector(Exercise exercise, String topic){
+    public CMSconnector(Exercise exercise, String topic, DatabaseHelper db){
         this.exercise = exercise;
+        this.database = db;
+
 
     }
 
@@ -79,6 +83,7 @@ public class CMSconnector {
             int numberOfQuestion = jsonArray.length();
 
 
+
             for(int i = 0 ; i < jsonArray.length(); i++ ){
 
 
@@ -93,9 +98,9 @@ public class CMSconnector {
                 choice_6= jsonObject.getString("choice_6");
                 correct_answer= jsonObject.getString("correct_answer");
 
-                database.addQuestion(new QuestionData(questionText, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer ));
+                database.addQuestion(questionText);
                 System.out.println("JSON PASSED TO DATABASE");
-
+//, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer
             }
 
         } catch (InterruptedException e) {

@@ -3,6 +3,7 @@ package com.example.spanishgrammarapp.Data;
 
 /**
  * Created by JAESEOKAN on 06/03/2016.
+ * This class is useless. This class is likely to be deleted.
  */
 public class QuestionData {
 

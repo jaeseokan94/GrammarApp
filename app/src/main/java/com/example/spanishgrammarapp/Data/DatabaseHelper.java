@@ -17,6 +17,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static String TAG = "DataBaseHelper";
     //Database Version
     private final static int DB_VER = 1;
+
+    private Context myContext;
+
     //Database name
     private static final String DATABASE_NAME = "apiManager";
 
@@ -34,16 +37,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String[] QUESTION_COLUMNS = {QUESTION_TEXT, CHOICE_1, CHOICE_2, CHOICE_3, CHOICE_4, CHOICE_5, CHOICE_6, CORRECT_ANSWER};
 
 
-    private static final String CREATE_TABLE_QUESTION = "CREATE TABLE "+
-            QUESTION_TABLE + "("+ "questionText VARCHAR(100) PRIMARY KEY, choice_1 VARCHAR(100), choice_2 VARCHAR(100), choice_3 VARCHAR(100) "
-            +",choice_4 VARCHAR(100), choice_5 VARCHAR(100), choice_6 VARCHAR(100), correct_answer VARCHAR(100) )"  ;
-
+    private static final String CREATE_TABLE_QUESTION = "CREATE TABLE " +
+            QUESTION_TABLE + "(" + "questionText VARCHAR(100) PRIMARY KEY, choice_1 VARCHAR(100), choice_2 VARCHAR(100), choice_3 VARCHAR(100) "
+            + ",choice_4 VARCHAR(100), choice_5 VARCHAR(100), choice_6 VARCHAR(100), correct_answer VARCHAR(100) )";
 
 
 
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DB_VER);
+        this.myContext = context;
     }
 
     @Override
@@ -55,33 +58,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL("DROP TABLE IF EXISTS "+ QUESTION_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + QUESTION_TABLE);
         onCreate(db);
 
     }
 
-    public void addQuestion(QuestionData questionData){
+    public void addQuestion(String questionText) {
 
         System.out.println("Data added");
 
         SQLiteDatabase db = this.getWritableDatabase();
         // To add column
         ContentValues values = new ContentValues(); // this class is used to store a values
-        values.put(QUESTION_TEXT, questionData.getQuestionText());
-        values.put(CHOICE_1, questionData.getChoice_1());
-        values.put(CHOICE_2, questionData.getChoice_2());
-        values.put(CHOICE_3, questionData.getChoice_3());
-        values.put(CHOICE_4, questionData.getChoice_4());
-        values.put(CHOICE_5, questionData.getChoice_5());
-        values.put(CHOICE_6, questionData.getChoice_6());
+        values.put(QUESTION_TEXT, questionText);
+        /*
+        values.put(CHOICE_1, Choice_1());
+        values.put(CHOICE_2, Choice_2());
+        values.put(CHOICE_3, Choice_3());
+        values.put(CHOICE_4, Choice_4());
+        values.put(CHOICE_5, Choice_5());
+        values.put(CHOICE_6, Choice_6());
         values.put(CORRECT_ANSWER, questionData.getCorrect_answer());
-
+*/
         db.insert(QUESTION_TABLE, null, values);
 
         db.close();
     }
 
-    public List<QuestionData> getAllQuestion(String QUESTION_TEXT){
+    public List<QuestionData> getAllQuestion(String questionText) {
         List<QuestionData> questions = new LinkedList<QuestionData>();
 
         String query = "SELECT  * FROM " + QUESTION_TABLE;
@@ -90,10 +94,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(query, null);
 
-        QuestionData questionData = null ;
+        QuestionData questionData = null;
 
-        if(cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 questionData = new QuestionData();
                 questionData.setQuestionText(cursor.getString(0));
                 questionData.setChoice_1(cursor.getString(1));
@@ -107,25 +111,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 questions.add(questionData);
 
 
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         System.out.println("SELECT WORK!");
 
         return questions;
     }
 
-
-
-    // check if data already exist
-    public boolean insertQuestionArray(String questionText, String choice_1,
-                                    String choice_2, String choice_3, String choice_4, String choice_5, String choice_6, String correct_answer){
-
-        SQLiteDatabase db_exercise_question = this.getWritableDatabase();
-
-
-
-        return true;
-    }
 
 
 }
