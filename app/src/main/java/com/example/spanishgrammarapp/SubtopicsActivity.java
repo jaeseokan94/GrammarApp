@@ -39,7 +39,7 @@ public class SubtopicsActivity extends AppCompatActivity {
     public void startExercise(View view){
 //        Exercise exercise = getExercise(view.getTag().toString());
         Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
-        intent.putExtra(MainActivity.QUESTIONS, (Serializable) getExercise(view.getTag().toString())); //pass in the exercise (populated)
+//        intent.putExtra(MainActivity.QUESTIONS, (Serializable) getExercise(view.getTag().toString())); //pass in the exercise (populated)
         intent.putExtra(MainActivity.TOPIC, topic);
         intent.putExtra(MainActivity.SUBTOPIC, view.getTag().toString());
         startActivity(intent); //start the activity
