@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     public final static String QUESTIONS = "QUESTIONS";
     public final static String TOPIC = "TOPIC";
+    public final static String SUBTOPIC = "SUBTOPIC";
     public final static String QUESTION_TYPE = "QUESTION_TYPE";
     public final static String QUESTION_TEXT = "QUESTION";
     public final static String ANSWERS = "ANSWERS";
@@ -28,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout);
 
-//        userProgress = new UserProgress(this.getBaseContext());
-//        userProgress.loadProgress();
+        userProgress = new UserProgress(this.getBaseContext());
+        userProgress.loadProgress();
     }
 
 

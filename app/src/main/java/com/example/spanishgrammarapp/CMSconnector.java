@@ -34,13 +34,14 @@ public class CMSconnector {
             answers1.add("Wrong answer 2");
             answers1.add("Wrong answer 3");
             q = new Question(ExercisesActivity.multipleChoice, "Test question 1", answers1.get(0), answers1);
-        }else if(input==1){
+        }/*else if(input==1){
             answers1.add("Correct answer");
             q = new Question(ExercisesActivity.typing, "Test question 2, the correct answer is: Correct answer", answers1.get(0), answers1);
-        }else{
+        }*/else{
             q = new Question(ExercisesActivity.trueFalse, "Test question "+(input+1)+", the correct answer is: true ", "true", answers1);
         }
         return q;
+
     }
 
     /**

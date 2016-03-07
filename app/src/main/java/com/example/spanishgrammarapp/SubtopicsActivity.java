@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.io.Serializable;
+
 public class SubtopicsActivity extends AppCompatActivity {
 
     private String topic;
@@ -23,37 +25,32 @@ public class SubtopicsActivity extends AppCompatActivity {
     public void startExercise(View view){
 //        Exercise exercise = getExercise(view.getTag().toString());
         Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
-        intent.putExtra(MainActivity.QUESTIONS, (Parcelable) getExercise(view.getTag().toString(), intent)); //pass in the exercise (populated)
+        intent.putExtra(MainActivity.QUESTIONS, (Serializable) getExercise(view.getTag().toString())); //pass in the exercise (populated)
         intent.putExtra(MainActivity.TOPIC, topic);
+        intent.putExtra(MainActivity.SUBTOPIC, view.getTag().toString());
         startActivity(intent); //start the activity
     }
 
     /*Checks the UserProgress ArrayLists for existing exercise with matching identifier before
     * creating a duplicate object for the same exercise. This is very important for serialization.*/
-    private Exercise getExercise(String subtopic, Intent intent){
+    private Exercise getExercise(String subtopic){
         String identifier = topic+"/"+subtopic;
         Exercise exercise = new Exercise(identifier);
+        CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
+        connector.constructExercise(); //the connector populates it with data from the DB
         if(UserProgress.exercisesInProgress.size()>0) {
             for (Exercise e : UserProgress.exercisesInProgress) {
                 if (e.getIdentifier().equals(identifier)) {
-                    System.out.println("We did it Reddit! Exercise in Progress detected.");
                     exercise = e;
-                    intent.putExtra("TEMPFIX", "progress" );
                 }
             }
-        }else if(UserProgress.completedExercises.size()>0) {
+        }
+        if(UserProgress.completedExercises.size()>0) {
             for (Exercise e : UserProgress.completedExercises) {
                 if (e.getIdentifier().equals(identifier)) {
-                    System.out.println("We did it Reddit! Completed Exercise detected.");
                     exercise = e;
-                    intent.putExtra("TEMPFIX", "completed" );
                 }
             }
-        }else{
-            intent.putExtra("TEMPFIX", "" );
-            System.out.println("Populating new exercise");
-            CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
-            connector.constructExercise(); //the connector populates it with data from the DB
         }
             return exercise; //create a new Exercise, a set of questions (empty)
     }

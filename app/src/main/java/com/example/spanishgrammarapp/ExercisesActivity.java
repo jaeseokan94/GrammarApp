@@ -66,24 +66,10 @@ public class ExercisesActivity extends AppCompatActivity {
         * or completed exercise, then it's that. Otherwise it's the one created in
         * SubtopicsActivity, upon entering the subtopic/exercise. It is passed to CMSconnector
         * which populates it with the actual data.*/
-        exerciseReceived = intent.getParcelableExtra(MainActivity.QUESTIONS);
-//        if(intent.getStringExtra("TEMPFIX")!=null) {
-//            if (intent.getStringExtra("TEMPFIX").equals("progress")) {
-//                for (Exercise e : UserProgress.exercisesInProgress) {
-//                    if (e.getIdentifier().equals(exerciseReceived.getIdentifier())) {
-//                        System.out.println("We did it Reddit! Exercise in Progress detected.");
-//                        exerciseReceived = e;
-//                    }
-//                }
-//            } else if (intent.getStringExtra("TEMPFIX").equals("completed")) {
-//                for (Exercise e : UserProgress.completedExercises) {
-//                    if (e.getIdentifier().equals(exerciseReceived.getIdentifier())) {
-//                        System.out.println("We did it Reddit! Completed Exercise detected.");
-//                        exerciseReceived = e;
-//                    }
-//                }
-//            }
-//        }
+//        exerciseReceived = (Exercise) intent.getSerializableExtra(MainActivity.QUESTIONS);
+
+        exerciseReceived = getExercise(intent.getStringExtra(MainActivity.SUBTOPIC), intent.getStringExtra(MainActivity.TOPIC));
+
         exerciseQuestions = exerciseReceived.getQuestions();
         totalQuestions = exerciseQuestions.size();
 
@@ -97,8 +83,33 @@ public class ExercisesActivity extends AppCompatActivity {
         question.setTextSize(30);
         question.setId(10000);
 
-//        resumeUserProgress();
+        String identifier = intent.getStringExtra(MainActivity.TOPIC)+"/"+intent.getStringExtra(MainActivity.SUBTOPIC);
+        resumeUserProgress(identifier);
         reconstructGUI();
+    }
+
+    private Exercise getExercise(String subtopic, String topic){
+        String identifier = topic+"/"+subtopic;
+        Exercise exercise = new Exercise(identifier);
+        CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
+        connector.constructExercise(); //the connector populates it with data from the DB
+        if(UserProgress.exercisesInProgress.size()>0) {
+            for (Exercise e : UserProgress.exercisesInProgress) {
+                if (e.getIdentifier().equals(identifier)) {
+                    System.out.println("We did it Reddit! Exercise in Progress detected.");
+                    exercise = e;
+                }
+            }
+        }
+        if(UserProgress.completedExercises.size()>0) {
+            for (Exercise e : UserProgress.completedExercises) {
+                if (e.getIdentifier().equals(identifier)) {
+                    System.out.println("We did it Reddit! Completed Exercise detected.");
+                    exercise = e;
+                }
+            }
+        }
+        return exercise; //create a new Exercise, a set of questions (empty)
     }
 
     private void reconstructGUI(){
@@ -281,7 +292,7 @@ public class ExercisesActivity extends AppCompatActivity {
         exerciseStarted(); //mark this exercise as started after completing first question
         boolean correct = false;
         String userAnswer;
-        if (qType.equals(typing)){
+        if (qType.equals(typing)){ //typing questions need a little different modification to the userAnswer
             userAnswer = ((EditText) view).getText().toString().trim();
         }else{
             userAnswer = view.getTag().toString();
@@ -303,18 +314,18 @@ public class ExercisesActivity extends AppCompatActivity {
         }
         exerciseQuestions.get(currentQuestionIndex).addAttempt();
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    if (currentQuestionIndex == exerciseQuestions.size() - 1) {
+            public void onClick(DialogInterface dialog, int which) {
+                if (currentQuestionIndex == exerciseQuestions.size() - 1) {
                     //we have reached the end of the exercise
                     endOfExercise(correctlyAnswered / totalQuestions);
-                    } else {
+                } else {
                     ++currentQuestionIndex;
                     reconstructGUI(); //goes to next question
-                    }
                 }
-            });
+            }
+        });
 
-//        MainActivity.userProgress.saveProgress();
+        MainActivity.userProgress.saveProgress();
         System.out.println("USER ANSWER   :" + exerciseQuestions.get(currentQuestionIndex).userGivenAnswer);
         alert.create();
         alert.show();
@@ -372,36 +383,85 @@ public class ExercisesActivity extends AppCompatActivity {
         return screenWidth;
     }
 
-    private void resumeUserProgress(){
+    private boolean isInProgressExercise(String identifier){
+        if(UserProgress.exercisesInProgress.size()>0) {
+            for (Exercise e : UserProgress.exercisesInProgress) {
+                if (e.getIdentifier().equals(identifier)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isCompletedExercise(String identifier){
+        if(UserProgress.completedExercises.size()>0) {
+            for (Exercise e : UserProgress.completedExercises) {
+                if (e.getIdentifier().equals(identifier)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private Exercise getExercise(String identifier){
+        if(UserProgress.completedExercises.size()>0) {
+            for (Exercise e : UserProgress.completedExercises) {
+                if (e.getIdentifier().equals(identifier)) {
+                    return e;
+                }
+            }
+        }
+        if(UserProgress.exercisesInProgress.size()>0) {
+            for (Exercise e : UserProgress.exercisesInProgress) {
+                if (e.getIdentifier().equals(identifier)) {
+                    return e;
+                }
+            }
+        }
+        return null;
+    }
+
+    private void resumeUserProgress(final String identifier){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         System.out.println("Executing: resumeUserProgress()");
-        if (UserProgress.completedExercises.contains(exerciseReceived)) {
-            System.out.println("User has completed this exercise");
-            dialogBuilder.setTitle("You have already completed this exercise");
-            dialogBuilder.setMessage("Would you like to restart this exercise?");
-        }else if(UserProgress.exercisesInProgress.contains(exerciseReceived)){
+        if (isInProgressExercise(identifier)) {
             System.out.println("User has previously started this exercise");
             dialogBuilder.setTitle("You have previously started this exercise");
             dialogBuilder.setMessage("Would you like to resume from where you have finished?\n" +
                     "Pressing \"No\" will restart this exercise.");
-        }else{
-            return; //currently only returning, the if statements are not working
         }
+
+        if (isCompletedExercise(identifier)) {
+            System.out.println("User has completed this exercise");
+            dialogBuilder.setTitle("You have already completed this exercise");
+            dialogBuilder.setMessage("Would you like to restart this exercise?");
+        }
+
             dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (UserProgress.completedExercises.contains(exerciseReceived)) {
+                    if (isCompletedExercise(identifier)) {
                         //restart the exercise
                     /*Remove from completed,
                     * start constructing the questions from scratch*/
+                        for(Question q : getExercise(identifier).getQuestions()){
+                            q.setCompleted(false);
+                            q.userGivenAnswer = null;
+                        }
+                        UserProgress.completedExercises.remove(getExercise(identifier));
                     }
-                    if(UserProgress.exercisesInProgress.contains(exerciseReceived)){
+                    if(isInProgressExercise(identifier)){
                         //resume from first uncompleted question
                         while (exerciseQuestions.get(currentQuestionIndex).isCompleted()) {
                             System.out.println("Completed question detected");
                             ++currentQuestionIndex;
+                            if(currentQuestionIndex == exerciseQuestions.size()){
+                                System.out.println("PROBLEM, INDEX OUT OF BOUNDS");
+                                return;
+                            }
                         }
-                        reconstructGUI();
                     }
                 }
             });
@@ -411,7 +471,6 @@ public class ExercisesActivity extends AppCompatActivity {
                     startActivity(afterExerciseIntent);
                 }
             });
-            System.out.println("I didn't do anything, but we should have completed the exercise");
 
         dialogBuilder.create();
         dialogBuilder.show();
