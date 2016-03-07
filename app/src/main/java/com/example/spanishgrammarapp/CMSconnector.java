@@ -33,9 +33,10 @@ public class CMSconnector {
     public String correct_answer;
 
 
-    public CMSconnector(Exercise exercise, String topic, DatabaseHelper db){
+    public CMSconnector(Exercise exercise, String topic, Context context){
+        this.context = context;
         this.exercise = exercise;
-        this.database = db;
+//        this.database = db;
 
 
     }
@@ -80,14 +81,13 @@ public class CMSconnector {
                     "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/Pronouns/exerciseQuestion/")
                     .get(); //this link is temporary, it needs to be generalized
 
-            int numberOfQuestion = jsonArray.length();
+         //   int numberOfQuestion = jsonArray.length();
 
-
-
+            database = new DatabaseHelper(context);
             for(int i = 0 ; i < jsonArray.length(); i++ ){
 
-
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+
 
                 questionText = jsonObject.getString("question_text"); // get question_text from API
                 choice_1 = jsonObject.getString("choice_1");

@@ -36,10 +36,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String[] QUESTION_COLUMNS = {QUESTION_TEXT, CHOICE_1, CHOICE_2, CHOICE_3, CHOICE_4, CHOICE_5, CHOICE_6, CORRECT_ANSWER};
 
-
+// Create table successfullyCREATE TABLE question_data(questionText VARCHAR(100) PRIMARY KEY, choice_1 VARCHAR(100), choice_2 VARCHAR(100), choice_3 VARCHAR(100)
+// ,choice_4 VARCHAR(100), choice_5 VARCHAR(100), choice_6 VARCHAR(100), correct_answer VARCHAR(100) );
     private static final String CREATE_TABLE_QUESTION = "CREATE TABLE " +
-            QUESTION_TABLE + "(" + "questionText VARCHAR(100) PRIMARY KEY, choice_1 VARCHAR(100), choice_2 VARCHAR(100), choice_3 VARCHAR(100) "
-            + ",choice_4 VARCHAR(100), choice_5 VARCHAR(100), choice_6 VARCHAR(100), correct_answer VARCHAR(100) )";
+            QUESTION_TABLE + "(" + "id INTEGER PRIMARY KEY AUTOINCREMENT, questionText VARCHAR, choice_1 VARCHAR, choice_2 VARCHAR, choice_3 VARCHAR"
+            + ",choice_4 VARCHAR, choice_5 VARCHAR, choice_6 VARCHAR, correct_answer VARCHAR);";
 
 
 
@@ -51,8 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("Create table successfully" + CREATE_TABLE_QUESTION);
-
+        db.execSQL(CREATE_TABLE_QUESTION);
     }
 
     @Override
