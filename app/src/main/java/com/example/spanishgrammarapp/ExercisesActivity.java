@@ -270,12 +270,13 @@ public class ExercisesActivity extends AppCompatActivity {
     private void constructTypingActivity(){
         final EditText userInput = new EditText(this);
         userInput.setId(10100);
-        userInput.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         userInput.setImeActionLabel("Check", KeyEvent.KEYCODE_ENTER);
         userInput.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+                System.out.println("keyCode is:   "+keyCode);
                 if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    System.out.println("TEST SUCCESS: KEYCODE_ENTER");
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     results(typing, userInput);
@@ -294,8 +295,6 @@ public class ExercisesActivity extends AppCompatActivity {
         String userAnswer;
         if (qType.equals(typing)){ //typing questions need a little different modification to the userAnswer
             userAnswer = ((EditText) view).getText().toString().trim();
-            System.out.println(userAnswer);
-            System.out.println(cAnswer);
         }else{
             userAnswer = view.getTag().toString();
         }
@@ -427,7 +426,6 @@ public class ExercisesActivity extends AppCompatActivity {
 
     private void resumeUserProgress(final String identifier){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        System.out.println("Executing: resumeUserProgress()");
         if (isInProgressExercise(identifier)) {
             System.out.println("User has previously started this exercise");
             dialogBuilder.setTitle("You have previously started this exercise");
@@ -458,11 +456,8 @@ public class ExercisesActivity extends AppCompatActivity {
                         while (exerciseQuestions.get(currentQuestionIndex).isCompleted()) {
                             System.out.println("Completed question detected");
                             ++currentQuestionIndex;
-                            if(currentQuestionIndex == exerciseQuestions.size()){
-                                System.out.println("PROBLEM, INDEX OUT OF BOUNDS");
-                                return;
-                            }
                         }
+                        reconstructGUI();
                     }
                 }
             });
