@@ -36,8 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String[] QUESTION_COLUMNS = {QUESTION_TEXT, CHOICE_1, CHOICE_2, CHOICE_3, CHOICE_4, CHOICE_5, CHOICE_6, CORRECT_ANSWER};
 
-// Create table successfully CREATE TABLE question_data(questionText VARCHAR(100) PRIMARY KEY, choice_1 VARCHAR(100), choice_2 VARCHAR(100), choice_3 VARCHAR(100)
-// ,choice_4 VARCHAR(100), choice_5 VARCHAR(100), choice_6 VARCHAR(100), correct_answer VARCHAR(100) );
+
     private static final String CREATE_TABLE_QUESTION = "CREATE TABLE " +
             QUESTION_TABLE + "(" + "id INTEGER PRIMARY KEY AUTOINCREMENT, questionText VARCHAR, choice_1 VARCHAR, choice_2 VARCHAR, choice_3 VARCHAR"
             + ",choice_4 VARCHAR, choice_5 VARCHAR, choice_6 VARCHAR, correct_answer VARCHAR);";
@@ -68,7 +67,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return questionText;
     }
 
-
+    /* simply add questionData into Database.
+     */
     public boolean addQuestion(String questionText, String choice_1, String choice_2,
                             String choice_3, String choice_4, String choice_5, String choice_6
             , String correct_answer ) {
@@ -80,8 +80,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = dbCheck.rawQuery(Query, new String[]{ID});
 
         if (cursor.getCount() != 0) {
-            //data exist
-            System.out.println("DATA EXIST!");
             cursor.close();
             return false;
         }
@@ -107,11 +105,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-    public QuestionData getQuestionText(String questionText, String choice_1, String choice_2,
-                                        String choice_3, String choice_4, String choice_5, String choice_6
-            , String correct_answer){
-
+    /**
+     * returns table of questionData -> "ID, question_text, choice1..6 , correct_answer"
+     * TODO: Change param to subtopic name and topic name
+     */
+    public QuestionData getQuestionText(String questionText) // this need to be modified to get subtopic and topic name as parameters
+    {
         // 1. get reference to readable DB
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -120,31 +119,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String ID = IDGenerator(questionText);
         Cursor cursor = db.rawQuery(Query, new String[]{ID});
 
-        // 3. if we got results get the first one
-        if (cursor != null)
+
+        if( cursor != null && cursor.getCount()>0)
             cursor.moveToFirst();
+            QuestionData questionData = new QuestionData();
+            questionData.setQuestionText(cursor.getString(cursor.getColumnIndex(QUESTION_TEXT)));
+            questionData.setChoice_1(cursor.getString(cursor.getColumnIndex(CHOICE_1)));
+            questionData.setChoice_2(cursor.getString(cursor.getColumnIndex(CHOICE_2)));
+            questionData.setChoice_3(cursor.getString(cursor.getColumnIndex(CHOICE_3)));
+            questionData.setChoice_4(cursor.getString(cursor.getColumnIndex(CHOICE_4)));
+            questionData.setChoice_5(cursor.getString(cursor.getColumnIndex(CHOICE_5)));
+            questionData.setChoice_6(cursor.getString(cursor.getColumnIndex(CHOICE_6)));
+            questionData.setCorrect_answer(cursor.getString(cursor.getColumnIndex(CORRECT_ANSWER)));
 
-        // 4. build QuestionData object
-        QuestionData questionData = new QuestionData();
-        questionData.setQuestionText(cursor.getString(0));
-        questionData.setChoice_1(cursor.getString(1));
-        questionData.setChoice_2(cursor.getString(2));
-        questionData.setChoice_3(cursor.getString(3));
-        questionData.setChoice_4(cursor.getString(4));
-        questionData.setChoice_5(cursor.getString(5));
-        questionData.setChoice_6(cursor.getString(6));
-        questionData.setCorrect_answer(cursor.getString(7));
-
+        cursor.close();
         System.out.println("Get question data work");
 
 
         return questionData;
     }
 
-    public List<QuestionData> getAllQuestion(String questionText) {
+    public List<QuestionData> getAllQuestion() {
         List<QuestionData> questions = new LinkedList<QuestionData>();
 
-        String query = "SELECT  * FROM " + QUESTION_TABLE;
+        String query = "SELECT * FROM " + QUESTION_TABLE;
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -155,21 +153,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 questionData = new QuestionData();
-                questionData.setQuestionText(cursor.getString(0));
-                questionData.setChoice_1(cursor.getString(1));
-                questionData.setChoice_2(cursor.getString(2));
-                questionData.setChoice_3(cursor.getString(3));
-                questionData.setChoice_4(cursor.getString(4));
-                questionData.setChoice_5(cursor.getString(5));
-                questionData.setChoice_6(cursor.getString(6));
-                questionData.setCorrect_answer(cursor.getString(7));
+                questionData.setQuestionText(cursor.getString(cursor.getColumnIndex(QUESTION_TEXT)));
+                questionData.setChoice_1(cursor.getString(cursor.getColumnIndex(CHOICE_1)));
+                questionData.setChoice_2(cursor.getString(cursor.getColumnIndex(CHOICE_2)));
+                questionData.setChoice_3(cursor.getString(cursor.getColumnIndex(CHOICE_3)));
+                questionData.setChoice_4(cursor.getString(cursor.getColumnIndex(CHOICE_4)));
+                questionData.setChoice_5(cursor.getString(cursor.getColumnIndex(CHOICE_5)));
+                questionData.setChoice_6(cursor.getString(cursor.getColumnIndex(CHOICE_6)));
+                questionData.setCorrect_answer(cursor.getString(cursor.getColumnIndex(CORRECT_ANSWER)));
 
                 questions.add(questionData);
 
 
+
             } while (cursor.moveToNext());
         }
-        System.out.println("SELECT WORK!");
+        System.out.println("SELECT ALL WORK!");
 
         return questions;
     }
