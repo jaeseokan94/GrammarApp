@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
-        JSONParser downloadAPI = new JSONParser(database);
+        APIWrapper downloadAPI = new APIWrapper(database);
         downloadAPI.apiQuestions();
 
     }

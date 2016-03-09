@@ -18,12 +18,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class JSONParser extends AsyncTask<String,String,JSONArray>{
+public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
     private final DatabaseHelper database;
 
 
-    public JSONParser(DatabaseHelper db) {
+    public APIWrapper(DatabaseHelper db) {
         database = db;
     }
 

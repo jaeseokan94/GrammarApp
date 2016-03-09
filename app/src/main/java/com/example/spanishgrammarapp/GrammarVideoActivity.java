@@ -24,7 +24,7 @@ public class GrammarVideoActivity extends AppCompatActivity {
         subtopicTitle = getIntent().getStringExtra(TopicActivity.SUBTOPIC);
 
         //get uri of grammar video
-        Uri uri_grammar_video = JSONParser.getGrammarVideoUri(topicTitle, subtopicTitle);
+        Uri uri_grammar_video = APIWrapper.getGrammarVideoUri(topicTitle, subtopicTitle);
 
         //setup
         TextView tvSubtopicTitle = (TextView) findViewById(R.id.tv_grammar_video_subtopic);

@@ -35,7 +35,7 @@ public class SituationalVideoActivity extends AppCompatActivity  {
         current_topic = getIntent().getStringExtra(TopicActivity.CURRENT_TOPIC);
 
         //get situational video url
-        Uri uri[] = JSONParser.getSituationalVideoURLs(current_topic);
+        Uri uri[] = APIWrapper.getSituationalVideoURLs(current_topic);
         uri_without_transcript = uri[0];
         uri_with_transcript = uri[1];
 

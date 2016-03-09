@@ -19,24 +19,10 @@ public class CMSconnector {
     QuestionData questionData;
 
 
-    // Question data
-    public int numberOfQuestion; // it gives an integer value of number of question in certain subtopic
-    public String questionText; // variable for question_text from API
-   // public String choice_1;
-    //public String choice_2;
-    public String choice_3;
-    public String choice_4;
-    public String choice_5;
-    public String choice_6;
-    public String correct_answer;
-
-
     public CMSconnector(Exercise exercise, String topic, Context context){
         this.context = context;
         this.exercise = exercise;
         database = new DatabaseHelper(context);
-
-
     }
 
     public void constructExercise(){
@@ -49,7 +35,7 @@ public class CMSconnector {
     private Question constructQuestions(int input){
         ArrayList<String> answers1 = new ArrayList<>();
         Question q;
-        JSONParser parser = new JSONParser(database);
+        APIWrapper parser = new APIWrapper(database);
         parser.apiQuestions();
 
         List<QuestionData> list = database.getAllQuestion(); // getAllquestions list Test purpose
