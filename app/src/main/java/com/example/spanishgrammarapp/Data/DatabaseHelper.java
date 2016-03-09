@@ -36,7 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String[] QUESTION_COLUMNS = {QUESTION_TEXT, CHOICE_1, CHOICE_2, CHOICE_3, CHOICE_4, CHOICE_5, CHOICE_6, CORRECT_ANSWER};
 
-// Create table successfullyCREATE TABLE question_data(questionText VARCHAR(100) PRIMARY KEY, choice_1 VARCHAR(100), choice_2 VARCHAR(100), choice_3 VARCHAR(100)
+// Create table successfully CREATE TABLE question_data(questionText VARCHAR(100) PRIMARY KEY, choice_1 VARCHAR(100), choice_2 VARCHAR(100), choice_3 VARCHAR(100)
 // ,choice_4 VARCHAR(100), choice_5 VARCHAR(100), choice_6 VARCHAR(100), correct_answer VARCHAR(100) );
     private static final String CREATE_TABLE_QUESTION = "CREATE TABLE " +
             QUESTION_TABLE + "(" + "id INTEGER PRIMARY KEY AUTOINCREMENT, questionText VARCHAR, choice_1 VARCHAR, choice_2 VARCHAR, choice_3 VARCHAR"
@@ -63,12 +63,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void addQuestion(String questionText, String choice_1, String choice_2,
+
+    public String IDGenerator(String questionText) {
+        return questionText;
+    }
+
+
+    public boolean addQuestion(String questionText, String choice_1, String choice_2,
                             String choice_3, String choice_4, String choice_5, String choice_6
             , String correct_answer ) {
 
-        System.out.println("Data added");
+        //check if data exist
+        SQLiteDatabase dbCheck = this.getReadableDatabase();
+        String Query = "SELECT " + "*" + " FROM " + QUESTION_TABLE + " WHERE " + QUESTION_TEXT + " = ?"; //Replace questionText to primary key or ID
+        String ID = IDGenerator(questionText);
+        Cursor cursor = dbCheck.rawQuery(Query, new String[]{ID});
 
+        if (cursor.getCount() != 0) {
+            //data exist
+            System.out.println("DATA EXIST!");
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+
+        System.out.println("DATA ADDED SUCCESSFULLY");
         SQLiteDatabase db = this.getWritableDatabase();
         // To add column
         ContentValues values = new ContentValues(); // this class is used to store a values
@@ -84,6 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(QUESTION_TABLE, null, values);
 
         db.close();
+        return true;
     }
 
     public List<QuestionData> getAllQuestion(String questionText) {

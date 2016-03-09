@@ -37,14 +37,14 @@ public class CMSconnector {
         this.context = context;
         this.exercise = exercise;
 //        this.database = db;
-
+        database = new DatabaseHelper(context);
 
     }
 
     public void constructExercise(){
         exercise.addQuestion(constructQuestions(0));
-        exercise.addQuestion(constructQuestions(2));
-        exercise.addQuestion(constructQuestions(1));
+       // exercise.addQuestion(constructQuestions(2));
+      //  exercise.addQuestion(constructQuestions(1));
     }
 
     /*This will be later replaced with a method that*/
@@ -80,10 +80,9 @@ public class CMSconnector {
             JSONArray jsonArray = new JSONParser().execute(
                     "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/Pronouns/exerciseQuestion/")
                     .get(); //this link is temporary, it needs to be generalized
-
+System.out.println("will it appear three times? ");
          //   int numberOfQuestion = jsonArray.length();
 
-            database = new DatabaseHelper(context);
             for(int i = 0 ; i < jsonArray.length(); i++ ){
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -100,6 +99,7 @@ public class CMSconnector {
 
                 database.addQuestion(questionText, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer);
                 System.out.println("JSON PASSED TO DATABASE");
+                System.out.println(i);
 //, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer
             }
 
