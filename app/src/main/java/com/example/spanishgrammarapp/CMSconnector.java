@@ -57,17 +57,20 @@ public class CMSconnector {
      //   circleList.add(new Circle(Database.ENERGY_TYPE_FOSSIL_FUEL, context, this, res.getColor(R.color.energy_fossil_fuel))); to be removed
         List<QuestionData> list = database.getAllQuestion(); // getAllquestions list
         System.out.println(list);
-        String a = database.getQuestionText(TESTPURPOSE);
+
+
+      //  QuestionData questiondata = database.getQuestionText("osllamàis");
+
 
         if(input==0) {
-            answers1.add();
-            answers1.add(choice_3);
-            answers1.add(choice_3);
-            answers1.add(choice_4);
-            answers1.add(choice_5);
-            answers1.add(choice_6);
-            answers1.add(correct_answer);
-            q = new Question(ExercisesActivity.multipleChoice, "Question"+input+": " + questionText , answers1.get(0), answers1);
+            answers1.add(database.getQuestionText("osllamàis").getChoice_1());
+            answers1.add(database.getQuestionText("osllamàis").getChoice_2());
+            answers1.add(database.getQuestionText("osllamàis").getChoice_3());
+            answers1.add(database.getQuestionText("osllamàis").getChoice_4());
+            answers1.add(database.getQuestionText("osllamàis").getChoice_5());
+            answers1.add(database.getQuestionText("osllamàis").getChoice_6());
+            answers1.add(database.getQuestionText("osllamàis").getCorrect_answer());
+            q = new Question(ExercisesActivity.multipleChoice, "Question"+input+": " + database.getQuestionText("osllamàis").getQuestionText() , answers1.get(0), answers1);
         }else if(input==1){
             answers1.add("Correct answer");
             q = new Question(ExercisesActivity.typing, "Test question 2", answers1.get(0), answers1);

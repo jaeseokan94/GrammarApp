@@ -114,25 +114,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // 2. build query
-        String Query = "SELECT " + "*" + " FROM " + QUESTION_TABLE + " WHERE " + QUESTION_TEXT + " = questionText"; //Replace questionText to primary key or ID
+        String Query = "SELECT " + "*" + " FROM " + QUESTION_TABLE + " WHERE " + QUESTION_TEXT + " = ?"; //Replace questionText to primary key or ID
         String ID = IDGenerator(questionText);
         Cursor cursor = db.rawQuery(Query, new String[]{ID});
 
         // 3. if we got results get the first one
-        if (cursor != null)
+
+           // if (cursor != null)
+        //cursor.moveToFirst();
+
+        if( cursor != null && cursor.getCount()>0)
             cursor.moveToFirst();
+            QuestionData questionData = new QuestionData();
+            questionData.setQuestionText(cursor.getString(cursor.getColumnIndex(QUESTION_TEXT)));
+            questionData.setChoice_1(cursor.getString(cursor.getColumnIndex(CHOICE_1)));
+            questionData.setChoice_2(cursor.getString(cursor.getColumnIndex(CHOICE_2)));
+            questionData.setChoice_3(cursor.getString(cursor.getColumnIndex(CHOICE_3)));
+            questionData.setChoice_4(cursor.getString(cursor.getColumnIndex(CHOICE_4)));
+            questionData.setChoice_5(cursor.getString(cursor.getColumnIndex(CHOICE_5)));
+            questionData.setChoice_6(cursor.getString(cursor.getColumnIndex(CHOICE_6)));
+            questionData.setCorrect_answer(cursor.getString(cursor.getColumnIndex(CORRECT_ANSWER)));
 
-        // 4. build QuestionData object
-        QuestionData questionData = new QuestionData();
-        questionData.setQuestionText(cursor.getString(cursor.getColumnIndex(QUESTION_TEXT)));
-        questionData.setChoice_1(cursor.getString(cursor.getColumnIndex(CHOICE_1)));
-        questionData.setChoice_2(cursor.getString(cursor.getColumnIndex(CHOICE_2)));
-        questionData.setChoice_3(cursor.getString(cursor.getColumnIndex(CHOICE_3)));
-        questionData.setChoice_4(cursor.getString(cursor.getColumnIndex(CHOICE_4)));
-        questionData.setChoice_5(cursor.getString(cursor.getColumnIndex(CHOICE_5)));
-        questionData.setChoice_6(cursor.getString(cursor.getColumnIndex(CHOICE_6)));
-        questionData.setCorrect_answer(cursor.getString(cursor.getColumnIndex(CORRECT_ANSWER)));
-
+        cursor.close();
         System.out.println("Get question data work");
 
 

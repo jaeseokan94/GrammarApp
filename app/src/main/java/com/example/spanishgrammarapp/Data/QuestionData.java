@@ -93,6 +93,6 @@ public class QuestionData {
 
     @Override
     public String toString(){
-        return "Question text : "+questionText + "choices : " + choice_1+" "+choice_2+" "+choice_3+" "+choice_4+" "+choice_5+" "+choice_6+" "+correct_answer;
+        return "Question text : ."+questionText + ". choices : " + choice_1+" "+choice_2+" "+choice_3+" "+choice_4+" "+choice_5+" "+choice_6+" "+correct_answer;
     }
 }
