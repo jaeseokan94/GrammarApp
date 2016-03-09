@@ -106,6 +106,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+
+
+    public QuestionData getQuestionText(String questionText, String choice_1, String choice_2,
+                                        String choice_3, String choice_4, String choice_5, String choice_6
+            , String correct_answer){
+
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        String Query = "SELECT " + "*" + " FROM " + QUESTION_TABLE + " WHERE " + QUESTION_TEXT + " = ?"; //Replace questionText to primary key or ID
+        String ID = IDGenerator(questionText);
+        Cursor cursor = db.rawQuery(Query, new String[]{ID});
+
+        // 3. if we got results get the first one
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        // 4. build QuestionData object
+        QuestionData questionData = new QuestionData();
+        questionData.setQuestionText(cursor.getString(0));
+        questionData.setChoice_1(cursor.getString(1));
+        questionData.setChoice_2(cursor.getString(2));
+        questionData.setChoice_3(cursor.getString(3));
+        questionData.setChoice_4(cursor.getString(4));
+        questionData.setChoice_5(cursor.getString(5));
+        questionData.setChoice_6(cursor.getString(6));
+        questionData.setCorrect_answer(cursor.getString(7));
+
+        System.out.println("Get question data work");
+
+
+        return questionData;
+    }
+
     public List<QuestionData> getAllQuestion(String questionText) {
         List<QuestionData> questions = new LinkedList<QuestionData>();
 
