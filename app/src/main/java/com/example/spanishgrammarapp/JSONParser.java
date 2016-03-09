@@ -3,8 +3,11 @@ package com.example.spanishgrammarapp;
 import android.net.Uri;
 import android.os.AsyncTask;
 
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,6 +20,12 @@ import java.util.ArrayList;
 
 public class JSONParser extends AsyncTask<String,String,JSONArray>{
 
+    private final DatabaseHelper database;
+
+
+    public JSONParser(DatabaseHelper db) {
+        database = db;
+    }
 
     @Override
     protected JSONArray doInBackground(String... params) {
@@ -72,6 +81,56 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
     }
 
     /**
+     *  This method is to test Database and build API according to
+     *  language, topicName, subtopicName
+     */
+ public void apiQuestions() {
+
+     try {
+         JSONArray jsonArray = execute(
+                 "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/Pronouns/exerciseQuestion/")
+                    .get(); //this link is temporary, it needs to be generalized
+            System.out.println("will it appear three times? ");
+            //   int numberOfQuestion = jsonArray.length();
+
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+
+                String questionText = jsonObject.getString("question_text"); // get question_text from API
+                String choice_1 = jsonObject.getString("choice_1");
+                String choice_2= jsonObject.getString("choice_2");
+                String choice_3= jsonObject.getString("choice_3");
+                String choice_4= jsonObject.getString("choice_4");
+                String choice_5= jsonObject.getString("choice_5");
+                String choice_6= jsonObject.getString("choice_6");
+                String correct_answer= jsonObject.getString("correct_answer");
+
+                database.addQuestion(questionText, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer);
+                System.out.println("JSON PASSED TO DATABASE");
+                System.out.println(i);
+
+//, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer
+            }
+
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR");
+            e.printStackTrace();
+        }
+
+
+        /**
+         public void getData() {
+
+         for(String questionList : Database.question_arraay){
+
+         }
+         }**/
+
+    }
+
+    /**
      * returns urls of situational video transcript and without transcript
      * @param topicName
      * @return urls[0] of situational video with transcript;
@@ -88,6 +147,7 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
 
         return urls;
     }
+
 
     /**
      * returns ArrayList of subtopic names
@@ -117,8 +177,5 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
 
         return Uri.parse(uri);
     }
-
-
-
 
 }

@@ -3,13 +3,10 @@ package com.example.spanishgrammarapp;
 import android.content.Context;
 
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.spanishgrammarapp.Data.QuestionData;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 
 /**
  * This class will be used to connect to the Database where questions are stored, and connect to the CMS to fetch
@@ -19,13 +16,14 @@ public class CMSconnector {
     Exercise exercise;
     private DatabaseHelper database;
     Context context;
+    QuestionData questionData;
 
 
     // Question data
     public int numberOfQuestion; // it gives an integer value of number of question in certain subtopic
     public String questionText; // variable for question_text from API
-    public String choice_1;
-    public String choice_2;
+   // public String choice_1;
+    //public String choice_2;
     public String choice_3;
     public String choice_4;
     public String choice_5;
@@ -36,8 +34,8 @@ public class CMSconnector {
     public CMSconnector(Exercise exercise, String topic, Context context){
         this.context = context;
         this.exercise = exercise;
-//        this.database = db;
         database = new DatabaseHelper(context);
+
 
     }
 
@@ -51,11 +49,19 @@ public class CMSconnector {
     private Question constructQuestions(int input){
         ArrayList<String> answers1 = new ArrayList<>();
         Question q;
-        apiQuestions();
+        JSONParser parser = new JSONParser(database);
+        parser.apiQuestions();
+
+        //database.getQuestionText(questionText, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer);
+
+     //   circleList.add(new Circle(Database.ENERGY_TYPE_FOSSIL_FUEL, context, this, res.getColor(R.color.energy_fossil_fuel))); to be removed
+        List<QuestionData> list = database.getAllQuestion(); // getAllquestions list
+        System.out.println(list);
+        String a = database.getQuestionText(TESTPURPOSE);
 
         if(input==0) {
-            answers1.add(choice_1);
-            answers1.add(choice_2);
+            answers1.add();
+            answers1.add(choice_3);
             answers1.add(choice_3);
             answers1.add(choice_4);
             answers1.add(choice_5);
@@ -70,57 +76,8 @@ public class CMSconnector {
         }
         return q;
     }
-    /**
-     *  This method is to test Database and build API according to
-     *  language, topicName, subtopicName
-     */
-    public void apiQuestions(){
-
-        try {
-            JSONArray jsonArray = new JSONParser().execute(
-                    "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/Pronouns/exerciseQuestion/")
-                    .get(); //this link is temporary, it needs to be generalized
-System.out.println("will it appear three times? ");
-         //   int numberOfQuestion = jsonArray.length();
-
-            for(int i = 0 ; i < jsonArray.length(); i++ ){
-
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
 
 
-                questionText = jsonObject.getString("question_text"); // get question_text from API
-                choice_1 = jsonObject.getString("choice_1");
-                choice_2= jsonObject.getString("choice_2");
-                choice_3= jsonObject.getString("choice_3");
-                choice_4= jsonObject.getString("choice_4");
-                choice_5= jsonObject.getString("choice_5");
-                choice_6= jsonObject.getString("choice_6");
-                correct_answer= jsonObject.getString("correct_answer");
-
-                database.addQuestion(questionText, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer);
-                System.out.println("JSON PASSED TO DATABASE");
-                System.out.println(i);
-//, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            System.out.println("JSON EXCEPTION ERROR");
-            e.printStackTrace();
-        }
-
-        /**
-         public void getData() {
-
-         for(String questionList : Database.question_arraay){
-
-         }
-         }**/
-
-    }
 
 
 
