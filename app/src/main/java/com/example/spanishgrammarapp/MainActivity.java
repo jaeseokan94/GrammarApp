@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+
 public class MainActivity extends AppCompatActivity {
 
     public final static String QUESTIONS = "QUESTIONS";
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     public final static String QUESTION_TEXT = "QUESTION";
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
+
+    private DatabaseHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
 //        relativeLayout.setBackground(getDrawable(R.drawable.bkg));
         UserProgress up1 = new UserProgress(this.getBaseContext());
         up1.saveProgress();
+
+        // App will download API and save it into database when it is first open.
+        database = new DatabaseHelper(this.getBaseContext());
+        JSONParser downloadAPI = new JSONParser(database);
+        downloadAPI.apiQuestions();
+
     }
 
 

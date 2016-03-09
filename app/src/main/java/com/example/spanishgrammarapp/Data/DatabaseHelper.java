@@ -78,6 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String Query = "SELECT " + "*" + " FROM " + QUESTION_TABLE + " WHERE " + QUESTION_TEXT + " = ?"; //Replace questionText to primary key or ID
         String ID = IDGenerator(questionText);
         Cursor cursor = dbCheck.rawQuery(Query, new String[]{ID});
+        System.out.println("DATA Check");
 
         if (cursor.getCount() != 0) {
             cursor.close();
@@ -164,8 +165,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 questions.add(questionData);
 
-
-
             } while (cursor.moveToNext());
         }
         System.out.println("SELECT ALL WORK!");
@@ -176,8 +175,3 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 }
-
-/**String questionText, String choice_1, String choice_2,
-String choice_3, String choice_4, String choice_5, String choice_6
-        , String correct_answer
- **/
