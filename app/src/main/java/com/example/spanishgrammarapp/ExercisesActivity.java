@@ -9,10 +9,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
@@ -22,7 +21,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -50,10 +50,14 @@ public class ExercisesActivity extends AppCompatActivity {
     private ArrayList<Question> exerciseQuestions; //accessed in multiple methods.
     private int currentQuestionIndex = 0;  //member variable because it is going to be accessed by review functionality
 
+    DatabaseHelper database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
+        //trying to call database here which didnt work.
+        database = new DatabaseHelper(getApplicationContext());
 
         Intent intent = getIntent();
         Exercise exerciseReceived = intent.getParcelableExtra(MainActivity.QUESTIONS);

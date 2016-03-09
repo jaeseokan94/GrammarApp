@@ -1,15 +1,19 @@
 package com.example.spanishgrammarapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+
 public class SubtopicsActivity extends AppCompatActivity {
 
     private String topic;
+    DatabaseHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +25,7 @@ public class SubtopicsActivity extends AppCompatActivity {
 
     public void startExercise(View view){
         Exercise exercise = new Exercise(); //create a new Exercise, a set of questions (empty)
-        CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
+        CMSconnector connector = new CMSconnector(exercise, topic, this.getBaseContext()); //pass that empty Exercise to the CMSconnector
         connector.constructExercise(); //the connector populates it with data from the DB
         Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
         intent.putExtra(MainActivity.QUESTIONS, exercise); //pass in the exercise (populated)
