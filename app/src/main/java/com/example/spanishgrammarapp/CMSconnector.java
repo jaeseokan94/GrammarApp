@@ -52,18 +52,12 @@ public class CMSconnector {
         JSONParser parser = new JSONParser(database);
         parser.apiQuestions();
 
-        //database.getQuestionText(questionText, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer);
-
-     //   circleList.add(new Circle(Database.ENERGY_TYPE_FOSSIL_FUEL, context, this, res.getColor(R.color.energy_fossil_fuel))); to be removed
-        List<QuestionData> list = database.getAllQuestion(); // getAllquestions list
+        List<QuestionData> list = database.getAllQuestion(); // getAllquestions list Test purpose
         System.out.println(list);
 
 
-      //  QuestionData questiondata = database.getQuestionText("osllamàis");
-
-
         if(input==0) {
-            answers1.add(database.getQuestionText("osllamàis").getChoice_1());
+            answers1.add(database.getQuestionText("osllamàis").getChoice_1()); // "osllamàis" need to be replaced to topic and subtopic name.
             answers1.add(database.getQuestionText("osllamàis").getChoice_2());
             answers1.add(database.getQuestionText("osllamàis").getChoice_3());
             answers1.add(database.getQuestionText("osllamàis").getChoice_4());

@@ -90,8 +90,6 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
          JSONArray jsonArray = execute(
                  "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/Pronouns/exerciseQuestion/")
                     .get(); //this link is temporary, it needs to be generalized
-            System.out.println("will it appear three times? ");
-            //   int numberOfQuestion = jsonArray.length();
 
             for(int i = 0 ; i < jsonArray.length(); i++ ){
 
@@ -110,8 +108,6 @@ public class JSONParser extends AsyncTask<String,String,JSONArray>{
                 database.addQuestion(questionText, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer);
                 System.out.println("JSON PASSED TO DATABASE");
                 System.out.println(i);
-
-//, choice_1, choice_2, choice_3, choice_4, choice_5, choice_6, correct_answer
             }
 
         } catch (Exception e) {
