@@ -17,31 +17,38 @@ public class CMSconnector {
     private DatabaseHelper database;
     Context context;
     QuestionData questionData;
+    String topic;
+    String subtopic;
 
 
-    public CMSconnector(Exercise exercise, String topic, Context context){
+    public CMSconnector(Exercise exercise, String topic, String subtopic, Context context){
         this.context = context;
         this.exercise = exercise;
         database = new DatabaseHelper(context);
+        this.topic = topic;
+        this.subtopic = subtopic;
     }
 
-    public void constructExercise(){
+    /**
+    private void constructExercise(Exercise exercise){
         exercise.addQuestion(constructQuestions(0));
        // exercise.addQuestion(constructQuestions(2));
       //  exercise.addQuestion(constructQuestions(1));
     }
+     */
 
     /*This will be later replaced with a method that*/
+    /*
     private Question constructQuestions(int input){
         ArrayList<String> answers1 = new ArrayList<>();
         Question q;
-        APIWrapper parser = new APIWrapper(database);
-        parser.apiQuestions();
+        //APIWrapper parser = new APIWrapper(database);
+        //parser.apiQuestions(topic,subtopic);
 
         List<QuestionData> list = database.getAllQuestion(); // getAllquestions list Test purpose
         System.out.println(list);
 
-
+        //multiple choice
         if(input==0) {
             answers1.add(database.getQuestionText("osllamàis").getChoice_1()); // "osllamàis" need to be replaced to topic and subtopic name , int API key
             answers1.add(database.getQuestionText("osllamàis").getChoice_2());
@@ -58,6 +65,44 @@ public class CMSconnector {
             q = new Question(ExercisesActivity.trueFalse, "Test question 3", "true", answers1);
         }
         return q;
+    }
+    */
+
+    public static Exercise getExercise(Context context, String topic, String subtopic) {
+        Exercise exercise = new Exercise();
+        DatabaseHelper database = new DatabaseHelper(context);
+
+        ArrayList<String> answers1 = new ArrayList<>();
+        Question q;
+        //APIWrapper parser = new APIWrapper(database);
+        //parser.apiQuestions(topic,subtopic);
+
+        List<QuestionData> list = database.getAllQuestion(); // getAllquestions list Test purpose
+        System.out.println(list);
+
+        int input = 0;
+        //adds Questions to Exercise
+
+        //multiple choice
+        if(input==0) {
+            answers1.add(database.getQuestionText("osllamàis").getChoice_1()); // "osllamàis" need to be replaced to topic and subtopic name , int API key
+            answers1.add(database.getQuestionText("osllamàis").getChoice_2());
+            answers1.add(database.getQuestionText("osllamàis").getChoice_3());
+            answers1.add(database.getQuestionText("osllamàis").getChoice_4());
+            answers1.add(database.getQuestionText("osllamàis").getChoice_5());
+            answers1.add(database.getQuestionText("osllamàis").getChoice_6());
+            answers1.add(database.getQuestionText("osllamàis").getCorrect_answer());
+            q = new Question(ExercisesActivity.multipleChoice, "Question"+input+": " + database.getQuestionText("osllamàis").getQuestionText() , answers1.get(0), answers1);
+        }else if(input==1){
+            answers1.add("Correct answer");
+            q = new Question(ExercisesActivity.typing, "Test question 2", answers1.get(0), answers1);
+        }else{
+            q = new Question(ExercisesActivity.trueFalse, "Test question 3", "true", answers1);
+        }
+
+        exercise.addQuestion(q);
+
+        return exercise;
     }
 
 }

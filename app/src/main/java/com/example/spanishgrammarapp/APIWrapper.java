@@ -86,9 +86,9 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      *  This method is to test Database and build API according to
      *  language, topicName, subtopicName
      */
- public void apiQuestions(String topicName, String subTopicName) {
+ public void apiQuestions() {
 
-    String urlQuestions = URL +"/"+topicName+"/"+subTopicName+"/"+"exerciseQuestion";
+   // String urlQuestions = URL +"/"+topicName+"/"+subTopicName+"/"+"exerciseQuestion";
 
      try {
          JSONArray jsonArray = execute(

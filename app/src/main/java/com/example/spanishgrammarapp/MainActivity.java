@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     public final static String QUESTION_TEXT = "QUESTION";
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
+    public String language;
+    public String level;
 
     private DatabaseHelper database;
 
@@ -33,11 +35,14 @@ public class MainActivity extends AppCompatActivity {
 //        relativeLayout.setBackground(getDrawable(R.drawable.bkg));
         UserProgress up1 = new UserProgress(this.getBaseContext());
         up1.saveProgress();
+        
+        Intent intent = getIntent();
+       language = intent.getStringExtra("lang");
 
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
         APIWrapper downloadAPI = new APIWrapper(database);
-        downloadAPI.apiQuestions();
+        //downloadAPI.apiQuestions();
 
     }
 
