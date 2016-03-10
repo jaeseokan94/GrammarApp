@@ -24,9 +24,6 @@ public class SubtopicsActivity extends AppCompatActivity {
     }
 
     public void startExercise(View view){
-        //Exercise exercise = new Exercise(); //create a new Exercise, a set of questions (empty)
-        //CMSconnector connector = new CMSconnector(exercise, topic, view.getTag().toString(), this.getBaseContext()); //pass that empty Exercise to the CMSconnector
-        //connector.constructExercise(); //the connector populates it with data from the DB
         String subtopic = view.getTag().toString();
         Exercise exercise = CMSconnector.getExercise(getBaseContext(), topic, subtopic);
         Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
