@@ -22,6 +22,8 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
     private final DatabaseHelper database;
 
+    private final static String URL = "http://lang-it-up.herokuapp.com/polls/api/Spanish/b"; // Spanish and level need to be replaced
+
 
     public APIWrapper(DatabaseHelper db) {
         database = db;
@@ -78,48 +80,15 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         super.onPostExecute(s);
     }
 
-    /*
-     * This method will build API for subtopicList , situationalVideo, grammarVideo , exerciseQuestion
-     * apiType
-     * 0 : subtopicList    1: situationalVideo
-     * 2: grammarVideo     3 : exerciseQuestion
-     */
-    public static String apiBuilder(int apiType, int level, String topicName, String subtopicName, String dialect){
-        String url = "http://lang-it-up.herokuapp.com/polls/api/polls/api";
-        String language = "Spanish"; // Since this app is only for Spanish (We can change here)
-        String levelBuilder = "";
-
-        if(level == 0)
-            levelBuilder="b";
-        else if(level ==1)
-            levelBuilder="i";
-
-        url= url + language + levelBuilder ;
-
-
-        if(apiType == 0)// API for subtopicList
-            url=url+"subtopicList";
-        else if(apiType == 1)         // situationalVideo
-            url=url+topicName+"situationalVideo";
-        else if(apiType == 2) // grammarVideo
-            url=url+topicName+subtopicName+"grammarVideo";
-        else if(apiType == 3)
-            url=url+topicName+subtopicName+"exerciseQuestion";
-
-
-
-
-        return url;
-    }
-
 
 
     /**
      *  This method is to test Database and build API according to
      *  language, topicName, subtopicName
      */
- public void apiQuestions() {
+ public void apiQuestions(String topicName, String subTopicName) {
 
+    String urlQuestions = URL +"/"+topicName+"/"+subTopicName+"/"+"exerciseQuestion";
 
      try {
          JSONArray jsonArray = execute(
@@ -168,8 +137,12 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      */
     public static Uri[] getSituationalVideoURLs(String topicName) {
         //TODO code here for getting url for situational video
+        String SituationalVideoURL = URL+"/"+topicName+"/situationalVideo/";
+
         //String url is temporary
         Uri[] urls = new Uri[2];
+
+
         //without transcript
         urls[0] = Uri.parse("https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3");
         //with transcript
@@ -204,6 +177,9 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     public static Uri getGrammarVideoUri(String topicName, String subtopicName) {
         //TODO implement this method
         String uri = "https://lang-it-up.herokuapp.com/media/U01-01.mp4";
+
+        String url = URL+"/"+topicName+"/"+subtopicName+"/"+"grammarVideo";
+
 
         return Uri.parse(uri);
     }
