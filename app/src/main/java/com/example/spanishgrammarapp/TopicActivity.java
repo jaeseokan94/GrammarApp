@@ -34,7 +34,6 @@ public class TopicActivity extends AppCompatActivity implements OnClickListener 
         ArrayList<String> subtopics = CMSconnector.getSubtopics(getBaseContext(), currentTopic);
 
 
-
         for (String subtopicTitle: subtopics) {
             Button button = new Button(this);
             button.setText(subtopicTitle);

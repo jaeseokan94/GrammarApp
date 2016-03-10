@@ -23,7 +23,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Database name
     private static final String DATABASE_NAME = "apiManager";
 
+    //KEY DATA
+    private static final String KEY_TABLE = "subtopic_table";
+    private static final String LANGUAGE = "language";
+    private static final String LEVEL = "level";
+    private static final String TOPIC = "topic";
+    private static final String SUBTOPIC = "subtopic";
 
+    private static final String CREATE_KEY_TABLE = "CREATE TABLE " +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, language VARCHAR, level VARCHAR, topic VARCHAR," +
+            " subtopic VARCHAR);";
+
+
+    //QUESTION_TABLE
+    private static final String QUESTION_TABLE = "question_data";
     private static final String QUESTION_TEXT = "questionText";
     private static final String CHOICE_1 = "choice_1";
     private static final String CHOICE_2 = "choice_2";
@@ -32,14 +45,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CHOICE_5 = "choice_5";
     private static final String CHOICE_6 = "choice_6";
     private static final String CORRECT_ANSWER = "correct_answer";
-    private static final String QUESTION_TABLE = "question_data"; //table name
-
     private static final String[] QUESTION_COLUMNS = {QUESTION_TEXT, CHOICE_1, CHOICE_2, CHOICE_3, CHOICE_4, CHOICE_5, CHOICE_6, CORRECT_ANSWER};
-
 
     private static final String CREATE_TABLE_QUESTION = "CREATE TABLE " +
             QUESTION_TABLE + "(" + "id INTEGER PRIMARY KEY AUTOINCREMENT, questionText VARCHAR, choice_1 VARCHAR, choice_2 VARCHAR, choice_3 VARCHAR"
             + ",choice_4 VARCHAR, choice_5 VARCHAR, choice_6 VARCHAR, correct_answer VARCHAR);";
+
+    //FOREIGN KEY(customer_id) REFERENCES customers(id),
+
+
+
+
 
 
 
@@ -51,21 +67,122 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CREATE_KEY_TABLE);
         db.execSQL(CREATE_TABLE_QUESTION);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + KEY_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + QUESTION_TABLE);
         onCreate(db);
-
     }
 
 
     public String IDGenerator(String questionText) {
         return questionText;
     }
+
+    public String IDGenerator_language(String language){
+        return language;
+    }
+    public String IDGenerator_subtopic(String subtopic){
+        return subtopic;
+    }
+
+    //Add language
+    public boolean addLanguage(String language) {
+        //check if data exist
+        SQLiteDatabase dbCheck = this.getReadableDatabase();
+        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE " + LANGUAGE + " = ?"; //Replace questionText to primary key or ID
+        String ID = IDGenerator_language(language);
+        Cursor cursor = dbCheck.rawQuery(Query, new String[]{ID});
+        System.out.println("DATA Language");
+
+        if (cursor.getCount() != 0) {
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+
+        System.out.println("DATA ADDED SUCCESSFULLY");
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // To add column
+        ContentValues values = new ContentValues(); // this class is used to store a values
+        values.put(LANGUAGE, language);
+
+        db.insert(KEY_TABLE, null, values);
+
+        db.close();
+        return true;
+    }
+
+    public boolean addLevel(String level) {
+        //check if data exist
+        SQLiteDatabase dbCheck = this.getReadableDatabase();
+        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE " + LEVEL + " = ?"; //Replace questionText to primary key or ID
+        String ID = IDGenerator_level(level);
+        Cursor cursor = dbCheck.rawQuery(Query, new String[]{ID});
+        System.out.println("DATA Level");
+
+        if (cursor.getCount() != 0) {
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+
+        System.out.println("DATA ADDED SUCCESSFULLY");
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // To add column
+        ContentValues values = new ContentValues(); // this class is used to store a values
+        values.put(LEVEL, level);
+
+        db.insert(KEY_TABLE, null, values);
+
+        db.close();
+        return true;
+    }
+
+    /*
+    INSERT INTO first_table_name [(column1, column2, ... columnN)]
+   SELECT column1, column2, ...columnN
+   FROM second_table_name
+   [WHERE condition];
+     */
+//language, level, topic, subtopic)
+    public boolean addSubtopic(String language, String level, String topic, String subtopic) {
+        //check if data exist
+        SQLiteDatabase dbCheck = this.getReadableDatabase();
+        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE language = "+LANGUAGE + " AND level = " +LEVEL + " AND topic = " +TOPIC+ "AND subtopic =" +  SUBTOPIC;
+
+        String ID = IDGenerator_subtopic(subtopic);
+        Cursor cursor = dbCheck.rawQuery(Query, new String[]{ID});
+        System.out.println("DATA Level");
+
+        if (cursor.getCount() != 0) {
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+
+        System.out.println("DATA ADDED SUCCESSFULLY");
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // To add column
+        ContentValues values = new ContentValues(); // this class is used to store a values
+        values.put(SUBTOPIC, subtopic);
+
+        db.insert(KEY_TABLE, null, values);
+
+        db.close();
+        return true;
+    }
+
+
+
 
     /* simply add questionData into Database.
      */
@@ -104,6 +221,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return true;
     }
+
+
 
 
     /**
@@ -175,3 +294,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 }
+
+/**
+ topicName, situation_description, video_with_transcript, video_without_transcript
+
+ private static final String SITUATIONAL_VIDEO_TABLE = "situational_video_table";
+ private static final String TOPIC_NAME = "topic_name";
+ private static final String SITUATION_DESCRIPTION = "situation_description";
+ private static final String VIDEO_WITH_TRANSCRIPT = "video_with_transcript";
+ private static final String VIDEO_WITHOUT_TRANSCRIPT = "video_without_transcript";
+
+ private static final String CREATE_SITUATIONAL_VIDEO_TABLE = "CREATE TABLE " +
+ SITUATIONAL_VIDEO_TABLE + "(" + "id INTEGER PRIMARY KEY AUTOINCREMENT, TOPIC_NAME VARCHAR, SITUATION_DESCRIPTION VARCHAR, " +
+ "VIDEO_WITH_TRANSCRIPT VARCHAR, VIDEO_WITHOUT_TRANSCRIPT VARCHAR);";
+
+ public boolean addSituationalVideo(topic_name, situation_description, video_with_transcript, video_without_transcript) {
+
+ //check if data exist
+ SQLiteDatabase dbCheck = this.getReadableDatabase();
+ String Query = "SELECT " + "*" + " FROM " + QUESTION_TABLE + " WHERE " + QUESTION_TEXT + " = ?"; //Replace questionText to primary key or ID
+ String ID = IDGenerator(questionText);
+ Cursor cursor = dbCheck.rawQuery(Query, new String[]{ID});
+ System.out.println("DATA Check");
+
+ if (cursor.getCount() != 0) {
+ cursor.close();
+ return false;
+ }
+ cursor.close();
+
+ System.out.println("DATA ADDED SUCCESSFULLY");
+ SQLiteDatabase db = this.getWritableDatabase();
+ // To add column
+ ContentValues values = new ContentValues(); // this class is used to store a values
+ values.put(QUESTION_TEXT, questionText);
+ values.put(CHOICE_1, choice_1);
+ values.put(CHOICE_2, choice_2);
+
+
+ db.insert(QUESTION_TABLE, null, values);
+
+ db.close();
+ return true;
+ }
+ **/

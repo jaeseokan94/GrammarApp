@@ -16,7 +16,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
@@ -130,43 +129,88 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     }
 
     /**
+     * returns ArrayList of subtopic names
+     * @param topicName
+     * @return ArrayList of subtopic names
+     */
+    public void getSubtopics(String topicName) {
+        String subtopicListURL = URL+"/"+topicName+"/subtopicList/";
+        String topic_name = topicName;
+
+
+        //[{"language_topic":2,"subtopic_name":"Pronouns","grammar_video_file":null},
+        // {"language_topic":2,"subtopic_name":"Liamarse","grammar_video_file":null},
+        // {"language_topic":2,"subtopic_name":"To be","grammar_video_file":null},
+        // {"language_topic":2,"subtopic_name":"Vocabulary","grammar_video_file":null}]
+        try {
+            JSONArray jsonArray = execute(
+                    "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/subtopicList/")
+                    .get(); //this link is temporary, it needs to be generalized
+
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String subtopic_name= jsonObject.getString("subtopic_name");
+                database.addSubtopic(topic_name,subtopic_name);
+
+            }
+
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR");
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
      * returns urls of situational video transcript and without transcript
      * @param topicName
      * @return urls[0] of situational video with transcript;
      *          urls[1] situational video without transcript
      */
-    public static Uri[] getSituationalVideoURLs(String topicName) {
+    public Uri getSituationalVideoURLs(String topicName) {
         //TODO code here for getting url for situational video
         String SituationalVideoURL = URL+"/"+topicName+"/situationalVideo/";
 
         //String url is temporary
         Uri[] urls = new Uri[2];
-
-
         //without transcript
         urls[0] = Uri.parse("https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3");
         //with transcript
         urls[1] = Uri.parse("https://lang-it-up.herokuapp.com/media/U01-01.mp4");
+        try {
+            JSONArray jsonArray = execute(
+                    "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/situationalVideo/")
+                    .get(); //this link is temporary, it needs to be generalized
 
-        return urls;
+            // [{"language_topic":2,"situation_description":"Situational Description","video_with_transcript":"/media/U01-01-Gra-Pronombres_qpIFGPh.mp4",
+            // "video_without_transcript":"/media/U01-02-Gra-llamarse.mp4"}]
+
+
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String situation_description = jsonObject.getString("situation_description"); // get question_text from API
+                String video_with_transcript = jsonObject.getString("video_with_transcript");
+                String video_without_transcript= jsonObject.getString("video_without_transcript");
+
+                System.out.println("JSON PASSED TO DATABASE");
+                System.out.println(i);
+            }
+
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR");
+            e.printStackTrace();
+        }
+
+
+    return null;
     }
 
 
-    /**
-     * returns ArrayList of subtopic names
-     * @param topicName
-     * @return ArrayList of subtopic names
-     */
-    public static ArrayList<String> getSubtopics(String topicName) {
-        //TODO implement this method
-        ArrayList<String> subtopicsList = new ArrayList<String>();
-        subtopicsList.add("Pronouns");
-        subtopicsList.add("Llamarse");
-        subtopicsList.add("Ser y Estar");
-        subtopicsList.add("Vocabulary");
 
-        return subtopicsList;
-    }
 
     /**
      * return grammar video url of a subtopic
