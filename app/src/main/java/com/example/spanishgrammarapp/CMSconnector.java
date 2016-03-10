@@ -50,4 +50,16 @@ public class CMSconnector {
         return exercise;
     }
 
+    public static ArrayList getSubtopics(Context context, String topic){
+
+        ArrayList<String> subtopicsList = new ArrayList<String>();
+        subtopicsList.add("Pronouns");
+        subtopicsList.add("Llamarse");
+        subtopicsList.add("Ser y Estar");
+        subtopicsList.add("Vocabulary");
+
+
+        return subtopicsList;
+    }
+
 }

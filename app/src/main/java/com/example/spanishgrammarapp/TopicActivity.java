@@ -30,7 +30,11 @@ public class TopicActivity extends AppCompatActivity implements OnClickListener 
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_id);
 
-        ArrayList<String> subtopics = APIWrapper.getSubtopics(currentTopic);
+        //This will pass subtopicList from Database
+        ArrayList<String> subtopics = CMSconnector.getSubtopics(getBaseContext(), currentTopic);
+
+
+
         for (String subtopicTitle: subtopics) {
             Button button = new Button(this);
             button.setText(subtopicTitle);
