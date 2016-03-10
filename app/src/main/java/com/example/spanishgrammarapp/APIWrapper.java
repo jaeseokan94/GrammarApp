@@ -76,9 +76,21 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     @Override
     protected void onPostExecute(JSONArray s) {
         super.onPostExecute(s);
-
-
     }
+
+    /*
+     * This method will build API for subtopicList , situationalVideo, grammarVideo , exerciseQuestion
+     */
+    public static String apiBuilder(String topicName, String subtopiccName,Boolean situationalVideo,Boolean grammarVideo, Boolean vocabQuestion, int resourceType){
+        String url = "http://lang-it-up.herokuapp.com/polls/api/";
+
+        
+
+
+        return url;
+    }
+
+
 
     /**
      *  This method is to test Database and build API according to
@@ -94,7 +106,6 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             for(int i = 0 ; i < jsonArray.length(); i++ ){
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-
 
                 String questionText = jsonObject.getString("question_text"); // get question_text from API
                 String choice_1 = jsonObject.getString("choice_1");
