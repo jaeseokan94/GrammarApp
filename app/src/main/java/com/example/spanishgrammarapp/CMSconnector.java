@@ -43,7 +43,7 @@ public class CMSconnector {
 
 
         if(input==0) {
-            answers1.add(database.getQuestionText("osllamàis").getChoice_1()); // "osllamàis" need to be replaced to topic and subtopic name.
+            answers1.add(database.getQuestionText("osllamàis").getChoice_1()); // "osllamàis" need to be replaced to topic and subtopic name , int API key
             answers1.add(database.getQuestionText("osllamàis").getChoice_2());
             answers1.add(database.getQuestionText("osllamàis").getChoice_3());
             answers1.add(database.getQuestionText("osllamàis").getChoice_4());

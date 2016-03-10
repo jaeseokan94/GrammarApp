@@ -80,11 +80,33 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
     /*
      * This method will build API for subtopicList , situationalVideo, grammarVideo , exerciseQuestion
+     * apiType
+     * 0 : subtopicList    1: situationalVideo
+     * 2: grammarVideo     3 : exerciseQuestion
      */
-    public static String apiBuilder(String topicName, String subtopiccName,Boolean situationalVideo,Boolean grammarVideo, Boolean vocabQuestion, int resourceType){
-        String url = "http://lang-it-up.herokuapp.com/polls/api/";
+    public static String apiBuilder(int apiType, int level, String topicName, String subtopicName, String dialect){
+        String url = "http://lang-it-up.herokuapp.com/polls/api/polls/api";
+        String language = "Spanish"; // Since this app is only for Spanish (We can change here)
+        String levelBuilder = "";
 
-        
+        if(level == 0)
+            levelBuilder="b";
+        else if(level ==1)
+            levelBuilder="i";
+
+        url= url + language + levelBuilder ;
+
+
+        if(apiType == 0)// API for subtopicList
+            url=url+"subtopicList";
+        else if(apiType == 1)         // situationalVideo
+            url=url+topicName+"situationalVideo";
+        else if(apiType == 2) // grammarVideo
+            url=url+topicName+subtopicName+"grammarVideo";
+        else if(apiType == 3)
+            url=url+topicName+subtopicName+"exerciseQuestion";
+
+
 
 
         return url;
@@ -97,6 +119,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      *  language, topicName, subtopicName
      */
  public void apiQuestions() {
+
 
      try {
          JSONArray jsonArray = execute(
