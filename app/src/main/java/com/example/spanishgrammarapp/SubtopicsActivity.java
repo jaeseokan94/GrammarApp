@@ -27,9 +27,11 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
 
 //        This is how we tell what topic we've entered.
         topic = getIntent().getStringExtra("TOPIC");
-
+        TextView textView = (TextView) findViewById(R.id.tv_topic);
+        textView.setText(topic);
 
         LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
+
 
         //This will pass subtopicList from Database
         ArrayList<String> subtopics = CMSconnector.getSubtopics(getBaseContext(), topic);
@@ -49,8 +51,8 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
         String subtopic = ((TextView) v).getText().toString();
         Exercise exercise = CMSconnector.getExercise(getBaseContext(), topic, SUBTOPIC);
         Intent intent = new Intent(this, ExercisesActivity.class);  //create a new intent
-        intent.putExtra(MainActivity.QUESTIONS, exercise); //pass in the exercise (populated)
         intent.putExtra(SUBTOPIC, subtopic);
+        intent.putExtra(MainActivity.QUESTIONS, exercise); //pass in the exercise (populated)
         startActivity(intent);
     }
 
