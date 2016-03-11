@@ -30,14 +30,14 @@ public class CMSconnector {
 
         //multiple choice
         if(input==0) {
-            answers1.add(database.getQuestionText("osllamàis").getChoice_1()); // "osllamàis" need to be replaced to topic and subtopic name , int API key
-            answers1.add(database.getQuestionText("osllamàis").getChoice_2());
-            answers1.add(database.getQuestionText("osllamàis").getChoice_3());
-            answers1.add(database.getQuestionText("osllamàis").getChoice_4());
-            answers1.add(database.getQuestionText("osllamàis").getChoice_5());
-            answers1.add(database.getQuestionText("osllamàis").getChoice_6());
-            answers1.add(database.getQuestionText("osllamàis").getCorrect_answer());
-            q = new Question(ExercisesActivity.multipleChoice, "Question"+input+": " + database.getQuestionText("osllamàis").getQuestionText() , answers1.get(0), answers1);
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_1()); // "osllamàis" need to be replaced to topic and subtopic name , int API key
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_2());
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_3());
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_4());
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_5());
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_6());
+            answers1.add(database.getQuestionText("---os llamàis").getCorrect_answer());
+            q = new Question(ExercisesActivity.multipleChoice, "Question"+input+": " + database.getQuestionText("---os llamàis").getQuestionText() , answers1.get(0), answers1);
         }else if(input==1){
             answers1.add("Correct answer");
             q = new Question(ExercisesActivity.typing, "Test question 2", answers1.get(0), answers1);

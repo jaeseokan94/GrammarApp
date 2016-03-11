@@ -134,7 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         System.out.println("AAAAAAAAAAAAAA");
 
         SQLiteDatabase dbc = this.getReadableDatabase();
-        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE language = '"+ language + "' AND level = '"+level  + "' AND topic = '" +topic+ "' AND subtopic = ? LIMIT 1" ;
+        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE language =?"+ " AND level =?"  + " AND topic =?"+ " AND subtopic =? LIMIT 1" ;
 System.out.println(Query);
         String ID = IDGenerator_subtopic(language,level,topic,subtopic);
         Cursor cursor = dbc.rawQuery(Query, new String[]{ID});

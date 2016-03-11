@@ -6,12 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 
-public class SubtopicsActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class SubtopicsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String topic;
+    private String SUBTOPIC;
     DatabaseHelper db;
 
     @Override
@@ -21,14 +27,31 @@ public class SubtopicsActivity extends AppCompatActivity {
 
 //        This is how we tell what topic we've entered.
         topic = getIntent().getStringExtra("TOPIC");
+
+
+        LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
+
+        //This will pass subtopicList from Database
+        ArrayList<String> subtopics = CMSconnector.getSubtopics(getBaseContext(), topic);
+
+        for (String subtopic: subtopics) {
+            Button button = new Button(this);
+            button.setText(subtopic);
+            button.setOnClickListener(this);
+            subtopicLayout.addView(button);
+        }
+
+
     }
 
-    public void startExercise(View view){
-        String subtopic = view.getTag().toString();
-        Exercise exercise = CMSconnector.getExercise(getBaseContext(), topic, subtopic);
-        Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
+    @Override
+    public void onClick(View v) {
+        String subtopic = ((TextView) v).getText().toString();
+        Exercise exercise = CMSconnector.getExercise(getBaseContext(), topic, SUBTOPIC);
+        Intent intent = new Intent(this, ExercisesActivity.class);  //create a new intent
         intent.putExtra(MainActivity.QUESTIONS, exercise); //pass in the exercise (populated)
-        startActivity(intent); //start the activity
+        intent.putExtra(SUBTOPIC, subtopic);
+        startActivity(intent);
     }
 
     @Override

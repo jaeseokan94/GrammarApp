@@ -153,7 +153,6 @@ System.out.println(jsonArray.length());
                 String subtopic_name= jsonObject.getString("subtopic_name");
                 System.out.print("LANGUAGE????"+language);
                 database.addSubtopic(language, level, topic_name, subtopic_name);
-                System.out.println("JSON EXIST ");
             }
 
         } catch (Exception e) {
