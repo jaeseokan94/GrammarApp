@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -37,6 +38,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 @SuppressWarnings("ResourceType")
+/**This class is responsible for the creation of the GUI elements and their functionality for Exercises.
+ * It constructs the exercises (conceptually, what the user is doing to improve their language skills)
+ * by using an Exercise object that has a collection of questions (ArrayList of Question objects).
+ * This class can create Exercises of four types: Multiple Choice, Drag&Drop, Typing, True/False.*/
 public class ExercisesActivity extends AppCompatActivity {
     // Member variables for question types, to prevent bugs due to typos.
     public static final String multipleChoice = "mc";
@@ -45,78 +50,97 @@ public class ExercisesActivity extends AppCompatActivity {
     public static final String typing = "t";
 
     private RelativeLayout relativeLayout; //accessed multiple times throughout the code in various methods.
-    private String cAnswer; //accessed in multiple methods.
-    private ArrayList<String> answers; //accessed in multiple methods.
-    private TextView question;//This was previously declared in onCreate(), but it needs to be private for DragAndDrop
-    private ArrayList<Question> exerciseQuestions; //accessed in multiple methods.
-    private int currentQuestionIndex = 0;  //member variable because it is going to be accessed by review functionality
-    private int correctlyAnswered = 0; //used for displaying results at the end of an exercise
-    private int totalQuestions;
+    private String cAnswer; //removing this would mean it features in 4 new places.
+    private ArrayList<String> answers; //accessed in multiple places (10 in the class)
+    private TextView question;//This was previously declared in onCreate(), but it needs to be private for DragAndDrop. Features in 3 methods.
+    private ArrayList<Question> exerciseQuestions; //accessed in multiple methods (4).
+    private int currentQuestionIndex = 0;  //used in 3 different methods
     private Exercise exerciseReceived;
     private Intent afterExerciseIntent;
+
+    /**This String describes if the exercises is in-progress, completed or a new one (not previously started).
+    * It saves a lot of redundant work once we have identified the category of the Exercise.*/
+    private String exerciseState = "NEW";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
 
-        Intent intent = getIntent();
-        /*What object am I pointing to with exerciseReceived? Well, if it was a previously started
-        * or completed exercise, then it's that. Otherwise it's the one created in
-        * SubtopicsActivity, upon entering the subtopic/exercise. It is passed to CMSconnector
-        * which populates it with the actual data.*/
-//        exerciseReceived = (Exercise) intent.getSerializableExtra(MainActivity.QUESTIONS);
+        Intent intent = getIntent(); //the intent we used to make this activity...
 
+        /*Here's where some magic happens. We get the exercise using the getOrMakeExercise method. If the exercise for this
+        * Topic/Subtopic combination has been successfully loaded from the UserProgress.ser file then the exerciseReceived is
+        * just a new reference to that object. If it did not exist in the file, then a new exercise is made.*/
         exerciseReceived = getOrMakeExercise(intent.getStringExtra(MainActivity.SUBTOPIC), intent.getStringExtra(MainActivity.TOPIC));
-
         exerciseQuestions = exerciseReceived.getQuestions();
-        totalQuestions = exerciseQuestions.size();
 
+        /*This intent is used for the functionality of the back button and also for leaving the exercise after it has been completed*/
         afterExerciseIntent = new Intent(this, SubtopicsActivity.class);
-        intent.putExtra(MainActivity.TOPIC, intent.getStringExtra(MainActivity.TOPIC));
+        afterExerciseIntent.putExtra(MainActivity.TOPIC, intent.getStringExtra(MainActivity.TOPIC));
 
+        /*There's one container used to hold all the questions of all types, and it is the relativeLayout variable.
+        * This block of code initializes it, gives it layout parameters and adds it as the content view for the activity*/
         relativeLayout = new RelativeLayout(this);
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         addContentView(relativeLayout, relativeParams);
+        /*Regardless of question type, all have a TextView. This block of code initializes the said TextView but does not assign
+        * any text to it. It sets the font size, because we want this to be big and clear, and an arbitrary ID.*/
         question = new TextView(this);
         question.setTextSize(30);
         question.setId(10000);
 
-        String identifier = intent.getStringExtra(MainActivity.TOPIC)+"/"+intent.getStringExtra(MainActivity.SUBTOPIC);
-        resumeUserProgress(identifier);
+        /*This is where we attempt to resume user's progress for this exercise. It may be the case that they have no progress
+        * for this exercise, in which case this method does nothing. If it has been started, the user can resume, if it has been
+        * completed the user can choose to retart the exercise.*/
+        resumeUserProgress(intent.getStringExtra(MainActivity.TOPIC) + "/" + intent.getStringExtra(MainActivity.SUBTOPIC));
         reconstructGUI();
     }
 
-    /*This method will return an exercise if it either finds it in the collection of either completed or in-progress
+    /**This method will return an exercise if it finds it in the collection of either completed or in-progress
     * exercises, and if not found in there then it will make and populate a new exercise for this topic/subtopic
     * @param subtopic The subtopic of the Topic that we want to get the exercise for
     * @param topic The topic of the exercise
     * @return Exercise for this configuration of topic/subtopic*/
     private Exercise getOrMakeExercise(String subtopic, String topic){
-        String identifier = topic+"/"+subtopic;
-        Exercise exercise = new Exercise(identifier);
-        CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
-        connector.constructExercise(); //the connector populates it with data from the DB
-        getExercise(identifier);
-//        if(UserProgress.exercisesInProgress.size()>0) {
-//            for (Exercise e : UserProgress.exercisesInProgress) {
-//                if (e.getIdentifier().equals(identifier)) {
-//                    System.out.println("We did it Reddit! Exercise in Progress detected.");
-//                    exercise = e;
-//                }
-//            }
-//        }
-//        if(UserProgress.completedExercises.size()>0) {
-//            for (Exercise e : UserProgress.completedExercises) {
-//                if (e.getIdentifier().equals(identifier)) {
-//                    System.out.println("We did it Reddit! Completed Exercise detected.");
-//                    exercise = e;
-//                }
-//            }
-//        }
+        String identifier = topic+"/"+subtopic; //define the identifier...
+        Exercise exercise = getExerciseFromSaved(identifier); //initially use the getExerciseFromSaved method, this will return an existing exercise is there is one, otherwise null
+        if(exercise==null){ //if getExerciseFromSaved returned null, then create a new exercise
+            exercise = new Exercise(identifier);
+            CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
+            connector.constructExercise(); //the connector populates it with data from the DB
+        }
         return exercise; //create a new Exercise, a set of questions (empty)
     }
 
+    /**This method searches the saved exercises collection for one with a matching identifier
+     * @return an exercises from either the completedExercises or exercisesInProgress collections, or null if featured in neither.
+     * @param identifier the identifier string of the exercise to search for in the exercises saved to file*/
+    private Exercise getExerciseFromSaved(String identifier){
+        if(UserProgress.completedExercises.size()>0) {
+            for (Exercise e : UserProgress.completedExercises) {
+                if (e.getIdentifier().equals(identifier)) {
+                    exerciseState = "COMPLETED";
+                    return e;
+                }
+            }
+        }
+        if(UserProgress.exercisesInProgress.size()>0) {
+            for (Exercise e : UserProgress.exercisesInProgress) {
+                if (e.getIdentifier().equals(identifier)) {
+                    exerciseState = "PROGRESS";
+                    return e;
+                }
+            }
+        }
+        return null; //unlucky, didn't find the exercise in either collection
+    }
+
+    /**This method is responsible for constructing the GUI based on the Question object that we
+    * are currently referring to from the exerciseQuestions variable at the index of currentQuestionIndex.
+    * It achieves this by calling the right method for each question type. Each question type has its own
+    * method for constructing the correct GUI. Each of the methods adds some vital Tag data that is used in
+    * determining if the user has the correct answer.*/
     private void reconstructGUI(){
         relativeLayout.removeAllViews();
         question.setText(exerciseQuestions.get(currentQuestionIndex).getQuestion());
@@ -139,6 +163,7 @@ public class ExercisesActivity extends AppCompatActivity {
         }
     }
 
+    /**This method constructs the GUI of Multiple Choice type questions.*/
     private void constructMultipleChoice(){
         LinearLayout top = new LinearLayout(this);
         top.setId(10001);
@@ -172,6 +197,7 @@ public class ExercisesActivity extends AppCompatActivity {
         }
     }
 
+    /**This method constructs the GUI of True or False type questions*/
     private void constructTrueFalse(){
         final Button trueButton = new Button(this);
         trueButton.setText("True");
@@ -204,6 +230,7 @@ public class ExercisesActivity extends AppCompatActivity {
         relativeLayout.addView(falseButton, falseBtnParams);
     }
 
+    /**This method constructs the GUI of Drag & Drop type questions*/
     private void constructDragAndDrop(){
 
         GridLayout optionsLayout = new GridLayout(this);
@@ -272,16 +299,16 @@ public class ExercisesActivity extends AppCompatActivity {
 
     }
 
+    /**This method constructs the GUI of Typing type questions*/
     private void constructTypingActivity(){
         final EditText userInput = new EditText(this);
         userInput.setId(10100);
-        userInput.setImeActionLabel("Check", KeyEvent.KEYCODE_ENTER);
+        userInput.setInputType(InputType.TYPE_CLASS_TEXT);
         userInput.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                System.out.println("keyCode is:   "+keyCode);
-                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                    System.out.println("TEST SUCCESS: KEYCODE_ENTER");
+                System.out.println("keyCode is:   " + keyCode);
+                if (event.getAction() == KeyEvent.ACTION_DOWN && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     results(typing, userInput);
@@ -294,37 +321,40 @@ public class ExercisesActivity extends AppCompatActivity {
         relativeLayout.addView(userInput, editTextParams);
     }
 
+    /**This method creates the dialog showing the result of the user's chosen answer (e.g. if it is right or wrong).
+    * It also does a few things to facilitate and do save the user progress.
+    * @param qType is the type of Question that this method is called for.
+    * @param view is the view that was used to select the answer (e.g. a Button)*/
     public void results(String qType, View view){
-        exerciseStarted(); //mark this exercise as started after completing first question
-        boolean correct = false;
-        String userAnswer;
+        exerciseStarted(); //mark this exercise as started after completing first question (i.e. it not counts as in-progress)
+        boolean correct = false; //we assume the user is wrong unless proven to be correct below
+        String userAnswer; //this String is recorded in the Question object, and is useful for tracking user's progress. Initially it had more functionality intended.
         if (qType.equals(typing)){ //typing questions need a little different modification to the userAnswer
             userAnswer = ((EditText) view).getText().toString().trim();
         }else{
-            userAnswer = view.getTag().toString();
+            userAnswer = view.getTag().toString(); //initialization of userAnswer in the general case. The GUI elements constructed have Tag data added, which is now read.
         }
         if (userAnswer.equals(cAnswer)){
-            correct=true;
-            ++correctlyAnswered;
+            correct=true; //we have proved the user has answered the question correctly
+            exerciseReceived.incrementCorrectlyAnswered(); //increment the number of correctly answered questions for the Exercise object
         }
-        exerciseQuestions.get(currentQuestionIndex).userGivenAnswer = userAnswer;
+        exerciseQuestions.get(currentQuestionIndex).userGivenAnswer = userAnswer; //record the user answer in the Exercise object
+        exerciseQuestions.get(currentQuestionIndex).addAttempt(); //the user has attempted the exercise
 
-        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this); //this Alert Dialog Builder allows flexible creation of the content depending on user answer (e.g. right/wrong)
         if(correct) {
-            alert.setTitle("Well Done");
+            alert.setTitle("Well done!");
             alert.setMessage("This is the Correct Answer!");
-            exerciseQuestions.get(currentQuestionIndex).setCompleted(true);
+            exerciseQuestions.get(currentQuestionIndex).setAnswered(true);
         }else{
-            alert.setTitle("Try Again");
+            alert.setTitle("Try again later");
             alert.setMessage("Incorrect Answer!");
-            exerciseQuestions.get(currentQuestionIndex).setCompleted(true); //the definition of "Completed" has changed.
+            exerciseQuestions.get(currentQuestionIndex).setAnswered(true); //the definition of "Completed" has changed.
         }
-        exerciseQuestions.get(currentQuestionIndex).addAttempt();
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                if (currentQuestionIndex == exerciseQuestions.size() - 1) {
-                    //we have reached the end of the exercise
-                    endOfExercise(correctlyAnswered / totalQuestions);
+                if (currentQuestionIndex == exerciseQuestions.size() - 1) { //we have reached the end of the exercise
+                    endOfExercise();
                 } else {
                     ++currentQuestionIndex;
                     reconstructGUI(); //goes to next question
@@ -332,35 +362,33 @@ public class ExercisesActivity extends AppCompatActivity {
             }
         });
 
-        MainActivity.userProgress.saveProgress();
-        System.out.println("USER ANSWER:    " + exerciseQuestions.get(currentQuestionIndex).userGivenAnswer);
+        MainActivity.userProgress.saveProgress(); //save the user progress
         alert.create();
         alert.show();
     }
 
-    /*This method is used to identify an exercise as in-progress*/
+    /**This method is used to identify an exercise as in-progress. If it did not yet feature in the
+    * exercisesInProgress collection in UserProgress then it is added.*/
     private void exerciseStarted(){
-        if(!UserProgress.exercisesInProgress.contains(exerciseReceived)){
+        if(!exerciseState.equals("PROGRESS")){
             UserProgress.exercisesInProgress.add(exerciseReceived);
         }
     }
 
-    /*This method does a couple of necessary things when we reach the end of the exercise.*/
-    private void endOfExercise(double correctnessRating){
-        exerciseReceived.setCorrectnessRating(correctnessRating);
+    /**This method does a couple of necessary things when we reach the end of the exercise.*/
+    private void endOfExercise(){
         UserProgress.completedExercises.add(exerciseReceived);
         UserProgress.exercisesInProgress.remove(exerciseReceived); //we've completed the exercise, it's no longer in progress
         MainActivity.userProgress.saveProgress();
-        ratingDialog(correctnessRating);
+        ratingDialog(exerciseReceived.getCorrectnessRating());
     }
 
-    /* This method displays the rating for the exercises with the appropriate pictures*/
+    /** This method displays the rating for the exercises with the appropriate pictures*/
     private void ratingDialog(double correctnessRating){
         Dialog dialog = new Dialog(this);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams((int) (getScreenWidth()*0.6), (int) (getScreenWidth()*0.18));
         ImageView rating = new ImageView(getBaseContext());
-        //unfortunately switch does not work with double
         if(correctnessRating<0.4) {
             rating.setBackground(getDrawable(R.drawable.star0));
         }else if(correctnessRating<0.6){
@@ -390,82 +418,44 @@ public class ExercisesActivity extends AppCompatActivity {
         return screenWidth;
     }
 
-    private boolean isInProgressExercise(String identifier){
-        if(UserProgress.exercisesInProgress.size()>0) {
-            for (Exercise e : UserProgress.exercisesInProgress) {
-                if (e.getIdentifier().equals(identifier)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean isCompletedExercise(String identifier){
-        if(UserProgress.completedExercises.size()>0) {
-            for (Exercise e : UserProgress.completedExercises) {
-                if (e.getIdentifier().equals(identifier)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private Exercise getExercise(String identifier){
-        if(UserProgress.completedExercises.size()>0) {
-            for (Exercise e : UserProgress.completedExercises) {
-                if (e.getIdentifier().equals(identifier)) {
-                    return e;
-                }
-            }
-        }
-        if(UserProgress.exercisesInProgress.size()>0) {
-            for (Exercise e : UserProgress.exercisesInProgress) {
-                if (e.getIdentifier().equals(identifier)) {
-                    return e;
-                }
-            }
-        }
-        return null;
-    }
-
+    /**This method creates a dialog to communicate with the user and based on their input it
+    * can resume their progress for a given Exercise or it will allow them to restart it.*/
     private void resumeUserProgress(final String identifier){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        if (isInProgressExercise(identifier)) {
+        if (exerciseState.equals("PROGRESS")) {
             System.out.println("User has previously started this exercise");
             dialogBuilder.setTitle("You have previously started this exercise");
             dialogBuilder.setMessage("Would you like to resume from where you have finished?\n" +
                     "Pressing \"No\" will restart this exercise.");
-        }else if (isCompletedExercise(identifier)) {
+        }else if (exerciseState.equals("COMPLETED")) {
             System.out.println("User has completed this exercise");
             dialogBuilder.setTitle("You have already completed this exercise");
             dialogBuilder.setMessage("Would you like to restart this exercise?");
         }else {
-            return;
+            return; //if there is no Exercise with the given identifier, then stop executing
         }
             dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (isCompletedExercise(identifier)) {
+                    if (exerciseState.equals("COMPLETED")) {
                         restartExercise(identifier);
                     }
-                    if(isInProgressExercise(identifier)){
+                    if(exerciseState.equals("PROGRESS")){
                         //resume from first uncompleted question
-                        while (exerciseQuestions.get(currentQuestionIndex).isCompleted()) {
+                        while (exerciseQuestions.get(currentQuestionIndex).isAnswered()) {
                             System.out.println("Completed question detected");
                             ++currentQuestionIndex;
                         }
-                        reconstructGUI();
+                        reconstructGUI(); //redraw the new question
                     }
                 }
             });
             dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if(isInProgressExercise(identifier)){
+                    if(exerciseState.equals("PROGRESS")){
                         restartExercise(identifier);
-                    } else{
+                    }else{
                         startActivity(afterExerciseIntent);
                     }
                 }
@@ -475,20 +465,29 @@ public class ExercisesActivity extends AppCompatActivity {
         dialogBuilder.show();
     }
 
+    /**Like you might expect it, this method restarts the exercise. It defaults some values.
+     * @param identifier the identifier of the exercise to be restarted*/
     private void restartExercise(String identifier){
         /* Restart the exercise:
          * Remove from the list of completed exercises, set all questions to be not completed,
          * set all the user answers to null
          * start constructing the questions from scratch*/
-        for(Question q : getExercise(identifier).getQuestions()){
+        for(Question q : getExerciseFromSaved(identifier).getQuestions()){
             q.setCompleted(false);
+            q.setAnswered(false);
             q.userGivenAnswer = null;
         }
-        if(isCompletedExercise(identifier)) { //we may only have the exercise in-progress
-            UserProgress.completedExercises.remove(getExercise(identifier));
-        }else if(isInProgressExercise(identifier)){
-            UserProgress.exercisesInProgress.remove(getExercise(identifier));
+        exerciseReceived.setNumCorrectlyAnswered(0);
+        if(exerciseState.equals("COMPLETED")) { //we may only have the exercise in-progress
+            UserProgress.completedExercises.remove(getExerciseFromSaved(identifier));
+        }else if(exerciseState.equals("PROGRESS")){
+            UserProgress.exercisesInProgress.remove(getExerciseFromSaved(identifier));
         }
+    }
+
+    private void reviewExercise(){
+        currentQuestionIndex = 0;
+        //placeholder for now
     }
 
     //This private class is used to set an Image to an ImageView from the given URL
@@ -515,6 +514,13 @@ public class ExercisesActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
+    }
+
+    /**This method override ensure the correct behaviour of the app when the back button is pressed.*/
+    @Override
+    public void onBackPressed() {
+        startActivity(afterExerciseIntent);
+        return;
     }
 
     @Override

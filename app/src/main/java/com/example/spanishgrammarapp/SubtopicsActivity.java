@@ -18,7 +18,6 @@ public class SubtopicsActivity extends AppCompatActivity {
     String subtopic_name; // this will parse subtopic_name from API, but it doenst work since I haven't made
                           // subtopicConstructor in CMSconnector a
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,49 +25,20 @@ public class SubtopicsActivity extends AppCompatActivity {
 
 //        This is how we tell what topic we've entered.
         topic = getIntent().getStringExtra("TOPIC");
-
-        //subtopic button title   Implement this after create subtopicConstructor class
-       // button = (Button)findViewById(R.id.button);
-       // button.setText(subtopic_name);
-
-
-
-
     }
 
     public void startExercise(View view){
-//        Exercise exercise = getExercise(view.getTag().toString());
         Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
-//        intent.putExtra(MainActivity.QUESTIONS, (Serializable) getExercise(view.getTag().toString())); //pass in the exercise (populated)
         intent.putExtra(MainActivity.TOPIC, topic);
         intent.putExtra(MainActivity.SUBTOPIC, view.getTag().toString());
         startActivity(intent); //start the activity
     }
 
-
-
-    /*Checks the UserProgress ArrayLists for existing exercise with matching identifier before
-    * creating a duplicate object for the same exercise. This is very important for serialization.*/
-    private Exercise getExercise(String subtopic){
-        String identifier = topic+"/"+subtopic;
-        Exercise exercise = new Exercise(identifier);
-        CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
-        connector.constructExercise(); //the connector populates it with data from the DB
-        if(UserProgress.exercisesInProgress.size()>0) {
-            for (Exercise e : UserProgress.exercisesInProgress) {
-                if (e.getIdentifier().equals(identifier)) {
-                    exercise = e;
-                }
-            }
-        }
-        if(UserProgress.completedExercises.size()>0) {
-            for (Exercise e : UserProgress.completedExercises) {
-                if (e.getIdentifier().equals(identifier)) {
-                    exercise = e;
-                }
-            }
-        }
-            return exercise; //create a new Exercise, a set of questions (empty)
+    /**This method ensures the correct behaviour of the app when the back button is pressed.*/
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, PracticeActivity.class);
+        startActivity(intent);
     }
 
     @Override

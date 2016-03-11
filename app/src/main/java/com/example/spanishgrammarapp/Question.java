@@ -15,9 +15,11 @@ public class Question implements Serializable {
     private ArrayList<String> answers;
     private int attempts = 0;
     private boolean isCompleted = false; //true when the user successfully answered the question
+    /**The answer that the user has chosen for this question*/
     public String userGivenAnswer;
+    private Boolean isAnswered = false;
 
-    /*Each question is constructed in the same way, with the same parameters. There is only ever one correct
+    /**Each question is constructed in the same way, with the same parameters. There is only ever one correct
     * answer per question of any type. Having questions split up like that, rather than a multiple choice
     * question with multiple answers (for example) allows more precise tracking of user progress.
     *
@@ -32,10 +34,12 @@ public class Question implements Serializable {
         this.answers = answers;
     }
 
+    /**@return the type of question that this is (e.g. multiple choice, typing, true/false, or drag&drop)*/
     public String getQuestionType() {
         return questionType;
     }
 
+    /**@return the question text for this Question object.*/
     public String getQuestion() {
         return question;
     }
@@ -44,6 +48,7 @@ public class Question implements Serializable {
         return correctAnswer;
     }
 
+    /**@return the collection of all possible answers for the question, including the correct one.*/
     public ArrayList<String> getAnswers() {
         return answers;
     }
@@ -57,12 +62,26 @@ public class Question implements Serializable {
         ++attempts;
     }
 
-    /*Used for resuming user progress*/
+    /*Functionality replaced by isAnswered for now, but likely to be used somewhere*/
     public boolean isCompleted(){
         return isCompleted;
     }
 
+    /**This method sets this question to be marked as completed or not. Completed means the question
+     * has been answered correctly.
+     * @param c boolean indicating whether the question is completed or not.*/
     public void setCompleted(boolean c){
         isCompleted = c;
+    }
+
+    public void setAnswered(boolean a){
+        isAnswered = a;
+    }
+
+    /**This method returns the Boolean that indicates whether or not the question has been asnwered by the user.
+     * This is key for resuming user progress on an Exercise.
+     * @return boolean indicating whether the user has answered this question already*/
+    public boolean isAnswered(){
+        return isAnswered;
     }
 }
