@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
@@ -23,6 +24,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -112,7 +114,7 @@ public class ExercisesActivity extends AppCompatActivity {
         if(exercise==null){ //if getExerciseFromSaved returned null, then create a new exercise
             exercise = new Exercise(identifier);
             CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
-            connector.constructExercise(); //the connector populates it with data from the DB
+            connector.getExercise(this.getBaseContext(), topic, subtopic); //the connector populates it with data from the DB
         }
         return exercise; //create a new Exercise, a set of questions (empty)
     }

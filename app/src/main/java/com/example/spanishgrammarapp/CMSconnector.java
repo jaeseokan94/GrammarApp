@@ -14,9 +14,12 @@ import java.util.List;
  */
 public class CMSconnector {
 
+    public CMSconnector(Exercise exercise, String topic ){
+        // placeholder
+    }
 
     public static Exercise getExercise(Context context, String topic, String subtopic) {
-        Exercise exercise = new Exercise();
+        Exercise exercise = new Exercise(topic+"/"+subtopic);
         DatabaseHelper database = new DatabaseHelper(context);
 
         ArrayList<String> answers1 = new ArrayList<>();

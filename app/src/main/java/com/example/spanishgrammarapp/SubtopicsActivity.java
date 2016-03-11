@@ -15,9 +15,6 @@ import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import java.util.ArrayList;
 import java.io.Serializable;
 
-public class SubtopicsActivity extends AppCompatActivity {
-
-
 public class SubtopicsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String topic;
@@ -40,6 +37,7 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
         for (String subtopic: subtopics) {
             Button button = new Button(this);
             button.setText(subtopic);
+            button.setTag(subtopic);
             button.setOnClickListener(this);
             subtopicLayout.addView(button);
         }
@@ -62,11 +60,13 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
     public void onBackPressed() {
         Intent intent = new Intent(this, PracticeActivity.class);
         startActivity(intent);
+    }
+
     @Override
     public void onClick(View v) {
             Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
             intent.putExtra(MainActivity.TOPIC, topic);
-            intent.putExtra(MainActivity.SUBTOPIC, view.getTag().toString());
+            intent.putExtra(MainActivity.SUBTOPIC, v.getTag().toString());
             startActivity(intent); //start the activity
     }
 
