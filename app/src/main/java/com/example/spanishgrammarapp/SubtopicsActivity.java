@@ -1,19 +1,17 @@
 package com.example.spanishgrammarapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
+
 import java.util.ArrayList;
-import java.io.Serializable;
 
 public class SubtopicsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,6 +28,7 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
 
 
         LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
+
 
         //This will pass subtopicList from Database
         ArrayList<String> subtopics = CMSconnector.getSubtopics(getBaseContext(), topic);
@@ -59,6 +58,7 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, PracticeActivity.class);
+
         startActivity(intent);
     }
 

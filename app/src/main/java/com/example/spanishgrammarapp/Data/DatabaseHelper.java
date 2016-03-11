@@ -92,6 +92,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public String IDGenerator_subtopic(String language,String level,String topic, String subtopic){
         return language+level+topic+subtopic;
     }
+    public String IDGenerator_subtopic_name(String language,String level,String topic){
+        return language+level+topic;
+    }
+    public String IDGenerator_subtopic_name_test(String language, String level){
+        return language+" "+level;
+    }
 
     //Add language
     public boolean addLanguage(String language) {
@@ -133,11 +139,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //check if data exist
         System.out.println("AAAAAAAAAAAAAA");
 
+
+        String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =? AND topic =? AND subtopic =? LIMIT 1" ;
+
+        System.out.println(Query);
+
+
         SQLiteDatabase dbc = this.getReadableDatabase();
-        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE language =?"+ " AND level =?"  + " AND topic =?"+ " AND subtopic =? LIMIT 1" ;
-System.out.println(Query);
-        String ID = IDGenerator_subtopic(language,level,topic,subtopic);
-        Cursor cursor = dbc.rawQuery(Query, new String[]{ID});
+        Cursor cursor = dbc.rawQuery(Query, new String[]{language,level,topic,subtopic});
 
         if (cursor.getCount() != 0) {
             cursor.close();
@@ -241,6 +250,38 @@ System.out.println(Query);
         return questionData;
     }
 
+    /**
+     * returns subtopic Name
+     * TODO: @param to Lang, level, topic name
+     */
+    public KeyData getSubtopicName(String language, String level, String topic) // this need to be modified to get subtopic and topic name as parameters
+    {
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+          String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =? AND topic =?" ;
+
+        System.out.println(Query);
+
+        Cursor cursor = db.rawQuery(Query, new String[]{language,level,topic});
+
+        if( cursor != null && cursor.getCount()>0)
+            cursor.moveToFirst();
+
+        KeyData keyData = new KeyData();
+        keyData.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+        keyData.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
+        keyData.setLevel(cursor.getString(cursor.getColumnIndex(LEVEL)));
+        keyData.setTopic(cursor.getString(cursor.getColumnIndex(TOPIC)));
+        keyData.setSubtopic(cursor.getString(cursor.getColumnIndex(SUBTOPIC)));
+
+        cursor.close();
+        System.out.println("Get SUBTOPIC WORK !!");
+
+
+        return keyData;
+    }
     public List<QuestionData> getAllQuestion() {
         List<QuestionData> questions = new LinkedList<QuestionData>();
 

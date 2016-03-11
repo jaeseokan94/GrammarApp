@@ -55,11 +55,17 @@ public class CMSconnector {
 
     public static ArrayList getSubtopics(Context context, String topic){
 
+        String language = "Spain";  // These three variables are for test purpose!
+        String level = "b";
+        String topic_name = "topic";
+
+        DatabaseHelper database = new DatabaseHelper(context);
+
         ArrayList<String> subtopicsList = new ArrayList<String>();
-        subtopicsList.add("Pronouns");
-        subtopicsList.add("Llamarse");
+        subtopicsList.add(database.getSubtopicName(language,level,topic_name).getSubtopic());
+        subtopicsList.add(database.getSubtopicName(language,level,topic_name).getSubtopic());
         subtopicsList.add("Ser y Estar");
-        subtopicsList.add("Vocabulary");
+        subtopicsList.add(database.getSubtopicName(language,level,topic_name).getSubtopic());
 
 
         return subtopicsList;
