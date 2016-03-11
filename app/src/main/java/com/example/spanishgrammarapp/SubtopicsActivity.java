@@ -27,8 +27,7 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
 
 //        This is how we tell what topic we've entered.
         topic = getIntent().getStringExtra("TOPIC");
-        TextView textView = (TextView) findViewById(R.id.tv_topic);
-        textView.setText(topic);
+
 
         LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
 
