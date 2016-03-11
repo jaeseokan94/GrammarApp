@@ -12,6 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import com.example.spanishgrammarapp.Data.KeyData;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
     public final static String QUESTION_TEXT = "QUESTION";
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
-    public String language;
-    public String level;
+    public String language = "A";
+    public String level="B";
+
 
     private DatabaseHelper database;
 
@@ -36,13 +40,19 @@ public class MainActivity extends AppCompatActivity {
         UserProgress up1 = new UserProgress(this.getBaseContext());
         up1.saveProgress();
         
-        Intent intent = getIntent();
-       language = intent.getStringExtra("lang");
+     //   Intent intent = getIntent();
+     //  language = intent.getStringExtra("lang");
 
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
         APIWrapper downloadAPI = new APIWrapper(database);
-        downloadAPI.apiQuestions();
+        // downloadAPI.apiQuestions();
+        System.out.println("WHAT ABOUT HERE? ");
+        downloadAPI.getSubtopics(language, level, TOPIC);
+        database.getAllKey();
+        List<KeyData> list = database.getAllKey(); // getAllquestions list Test purpose
+        System.out.println(list);
+        System.out.println("get all keys?");
 
     }
 

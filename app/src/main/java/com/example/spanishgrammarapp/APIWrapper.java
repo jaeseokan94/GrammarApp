@@ -113,7 +113,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             }
 
         } catch (Exception e) {
-            System.out.println("JSON EXCEPTION ERROR");
+            System.out.println("JSON EXCEPTION ERROR IN QUESTONS");
             e.printStackTrace();
         }
 
@@ -133,31 +133,31 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      * @param topicName
      * @return ArrayList of subtopic names
      */
-    public void getSubtopics(String topicName) {
+    public void getSubtopics(String language, String level, String topicName) {
         String subtopicListURL = URL+"/"+topicName+"/subtopicList/";
         String topic_name = topicName;
 
+        language = "Spain";  // These three variables are for test purpose!
+        level = "b";
+        topic_name = "topic";
 
-        //[{"language_topic":2,"subtopic_name":"Pronouns","grammar_video_file":null},
-        // {"language_topic":2,"subtopic_name":"Liamarse","grammar_video_file":null},
-        // {"language_topic":2,"subtopic_name":"To be","grammar_video_file":null},
-        // {"language_topic":2,"subtopic_name":"Vocabulary","grammar_video_file":null}]
+
         try {
             JSONArray jsonArray = execute(
-                    "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/subtopicList/")
+                    "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Likes/subtopicList/")
                     .get(); //this link is temporary, it needs to be generalized
-
             for(int i = 0 ; i < jsonArray.length(); i++ ){
-
+System.out.println(jsonArray.length());
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 String subtopic_name= jsonObject.getString("subtopic_name");
-                database.addSubtopic(topic_name,subtopic_name);
-
+                System.out.print("LANGUAGE????"+language);
+                database.addSubtopic(language, level, topic_name, subtopic_name);
+                System.out.println("JSON EXIST ");
             }
 
         } catch (Exception e) {
-            System.out.println("JSON EXCEPTION ERROR");
+            System.out.println("JSON EXCEPTION ERROR HERE");
             e.printStackTrace();
         }
 

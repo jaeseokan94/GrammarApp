@@ -29,9 +29,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String LEVEL = "level";
     private static final String TOPIC = "topic";
     private static final String SUBTOPIC = "subtopic";
+    private static final String KEY_ID = "id";
 
     private static final String CREATE_KEY_TABLE = "CREATE TABLE " +
-            "id INTEGER PRIMARY KEY AUTOINCREMENT, language VARCHAR, level VARCHAR, topic VARCHAR," +
+           KEY_TABLE+"("+ "id INTEGER PRIMARY KEY AUTOINCREMENT, language VARCHAR, level VARCHAR, topic VARCHAR," +
             " subtopic VARCHAR);";
 
 
@@ -70,12 +71,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_KEY_TABLE);
         db.execSQL(CREATE_TABLE_QUESTION);
 
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + KEY_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + QUESTION_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + KEY_TABLE);
         onCreate(db);
     }
 
@@ -87,8 +89,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public String IDGenerator_language(String language){
         return language;
     }
-    public String IDGenerator_subtopic(String subtopic){
-        return subtopic;
+    public String IDGenerator_subtopic(String language,String level,String topic, String subtopic){
+        return language+level+topic+subtopic;
     }
 
     //Add language
@@ -119,32 +121,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean addLevel(String level) {
-        //check if data exist
-        SQLiteDatabase dbCheck = this.getReadableDatabase();
-        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE " + LEVEL + " = ?"; //Replace questionText to primary key or ID
-        String ID = IDGenerator_level(level);
-        Cursor cursor = dbCheck.rawQuery(Query, new String[]{ID});
-        System.out.println("DATA Level");
-
-        if (cursor.getCount() != 0) {
-            cursor.close();
-            return false;
-        }
-        cursor.close();
-
-        System.out.println("DATA ADDED SUCCESSFULLY");
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // To add column
-        ContentValues values = new ContentValues(); // this class is used to store a values
-        values.put(LEVEL, level);
-
-        db.insert(KEY_TABLE, null, values);
-
-        db.close();
-        return true;
-    }
 
     /*
     INSERT INTO first_table_name [(column1, column2, ... columnN)]
@@ -155,29 +131,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //language, level, topic, subtopic)
     public boolean addSubtopic(String language, String level, String topic, String subtopic) {
         //check if data exist
-        SQLiteDatabase dbCheck = this.getReadableDatabase();
-        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE language = "+LANGUAGE + " AND level = " +LEVEL + " AND topic = " +TOPIC+ "AND subtopic =" +  SUBTOPIC;
+        System.out.println("AAAAAAAAAAAAAA");
 
-        String ID = IDGenerator_subtopic(subtopic);
-        Cursor cursor = dbCheck.rawQuery(Query, new String[]{ID});
-        System.out.println("DATA Level");
+        SQLiteDatabase dbc = this.getReadableDatabase();
+        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE language = '"+ language + "' AND level = '"+level  + "' AND topic = '" +topic+ "' AND subtopic = ? LIMIT 1" ;
+System.out.println(Query);
+        String ID = IDGenerator_subtopic(language,level,topic,subtopic);
+        Cursor cursor = dbc.rawQuery(Query, new String[]{ID});
 
         if (cursor.getCount() != 0) {
             cursor.close();
+            System.out.println("DATA SUBTOPIC EXIST WORK!!");
             return false;
         }
         cursor.close();
 
-        System.out.println("DATA ADDED SUCCESSFULLY");
         SQLiteDatabase db = this.getWritableDatabase();
 
         // To add column
         ContentValues values = new ContentValues(); // this class is used to store a values
+        values.put(LANGUAGE, language);
+        values.put(LEVEL, level);
+        values.put(TOPIC,topic);
         values.put(SUBTOPIC, subtopic);
 
         db.insert(KEY_TABLE, null, values);
 
         db.close();
+        System.out.println("DATA ADDED SUCCESSFULLY");
+
         return true;
     }
 
@@ -291,7 +273,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return questions;
     }
 
+    public List<KeyData> getAllKey() {
+        List<KeyData> keys = new LinkedList<KeyData>();
 
+        String query = "SELECT * FROM " + KEY_TABLE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        KeyData keyData = null;
+
+        if (cursor.moveToFirst()) {
+            do {
+                keyData = new KeyData();
+                keyData.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+                keyData.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
+                keyData.setLevel(cursor.getString(cursor.getColumnIndex(LEVEL)));
+                keyData.setTopic(cursor.getString(cursor.getColumnIndex(TOPIC)));
+                keyData.setSubtopic(cursor.getString(cursor.getColumnIndex(SUBTOPIC)));
+
+                keys.add(keyData);
+
+            } while (cursor.moveToNext());
+        }
+        System.out.println("SELECT ALL WORK IN KEY DATA!");
+
+        return keys;
+    }
 
 }
 
