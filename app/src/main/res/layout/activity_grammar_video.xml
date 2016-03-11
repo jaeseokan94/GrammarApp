@@ -6,18 +6,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Situational Video Page"/>
-
-    <ToggleButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textOn="@string/activity_situational_video_with_transcript"
-        android:textOff="@string/activity_situational_video_without_transcript"
-        android:id="@+id/toggleButton_with_transcript"
-        android:layout_gravity="center_horizontal" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/tv_grammar_video_subtopic"/>
 
     <VideoView
-        android:id="@+id/vv_situational_video"
+        android:id="@+id/vv_grammar_video"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_centerInParent="true" />

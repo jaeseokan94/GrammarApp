@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp;
 
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,16 +9,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import java.util.ArrayList;
 import java.io.Serializable;
 
 public class SubtopicsActivity extends AppCompatActivity {
 
-    private String topic;
-    private Button button;
-    String subtopic_name; // this will parse subtopic_name from API, but it doenst work since I haven't made
-                          // subtopicConstructor in CMSconnector a
 
+public class SubtopicsActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private String topic;
+    private String SUBTOPIC;
+    DatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,20 +30,44 @@ public class SubtopicsActivity extends AppCompatActivity {
 
 //        This is how we tell what topic we've entered.
         topic = getIntent().getStringExtra("TOPIC");
+
+
+        LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
+
+        //This will pass subtopicList from Database
+        ArrayList<String> subtopics = CMSconnector.getSubtopics(getBaseContext(), topic);
+
+        for (String subtopic: subtopics) {
+            Button button = new Button(this);
+            button.setText(subtopic);
+            button.setOnClickListener(this);
+            subtopicLayout.addView(button);
+        }
+
+
     }
 
-    public void startExercise(View view){
-        Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
-        intent.putExtra(MainActivity.TOPIC, topic);
-        intent.putExtra(MainActivity.SUBTOPIC, view.getTag().toString());
-        startActivity(intent); //start the activity
-    }
+//    @Override
+//    public void onClick(View v) {
+//        String subtopic = ((TextView) v).getText().toString();
+//        Exercise exercise = CMSconnector.getExercise(getBaseContext(), topic, SUBTOPIC);
+//        Intent intent = new Intent(this, ExercisesActivity.class);  //create a new intent
+//        intent.putExtra(MainActivity.QUESTIONS, exercise); //pass in the exercise (populated)
+//        intent.putExtra(SUBTOPIC, subtopic);
+//        startActivity(intent);
+//    }
 
     /**This method ensures the correct behaviour of the app when the back button is pressed.*/
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, PracticeActivity.class);
         startActivity(intent);
+    @Override
+    public void onClick(View v) {
+            Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
+            intent.putExtra(MainActivity.TOPIC, topic);
+            intent.putExtra(MainActivity.SUBTOPIC, view.getTag().toString());
+            startActivity(intent); //start the activity
     }
 
     @Override

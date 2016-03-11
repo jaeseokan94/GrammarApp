@@ -1,130 +1,65 @@
 package com.example.spanishgrammarapp;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.content.Context;
+
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import com.example.spanishgrammarapp.Data.QuestionData;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 
 /**
  * This class will be used to connect to the Database where questions are stored, and connect to the CMS to fetch
  * the stages/subtopics.
  */
 public class CMSconnector {
-    Exercise exercise;
-
-    // Question data
-    public int numberOfQuestion; // it gives an integer value of number of question in certain subtopic
-    public String questionText; // variable for question_text from API
-    public String choice_1;
-    public String choice_2;
-    public String choice_3;
-    public String choice_4;
-    public String choice_5;
-    public String choice_6;
-    public String correct_answer;
-
-    //subtopic data
-    public int numberOfSubtopic;
-    public String subtopic_name;
-    public String grammar_video_file; // url for grammar video file
 
 
-    public CMSconnector(Exercise exercise, String topic){
-        this.exercise = exercise;
-    }
+    public static Exercise getExercise(Context context, String topic, String subtopic) {
+        Exercise exercise = new Exercise();
+        DatabaseHelper database = new DatabaseHelper(context);
 
-    public void constructExercise(){
-        exercise.addQuestion(constructQuestions(0));
-        exercise.addQuestion(constructQuestions(1));
-        exercise.addQuestion(constructQuestions(2));
-        exercise.addQuestion(constructQuestions(3));
-    }
-
-    /*This will be later replaced with a method that*/
-    private Question constructQuestions(int input){
         ArrayList<String> answers1 = new ArrayList<>();
         Question q;
-        apiQuestions();
 
+        List<QuestionData> list = database.getAllQuestion(); // getAllquestions list Test purpose
+        System.out.println(list);
+
+        int input = 0;
+        //adds Questions to Exercise
+
+        //multiple choice
         if(input==0) {
-            answers1.add(choice_1);
-            answers1.add(choice_2);
-            answers1.add(choice_3);
-            answers1.add(choice_4);
-            answers1.add(choice_5);
-            answers1.add(choice_6);
-            answers1.add(correct_answer);
-            q = new Question(ExercisesActivity.multipleChoice, "Question"+input+": " + questionText , answers1.get(0), answers1);
-
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_1()); // "osllamàis" need to be replaced to topic and subtopic name , int API key
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_2());
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_3());
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_4());
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_5());
+            answers1.add(database.getQuestionText("---os llamàis").getChoice_6());
+            answers1.add(database.getQuestionText("---os llamàis").getCorrect_answer());
+            q = new Question(ExercisesActivity.multipleChoice, "Question"+input+": " + database.getQuestionText("---os llamàis").getQuestionText() , answers1.get(0), answers1);
         }else if(input==1){
             answers1.add("Correct answer");
-            q = new Question(ExercisesActivity.typing, "Test question 2, the correct answer is: Correct answer", answers1.get(0), answers1);
+            q = new Question(ExercisesActivity.typing, "Test question 2", answers1.get(0), answers1);
         }else{
-            q = new Question(ExercisesActivity.trueFalse, "Test question "+(input+1)+", the correct answer is: true ", "true", answers1);
-        }
-        return q;
-    }
-
-    /**
-     * This will be used to get the question structure from a link containing a JSON Object
-         */
-    public void apiQuestions(){
-
-        try {
-            JSONArray jsonArray = new JSONParser().execute(
-                    "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/Pronouns/exerciseQuestion/")
-                    .get(); //this link is temporary, it needs to be generalized
-            numberOfQuestion = jsonArray.length();
-
-
-            for(int i = 0 ; i < jsonArray.length(); i++ ){
-
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-            questionText = jsonObject.getString("question_text"); // get question_text from API
-            choice_1 = jsonObject.getString("choice_1");
-            choice_2= jsonObject.getString("choice_2");
-            choice_3= jsonObject.getString("choice_3");
-            choice_4= jsonObject.getString("choice_4");
-            choice_5= jsonObject.getString("choice_5");
-            choice_6= jsonObject.getString("choice_6");
-            correct_answer= jsonObject.getString("correct_answer");
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+            q = new Question(ExercisesActivity.trueFalse, "Test question 3", "true", answers1);
         }
 
+        exercise.addQuestion(q);
+
+        return exercise;
     }
 
-    public void apiSubtopic(){
+    public static ArrayList getSubtopics(Context context, String topic){
 
-        try {
-            JSONArray jsonArray = new JSONParser().execute(
-                    "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/subtopicList/")
-                    .get(); //this link is temporary, it needs to be generalized
-            numberOfSubtopic = jsonArray.length();
+        ArrayList<String> subtopicsList = new ArrayList<String>();
+        subtopicsList.add("Pronouns");
+        subtopicsList.add("Llamarse");
+        subtopicsList.add("Ser y Estar");
+        subtopicsList.add("Vocabulary");
 
-            for(int i = 0 ; i < jsonArray.length(); i++ ){
 
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                subtopic_name = jsonObject.getString("subtopic_name"); // get question_text from API
-                grammar_video_file = jsonObject.getString("grammar_video_file");
-
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        return subtopicsList;
     }
+
 }

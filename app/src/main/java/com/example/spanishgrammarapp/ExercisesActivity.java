@@ -11,10 +11,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
@@ -24,7 +23,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -62,10 +62,14 @@ public class ExercisesActivity extends AppCompatActivity {
     * It saves a lot of redundant work once we have identified the category of the Exercise.*/
     private String exerciseState = "NEW";
 
+    DatabaseHelper database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
+        //trying to call database here which didnt work.
+        database = new DatabaseHelper(getApplicationContext());
 
         Intent intent = getIntent(); //the intent we used to make this activity...
 

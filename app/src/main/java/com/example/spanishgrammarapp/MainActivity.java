@@ -12,6 +12,11 @@ import android.view.Window;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import com.example.spanishgrammarapp.Data.KeyData;
+
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     public final static String QUESTIONS = "QUESTIONS";
@@ -22,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
     public static UserProgress userProgress;
+    public String language = "A";
+    public String level="B";
+
+
+    private DatabaseHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +40,19 @@ public class MainActivity extends AppCompatActivity {
 
         userProgress = new UserProgress(this.getBaseContext());
         userProgress.loadProgress();
+        
+     //   Intent intent = getIntent();
+     //  language = intent.getStringExtra("lang");
+
+        // App will download API and save it into database when it is first open.
+        database = new DatabaseHelper(this.getBaseContext());
+        APIWrapper downloadAPI = new APIWrapper(database);
+         downloadAPI.apiQuestions();
+       // downloadAPI.getSubtopics(language, level, TOPIC);
+        database.getAllKey();
+        List<KeyData> list = database.getAllKey(); // getAllquestions list Test purpose
+        System.out.println(list);
+        
     }
 
 
