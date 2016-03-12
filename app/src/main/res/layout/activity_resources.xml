@@ -17,7 +17,8 @@
         android:layout_marginTop="20dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="onButton1Clicked" />
 
     <ImageButton
         android:layout_width="100dp"
@@ -34,7 +35,8 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/week"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:onClick="onButton1Clicked" />
 
 
 
@@ -138,3 +140,4 @@
         android:layout_alignRight="@+id/imageButton7" />
 
 </RelativeLayout>
+

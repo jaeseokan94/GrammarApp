@@ -62,4 +62,27 @@ public class CMSconnector {
         return subtopicsList;
     }
 
+
+    public static ArrayList getLanguages(Context context, String Language){
+
+        ArrayList<String> languageList = new ArrayList<String>();
+        languageList.add("Spanish");
+        languageList.add("German");
+        languageList.add("French");
+        languageList.add("Mexican");
+
+
+        return languageList;
+    }
+
+    public static ArrayList getLevels(Context context, String Level){
+
+        ArrayList<String> levelList = new ArrayList<String>();
+        levelList.add("Beginner class");
+        levelList.add("Intermediate class");
+        levelList.add("Upper class");
+
+
+        return levelList;
+    }
 }
