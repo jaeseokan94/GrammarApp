@@ -17,7 +17,7 @@ public class CMSconnector {
 
     public static Exercise getExercise(Context context, String topic, String subtopic) {
 
-        Exercise exercise = new Exercise(subtopic);
+        Exercise exercise = new Exercise();
         DatabaseHelper database = new DatabaseHelper(context);
 
         ArrayList<String> answers1 = new ArrayList<>();
