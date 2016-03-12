@@ -7,6 +7,8 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.example.spanishgrammarapp.Data.APIWrapper;
+
 /**
  * Created by janaldoustorres on 06/03/2016.
  */

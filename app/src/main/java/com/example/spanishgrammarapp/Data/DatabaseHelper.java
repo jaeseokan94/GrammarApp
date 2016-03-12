@@ -11,6 +11,11 @@ import java.util.List;
 
 /**
  * Created by JAESEOKAN on 06/03/2016.
+ *
+ * TODO : SituationalVideo, GrammarVideo -> Need to be add into KEY DATA TABLE
+ * TODO : Resources
+ * TODO : QuestionExercise TABLE -> Foreign Key : subtopic from KEY DATA TABLE
+ *
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
     //Tag just for the logcat window
@@ -55,12 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //FOREIGN KEY(customer_id) REFERENCES customers(id),
 
 
-
-
-
-
-
-
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DB_VER);
         this.myContext = context;
@@ -103,9 +102,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean addLanguage(String language) {
         //check if data exist
         SQLiteDatabase dbCheck = this.getReadableDatabase();
-        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE " + LANGUAGE + " = ?"; //Replace questionText to primary key or ID
-        String ID = IDGenerator_language(language);
-        Cursor cursor = dbCheck.rawQuery(Query, new String[]{ID});
+        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE " + LANGUAGE + " = ? LIMIT 1"; //Replace questionText to primary key or ID
+
+        Cursor cursor = dbCheck.rawQuery(Query, new String[]{language});
+
         System.out.println("DATA Language");
 
         if (cursor.getCount() != 0) {
@@ -114,7 +114,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
 
-        System.out.println("DATA ADDED SUCCESSFULLY");
         SQLiteDatabase db = this.getWritableDatabase();
 
         // To add column
@@ -124,6 +123,71 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(KEY_TABLE, null, values);
 
         db.close();
+        return true;
+    }
+
+    public boolean addLevel(String language, String level) {
+
+        //check if data exist
+        String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =? LIMIT 1" ;
+
+        System.out.println(Query);
+
+        SQLiteDatabase dbc = this.getReadableDatabase();
+        Cursor cursor = dbc.rawQuery(Query, new String[]{language, level});
+
+        if (cursor.getCount() != 0) {
+            cursor.close();
+            System.out.println("DATA LEVEL EXIST WORK!!");
+            return false;
+        }
+        cursor.close();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // To add column
+        ContentValues values = new ContentValues(); // this class is used to store a values
+        values.put(LANGUAGE, language);
+        values.put(LEVEL, level);
+
+        db.insert(KEY_TABLE, null, values);
+
+        db.close();
+        System.out.println("DATA ADDED SUCCESSFULLY");
+
+        return true;
+    }
+
+
+    public boolean addTopic(String language, String level, String topic) {
+
+        //check if data exist
+        String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =? AND topic =? LIMIT 1" ;
+
+        System.out.println(Query);
+        SQLiteDatabase dbc = this.getReadableDatabase();
+        Cursor cursor = dbc.rawQuery(Query, new String[]{language,level,topic});
+
+        if (cursor.getCount() != 0) {
+            cursor.close();
+            System.out.println("DATA TOPIC EXIST WORK!!");
+            return false;
+        }
+        cursor.close();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // To add column
+        ContentValues values = new ContentValues(); // this class is used to store a values
+        values.put(LANGUAGE, language);
+        values.put(LEVEL, level);
+        values.put(TOPIC,topic);
+
+        db.insert(KEY_TABLE, null, values);
+
+        db.close();
+        System.out.println("DATA ADDED SUCCESSFULLY");
+
         return true;
     }
 
@@ -250,6 +314,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return questionData;
     }
 
+
     /**
      * returns subtopic Name
      * TODO: @param to Lang, level, topic name
@@ -282,6 +347,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return keyData;
     }
+
     public List<QuestionData> getAllQuestion() {
         List<QuestionData> questions = new LinkedList<QuestionData>();
 
