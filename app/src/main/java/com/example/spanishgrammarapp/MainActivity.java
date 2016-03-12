@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     public final static String QUESTION_TEXT = "QUESTION";
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
-    public String language = "A";
-    public String level="B";
+    public String currentLanguage = "A";
+    public String currentLevel="B";
 
 
     private DatabaseHelper database;
@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
         
      //   Intent intent = getIntent();
      //  language = intent.getStringExtra("lang");
+        currentLanguage = getIntent().getStringExtra("CURRENT_LANGUAGE");
+        currentLevel    =getIntent().getStringExtra("CURRENT_LANGUAGE");
+
+
 
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
