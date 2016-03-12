@@ -12,10 +12,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class LevelActivity extends AppCompatActivity implements OnClickListener {
+    public final static String CURRENT_LEVEL = "CURRENT_LEVEL";
     public final static String CURRENT_LANGUAGE = "CURRENT_LANGUAGE";
-    public final static String LEVEL = "LEVEL";
     private String currentLanguage;
-    private String level;
 
 
 
@@ -36,7 +35,7 @@ public class LevelActivity extends AppCompatActivity implements OnClickListener 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_id);
 
         //This will pass subtopicList from Database
-        ArrayList<String> levels = CMSconnector.getLevels(getBaseContext(), level);
+        ArrayList<String> levels = CMSconnector.getLevels(getBaseContext(), CURRENT_LEVEL);
 
         for (String Levels: levels) {
             Button button = new Button(this);
@@ -48,15 +47,12 @@ public class LevelActivity extends AppCompatActivity implements OnClickListener 
 
 
     @Override
-    public void onClick(View v) {
-
-        String currentLanguage = ((TextView) view).getText().toString();
-        intent.putExtra(CURRENT_LANGUAGE, currentLanguage);
-
+    public void onClick(View view) {
 
         Intent intent = new Intent(this, MainActivity.class);
+        String currentLevel = ((TextView) view).getText().toString();
+        intent.putExtra(CURRENT_LEVEL, currentLevel);
         intent.putExtra(CURRENT_LANGUAGE, currentLanguage);
-        intent.putExtra(LEVEL, level);
         startActivity(intent);
     }
 }

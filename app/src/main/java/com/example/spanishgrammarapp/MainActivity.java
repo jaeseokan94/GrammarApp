@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     public final static String QUESTION_TEXT = "QUESTION";
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
-    public String currentLanguage = "A";
-    public String currentLevel="B";
+    public String currentLanguage ;
+    public String currentLevel;
 
 
     private DatabaseHelper database;
@@ -42,8 +42,15 @@ public class MainActivity extends AppCompatActivity {
         
      //   Intent intent = getIntent();
      //  language = intent.getStringExtra("lang");
-        currentLanguage = getIntent().getStringExtra("CURRENT_LANGUAGE");
-        currentLevel    =getIntent().getStringExtra("CURRENT_LANGUAGE");
+       // currentLanguage = getIntent().getStringExtra("CURRENT_LANGUAGE");
+        //TextView textView = (TextView) findViewById(R.id.testing);
+       // textView.setText(currentLanguage);
+
+        currentLevel = getIntent().getStringExtra("CURRENT_LEVEL");
+        currentLanguage =getIntent().getStringExtra("CURRENT_LANGUAGE");
+        //TextView textView2 = (TextView) findViewById(R.id.testing2);
+       // textView2.setText(currentLevel);
+      //  currentLevel    = getIntent().getStringExtra("CURRENT_LANGUAGE");
 
 
 

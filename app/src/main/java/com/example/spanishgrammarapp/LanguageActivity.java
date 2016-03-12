@@ -23,11 +23,11 @@ public class LanguageActivity extends AppCompatActivity implements OnClickListen
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_id);
 
         //This will pass subtopicList from Database
-        ArrayList<String> levels = CMSconnector.getLanguages(getBaseContext(), CURRENT_LANGUAGE);
+        ArrayList<String> languages = CMSconnector.getLanguages(getBaseContext(), CURRENT_LANGUAGE);
 
 
 
-        for (String languageTitle: levels) {
+        for (String languageTitle: languages) {
             Button button = new Button(this);
             button.setText(languageTitle);
             button.setOnClickListener(this);
