@@ -8,8 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
@@ -29,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     public static UserProgress userProgress;
     public String language = "A";
     public String level="B";
+    public String currentLanguage ;
+    public String currentLevel;
 
 
     private DatabaseHelper database;
@@ -43,6 +43,17 @@ public class MainActivity extends AppCompatActivity {
         
      //   Intent intent = getIntent();
      //  language = intent.getStringExtra("lang");
+       // currentLanguage = getIntent().getStringExtra("CURRENT_LANGUAGE");
+        //TextView textView = (TextView) findViewById(R.id.testing);
+       // textView.setText(currentLanguage);
+
+        currentLevel = getIntent().getStringExtra("CURRENT_LEVEL");
+        currentLanguage =getIntent().getStringExtra("CURRENT_LANGUAGE");
+        //TextView textView2 = (TextView) findViewById(R.id.testing2);
+       // textView2.setText(currentLevel);
+      //  currentLevel    = getIntent().getStringExtra("CURRENT_LANGUAGE");
+
+
 
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
