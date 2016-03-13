@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.Data.KeyData;
+import com.facebook.appevents.AppEventsLogger;
 
 import java.util.List;
 
@@ -64,6 +65,19 @@ public class MainActivity extends AppCompatActivity {
         List<KeyData> list = database.getAllKey(); // getAllquestions list Test purpose
         System.out.println(list);
         
+    }
+    protected void onResume() {
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
     }
 
 
