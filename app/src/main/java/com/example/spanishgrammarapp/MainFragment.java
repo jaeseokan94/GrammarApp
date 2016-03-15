@@ -65,20 +65,14 @@ public class MainFragment extends Activity {
                                             GraphResponse response) {
                                         // Application code
                                         Log.v("LoginActivity", response.toString());
+                                        finish();
                                     }
 
                                 });
-
-                        Bundle parameters = new Bundle();
-                        parameters.putString("fields", "id,name,email,gender, birthday");
-                        request.setParameters(parameters);
-                        request.executeAsync();
                         Intent intent = new Intent(MainFragment.this, LanguageActivity.class);
                         startActivity(intent);
-                        finish();
 
                     }
-
                     @Override
                     public void onCancel() {
                         // not called
@@ -94,19 +88,13 @@ public class MainFragment extends Activity {
             }
         });
 
-        hombtn = (Button) findViewById(R.id.fbhome_btn);
-        hombtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackmanager.onActivityResult(requestCode, resultCode, data);
+
     }
+
 }
