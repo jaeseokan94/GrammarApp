@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public final static String QUESTION_TEXT = "QUESTION";
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
-    public String language = "A";
+    public String language = "Spain";
     public String level="B";
 
 
@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         database.getAllKey();
         List<KeyData> list = database.getAllKey(); // getAllquestions list Test purpose
         System.out.println(list);
+
+        System.out.println("LANGUAGE NAME TEST ");
+        System.out.println("TESTING  "+database.getLevelName(language).getLevel());
 
     }
 

@@ -314,7 +314,97 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return questionData;
     }
 
+    /**
+     * returns subtopic Name
+     * TODO: @param to Lang, level, topic name
+     */
+    public KeyData getLanguageName() // this need to be modified to get subtopic and topic name as parameters
+    {
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
 
+        // 2. build query
+        String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? " ;
+
+        System.out.println(Query);
+
+        Cursor cursor = db.rawQuery(Query, new String[]{});
+
+        if( cursor != null && cursor.getCount()>0)
+            cursor.moveToFirst();
+
+        KeyData keyData = new KeyData();
+        keyData.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+        keyData.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
+        keyData.setLevel(cursor.getString(cursor.getColumnIndex(LEVEL)));
+
+        cursor.close();
+        System.out.println("Get LEVEL NAME WORK !!");
+
+
+        return keyData;
+    }
+    /**
+     * returns subtopic Name
+     * TODO: @param to Lang, level, topic name
+     */
+    public KeyData getLevelName(String language) // this need to be modified to get subtopic and topic name as parameters
+    {
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? " ;
+
+        System.out.println(Query);
+
+        Cursor cursor = db.rawQuery(Query, new String[]{language});
+
+        if( cursor != null && cursor.getCount()>0)
+            cursor.moveToFirst();
+
+        KeyData keyData = new KeyData();
+        keyData.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+        keyData.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
+        keyData.setLevel(cursor.getString(cursor.getColumnIndex(LEVEL)));
+
+        cursor.close();
+        System.out.println("Get LEVEL NAME WORK !!");
+
+
+        return keyData;
+    }
+    /**
+     * returns subtopic Name
+     * TODO: @param to Lang, level, topic name
+     */
+    public KeyData getTopicName(String language, String level) // this need to be modified to get subtopic and topic name as parameters
+    {
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =?" ;
+
+        System.out.println(Query);
+
+        Cursor cursor = db.rawQuery(Query, new String[]{language,level});
+
+        if( cursor != null && cursor.getCount()>0)
+            cursor.moveToFirst();
+
+        KeyData keyData = new KeyData();
+        keyData.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+        keyData.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
+        keyData.setLevel(cursor.getString(cursor.getColumnIndex(LEVEL)));
+        keyData.setTopic(cursor.getString(cursor.getColumnIndex(TOPIC)));
+
+        cursor.close();
+        System.out.println("Get TOPIC WORK !!");
+
+
+        return keyData;
+    }
     /**
      * returns subtopic Name
      * TODO: @param to Lang, level, topic name
@@ -325,7 +415,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // 2. build query
-          String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =? AND topic =?" ;
+        String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =? AND topic =?" ;
 
         System.out.println(Query);
 
