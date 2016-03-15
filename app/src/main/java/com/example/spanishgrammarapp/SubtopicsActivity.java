@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 
@@ -19,7 +18,6 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
     private String topic;
     private String SUBTOPIC;
     DatabaseHelper db;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +36,7 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
         for (String subtopic: subtopics) {
             Button button = new Button(this);
             button.setText(subtopic);
+            button.setTag(subtopic);
             button.setOnClickListener(this);
             subtopicLayout.addView(button);
         }
@@ -45,14 +44,30 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+//    @Override
+//    public void onClick(View v) {
+//        String subtopic = ((TextView) v).getText().toString();
+//        Exercise exercise = CMSconnector.getExercise(getBaseContext(), topic, SUBTOPIC);
+//        Intent intent = new Intent(this, ExercisesActivity.class);  //create a new intent
+//        intent.putExtra(MainActivity.QUESTIONS, exercise); //pass in the exercise (populated)
+//        intent.putExtra(SUBTOPIC, subtopic);
+//        startActivity(intent);
+//    }
+
+    /**This method ensures the correct behaviour of the app when the back button is pressed.*/
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, PracticeActivity.class);
+
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View v) {
-        String subtopic = ((TextView) v).getText().toString();
-        Exercise exercise = CMSconnector.getExercise(getBaseContext(), topic, SUBTOPIC);
-        Intent intent = new Intent(this, ExercisesActivity.class);  //create a new intent
-        intent.putExtra(SUBTOPIC, subtopic);
-        intent.putExtra(MainActivity.QUESTIONS, exercise); //pass in the exercise (populated)
-        startActivity(intent);
+            Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
+            intent.putExtra(MainActivity.TOPIC, topic);
+            intent.putExtra(MainActivity.SUBTOPIC, v.getTag().toString());
+            startActivity(intent); //start the activity
     }
 
     @Override

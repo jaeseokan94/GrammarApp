@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
@@ -21,12 +20,17 @@ public class MainActivity extends AppCompatActivity {
 
     public final static String QUESTIONS = "QUESTIONS";
     public final static String TOPIC = "TOPIC";
+    public final static String SUBTOPIC = "SUBTOPIC";
     public final static String QUESTION_TYPE = "QUESTION_TYPE";
     public final static String QUESTION_TEXT = "QUESTION";
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
+
     public String language = "Spain";
+    public static UserProgress userProgress;
     public String level="B";
+    public String currentLanguage ;
+    public String currentLevel;
 
 
     private DatabaseHelper database;
@@ -36,13 +40,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout);
-//        relativeLayout.setBackground(getDrawable(R.drawable.bkg));
-        UserProgress up1 = new UserProgress(this.getBaseContext());
-        up1.saveProgress();
+        userProgress = new UserProgress(this.getBaseContext());
+        userProgress.loadProgress();
         
      //   Intent intent = getIntent();
      //  language = intent.getStringExtra("lang");
+       // currentLanguage = getIntent().getStringExtra("CURRENT_LANGUAGE");
+        //TextView textView = (TextView) findViewById(R.id.testing);
+       // textView.setText(currentLanguage);
+
+        currentLevel = getIntent().getStringExtra("CURRENT_LEVEL");
+        currentLanguage =getIntent().getStringExtra("CURRENT_LANGUAGE");
+        //TextView textView2 = (TextView) findViewById(R.id.testing2);
+       // textView2.setText(currentLevel);
+      //  currentLevel    = getIntent().getStringExtra("CURRENT_LANGUAGE");
+
+
 
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
@@ -55,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println("LANGUAGE NAME TEST ");
         System.out.println("TESTING  "+database.getLevelName(language).getLevel());
+
 
     }
 

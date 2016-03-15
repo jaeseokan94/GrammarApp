@@ -1,16 +1,38 @@
 package com.example.spanishgrammarapp;
 
-import android.support.v7.app.AppCompatActivity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import java.io.IOException;
 
 public class ResourcesActivity extends AppCompatActivity {
+    //URl audio address variable
+    String Resource_Url[] = {"http://sites.google.com/site/ubiaccessmobile/sample_audio.amr"}; //for temporary address will change later
+    MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resources);
+    }
+
+    public void onButton1Clicked(View v){
+
+        Log.d("MainActivity","resource sound played");
+        try {
+            player = new MediaPlayer();
+            player.setDataSource(Resource_Url[0]);
+            player.prepare();
+            player.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(getApplicationContext(), "Start the Source", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -20,18 +42,5 @@ public class ResourcesActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

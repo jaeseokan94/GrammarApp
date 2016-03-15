@@ -14,10 +14,14 @@ import java.util.List;
  */
 public class CMSconnector {
 
+    public CMSconnector(Exercise exercise, String topic ){
+        // placeholder
+    }
 
     public static Exercise getExercise(Context context, String topic, String subtopic) {
 
-        Exercise exercise = new Exercise();
+        Exercise exercise = new Exercise(topic+"/"+subtopic);
+
         DatabaseHelper database = new DatabaseHelper(context);
 
         ArrayList<String> answers1 = new ArrayList<>();
@@ -69,4 +73,27 @@ public class CMSconnector {
         return subtopicsList;
     }
 
+
+    public static ArrayList getLanguages(Context context, String Language){
+
+        ArrayList<String> languageList = new ArrayList<String>();
+        languageList.add("Spanish");
+        languageList.add("German");
+        languageList.add("French");
+        languageList.add("Mexican");
+
+
+        return languageList;
+    }
+
+    public static ArrayList getLevels(Context context, String Level){
+
+        ArrayList<String> levelList = new ArrayList<String>();
+        levelList.add("Beginner class");
+        levelList.add("Intermediate class");
+        levelList.add("Upper class");
+
+
+        return levelList;
+    }
 }
