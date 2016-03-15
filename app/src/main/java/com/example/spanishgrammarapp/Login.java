@@ -20,10 +20,8 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-/**
- * Created by Pc on 2016-02-04.
- */
-public class MainFragment extends Activity {
+
+public class Login extends Activity {
 
     private static final String TAG_CANCEL = "FACEBOOK LOGIN";
     private Button fbbutton;
@@ -69,7 +67,7 @@ public class MainFragment extends Activity {
                                     }
 
                                 });
-                        Intent intent = new Intent(MainFragment.this, LanguageActivity.class);
+                        Intent intent = new Intent(Login.this, LanguageActivity.class);
                         startActivity(intent);
 
                     }
