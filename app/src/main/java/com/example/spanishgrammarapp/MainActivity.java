@@ -60,13 +60,18 @@ public class MainActivity extends AppCompatActivity {
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
         APIWrapper downloadAPI = new APIWrapper(database);
-        downloadAPI.apiQuestions();
-        //downloadAPI.getSubtopics(language, level, TOPIC);
-        database.getAllKey();
+        downloadAPI.apiLanguage();
+
+        APIWrapper downloadAPI2 = new APIWrapper(database);
+        downloadAPI2.apiLevel();
+
+        System.out.println("Lang list happen :" + database.getLanguageList());
+        System.out.println("Level list happen : " + database.getLevelList("Spanish")); //test purpose
+
         List<KeyData> list = database.getAllKey(); // getAllquestions list Test purpose
         System.out.println(list);
 
-        System.out.println("LANGUAGE NAME TEST ");
+        System.out.println("IGNORE THIS ");
         System.out.println("TESTING  "+database.getLevelName(language).getLevel());
 
 
