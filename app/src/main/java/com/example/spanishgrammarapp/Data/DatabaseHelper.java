@@ -166,7 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         System.out.println(Query);
         SQLiteDatabase dbc = this.getReadableDatabase();
-        Cursor cursor = dbc.rawQuery(Query, new String[]{language,level,topic});
+        Cursor cursor = dbc.rawQuery(Query, new String[]{language, level, topic});
 
         if (cursor.getCount() != 0) {
             cursor.close();
@@ -377,9 +377,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * returns languageNameList
      */
-    public List<KeyData> getLevelList(String language) // this need to be modified to get subtopic and topic name as parameters
+    public List<LevelData> getLevelList(String language) // this need to be modified to get subtopic and topic name as parameters
     {
-        List<KeyData> levels = new LinkedList<KeyData>();
+        List<LevelData> levels = new LinkedList<LevelData>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -388,19 +388,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         System.out.println(Query);
 
-        Cursor cursor = db.rawQuery(Query, null);
+        Cursor cursor = db.rawQuery(Query, new String[]{language});
 
-        KeyData levelList = null;
+        LevelData levelList = null;
+        if(cursor!=null) {
+            if (cursor.moveToFirst()) {
+                System.out.println("DO I ADD?");
+                do {
+                    levelList = new LevelData();
+                    levelList.setLevel(cursor.getString(cursor.getColumnIndex(LEVEL)));
+                    levels.add(levelList);
 
-        if (cursor.moveToFirst()) {
-            do {
-                levelList = new KeyData();
-                levelList.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
-                levelList.setLanguage(cursor.getString(cursor.getColumnIndex(LEVEL)));
-                levels.add(levelList);
+                } while (cursor.moveToNext());
+            }
 
-            } while (cursor.moveToNext());
         }
+        System.out.println("DID I ADD?");
 
         return levels;
 
