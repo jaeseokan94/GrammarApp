@@ -1,18 +1,21 @@
 package com.example.spanishgrammarapp;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 
 
-public class AudioRecorderActivity extends AppCompatActivity {
+public class RecordingToolActivity extends AppCompatActivity {
 
     // called when the activity is first created
     private MediaPlayer mediaPlayer;
@@ -23,9 +26,6 @@ public class AudioRecorderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        OUTPUT_FILE= Environment.getExternalStorageDirectory()+"/audiorecorder.3gpp";
-
     }
 
     public void buttonTapped(View view){
@@ -58,18 +58,48 @@ public class AudioRecorderActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 break;
+            case R.id.saveBtn:
+                try{
+                    saveLastRecordedAudio();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
         }
 
     }
 
+    private void saveLastRecordedAudio() throws IOException {
+        String filename = "myfile";
+        String string = "Save1";
+        FileOutputStream outputStream;
 
+        try {
+            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(string.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        fileList();
+        ListView lv = new ListView(this);
+        lv.setClickable(true);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    playRecording();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    
 
     private void beginRecording() throws IOException {
         ditchMediaRecorder();
         File outFile = new File(OUTPUT_FILE);
-
-
 
         if(outFile.exists())
             outFile.delete();
@@ -81,7 +111,6 @@ public class AudioRecorderActivity extends AppCompatActivity {
         recorder.setOutputFile(OUTPUT_FILE);
         recorder.prepare();
         recorder.start();
-
 
     }
 

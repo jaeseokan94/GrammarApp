@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.spanishgrammarapp">
+    package="com.example.spanishgrammarapp" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -10,10 +10,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".LanguageActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,41 +22,56 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_learn"></activity>
+            android:label="@string/title_activity_learn" />
         <activity
             android:name=".LevelActivity"
-            android:label="@string/title_activity_learn"></activity>
+            android:label="@string/title_activity_learn" />
         <activity
             android:name=".LearnActivity"
-            android:label="@string/title_activity_learn"></activity>
+            android:label="@string/title_activity_learn" />
         <activity
             android:name=".PracticeActivity"
-            android:label="@string/title_activity_practice"></activity>
+            android:label="@string/title_activity_practice" />
         <activity
             android:name=".ReviseActivity"
-            android:label="@string/title_activity_revise"></activity>
+            android:label="@string/title_activity_revise" />
         <activity
             android:name=".ResourcesActivity"
-            android:label="@string/title_activity_resources"></activity>
+            android:label="@string/title_activity_resources" />
         <activity
             android:name=".GlossaryActivity"
-            android:label="@string/title_activity_glossary"></activity>
+            android:label="@string/title_activity_glossary" />
         <activity
             android:name=".ExercisesActivity"
-            android:label="@string/title_activity_exercises"></activity>
+            android:label="@string/title_activity_exercises" />
         <activity
             android:name=".SubtopicsActivity"
-            android:label="@string/title_activity_subtopics"></activity>
+            android:label="@string/title_activity_subtopics" />
         <activity
             android:name=".TopicActivity"
-            android:label="@string/title_activity_topics"></activity>
+            android:label="@string/title_activity_topics" />
         <activity
             android:name=".SituationalVideoActivity"
-            android:label="@string/title_activity_situational_video"></activity>
+            android:label="@string/title_activity_situational_video" />
         <activity
             android:name=".GrammarVideoActivity"
-            android:label="@string/title_activity_grammar_video"></activity>
-        <activity android:name=".ListeningComprehension"></activity>
+            android:label="@string/title_activity_grammar_video" />
+        <activity android:name=".ListeningComprehension" />
+        <activity
+            android:name=".recording_tool"
+            android:label="@string/title_activity_recording_tool"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".RecordingTool"
+            android:label="@string/title_activity_recording_tool"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".RecordingToolActivity"
+            android:label="@string/title_activity_recording_tool"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

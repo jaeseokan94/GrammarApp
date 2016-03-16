@@ -35,5 +35,13 @@
 
     <string name="activity_situational_video_with_transcript">With Transcript</string>
     <string name="activity_situational_video_without_transcript">Without Transcript</string>
+    <string name="title_activity_recording_tool">recording_tool</string>
+    <string name="playback">PlayBack</string>
+    <string name="finish">Finish Recording</string>
+    <string name="start">Start Recording</string>
+    <string name="stop">Stop Playback</string>
+    <string name="save">SAVE</string>
+    <string name="record">Record</string>
+    <string name="button_record">record</string>
 
 </resources>
