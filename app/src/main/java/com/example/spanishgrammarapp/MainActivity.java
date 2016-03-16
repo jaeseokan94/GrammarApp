@@ -13,9 +13,6 @@ import android.widget.TextView;
 import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class MainActivity extends AppCompatActivity {
 
     public final static String QUESTIONS = "QUESTIONS";
@@ -54,32 +51,20 @@ public class MainActivity extends AppCompatActivity {
        // textView2.setText(currentLevel);
       //  currentLevel    = getIntent().getStringExtra("CURRENT_LANGUAGE");
 
-        ArrayList<String> langList =  new ArrayList<String>(Arrays.asList("Spanish", "Korean"
-        ));
-        ArrayList<String> levelList = new ArrayList<String>();
+
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
         APIWrapper downloadAPI = new APIWrapper(database);
-        downloadAPI.apiLanguage();
+        downloadAPI.apiHandler();
 
-        for(int a = 0 ; a < langList.size(); a++){
-            String language = langList.get(a);
-            String levelListURL = "http://lang-it-up.herokuapp.com/polls/api"+"/"+language+"/levelList";
-            levelList.add(levelListURL);
-            System.out.println(levelListURL);
-        APIWrapper downloadAPI2 = new APIWrapper(database);
-        downloadAPI2.apiLevel(levelListURL,language);
-        } //end of for loop
 
 
         System.out.println("Lang list happen :" + database.getLanguageList());
-        System.out.println("Level list happen : " + database.getLevelList("Spanish")); //test purpose
 
         System.out.println(database.getAllKey());
-
-        System.out.println("IGNORE THIS ");
-        System.out.println("TESTING  "+database.getLevelName("Spanish"));
+        System.out.println("TESTING  "+database.getLevelList("Korean"));
         System.out.println("TESTING  "+database.getLevelList("Spanish"));
+        System.out.println("TESTING REAL "+database.getSubTopicList("Spanish","b","Greeting"));
 
 
     }

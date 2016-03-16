@@ -159,38 +159,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean addTopic(String language, String level, String topic) {
-
-        //check if data exist
-        String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =? AND topic =? LIMIT 1" ;
-
-        System.out.println(Query);
-        SQLiteDatabase dbc = this.getReadableDatabase();
-        Cursor cursor = dbc.rawQuery(Query, new String[]{language, level, topic});
-
-        if (cursor.getCount() != 0) {
-            cursor.close();
-            System.out.println("DATA TOPIC EXIST WORK!!");
-            return false;
-        }
-        cursor.close();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // To add column
-        ContentValues values = new ContentValues(); // this class is used to store a values
-        values.put(LANGUAGE, language);
-        values.put(LEVEL, level);
-        values.put(TOPIC,topic);
-
-        db.insert(KEY_TABLE, null, values);
-
-        db.close();
-        System.out.println("DATA ADDED SUCCESSFULLY");
-
-        return true;
-    }
-
 
     /*
     INSERT INTO first_table_name [(column1, column2, ... columnN)]
@@ -409,9 +377,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public List<KeyData> getSubTopicList(String language, String level, String topic) // this need to be modified to get subtopic and topic name as parameters
+    public List<SubtopicData> getSubTopicList(String language, String level, String topic) // this need to be modified to get subtopic and topic name as parameters
     {
-        List<KeyData> subtopics = new LinkedList<KeyData>();
+        List<SubtopicData> subtopics = new LinkedList<SubtopicData>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -420,13 +388,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         System.out.println(Query);
 
-        Cursor cursor = db.rawQuery(Query, null);
+        Cursor cursor = db.rawQuery(Query, new String[]{language,level,topic});
 
-        KeyData subtopicList = null;
+        SubtopicData subtopicList = null;
 
         if (cursor.moveToFirst()) {
             do {
-                subtopicList = new KeyData();
+                subtopicList = new SubtopicData();
                 subtopicList.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
                 subtopicList.setLanguage(cursor.getString(cursor.getColumnIndex(LEVEL)));
                 subtopicList.setLanguage(cursor.getString(cursor.getColumnIndex(TOPIC)));
