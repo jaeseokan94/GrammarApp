@@ -46,6 +46,7 @@ public class AlphabetActivity extends AppCompatActivity {
         TextView tvInstructions = (TextView) findViewById(R.id.tv_alphabet_instructions);
         tvInstructions.setText(instructions);
 
+        //TODO put if statement or change getLetters to only return Language
         //Get set of Letters from API
         ArrayList<Letter> letters = APIWrapper.getLetters(MainActivity.LANGUAGE, ResourcesActivity.DIALECT);
 

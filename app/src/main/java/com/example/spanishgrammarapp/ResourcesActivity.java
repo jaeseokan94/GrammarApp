@@ -8,10 +8,17 @@ import android.view.View;
 
 import com.example.spanishgrammarapp.resources.activities.CalendarActivity;
 import com.example.spanishgrammarapp.resources.activities.AlphabetActivity;
+import com.example.spanishgrammarapp.resources.activities.HolidaysActivity;
 
 public class ResourcesActivity extends AppCompatActivity {
     public static String DIALECT = "Mexican";
     public static String RESOURCE_NAME = "Resource";
+    public static String ALPHABET = "Alphabet";
+    public static String NUMBERS = "Numbers";
+    public static String DAYS = "Days";
+    public static String CALENDAR = "Calendar";
+    public static String HOLIDAYS = "Holidays";
+    public static String SEASONS_MONTHS = "Seasons";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,25 +28,31 @@ public class ResourcesActivity extends AppCompatActivity {
 
     public void showAlphabetActivity(View v){
         Intent intent = new Intent(this, AlphabetActivity.class);
-        intent.putExtra(RESOURCE_NAME, "Alphabet");
+        intent.putExtra(RESOURCE_NAME, ALPHABET);
         startActivity(intent);
     }
 
     public void showNumbersActivity(View v){
         Intent intent = new Intent(this, AlphabetActivity.class);
-        intent.putExtra(RESOURCE_NAME, "Numbers");
+        intent.putExtra(RESOURCE_NAME, NUMBERS);
         startActivity(intent);
     }
 
     public void showDaysActivity(View v){
         Intent intent = new Intent(this, AlphabetActivity.class);
-        intent.putExtra(RESOURCE_NAME, "Days");
+        intent.putExtra(RESOURCE_NAME, DAYS);
         startActivity(intent);
     }
 
     public void showCalendarActivity(View v){
         Intent intent = new Intent(this, CalendarActivity.class);
-        intent.putExtra(RESOURCE_NAME, "Calendar");
+        intent.putExtra(RESOURCE_NAME, CALENDAR);
+        startActivity(intent);
+    }
+
+    public void showHolidaysActivity(View v){
+        Intent intent = new Intent(this, HolidaysActivity.class);
+        intent.putExtra(RESOURCE_NAME, HOLIDAYS);
         startActivity(intent);
     }
 
