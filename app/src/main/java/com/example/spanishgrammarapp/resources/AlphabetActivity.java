@@ -6,7 +6,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.spanishgrammarapp.APIWrapper;
+import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
+import com.example.spanishgrammarapp.resources.data.Letter;
+
+import java.util.ArrayList;
 
 /**
  * Created by janaldoustorres on 17/03/2016.
@@ -23,15 +28,17 @@ public class AlphabetActivity extends AppCompatActivity {
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.alphabet_layout);
 
-
+        ArrayList<Letter> letters = APIWrapper.getLetters(MainActivity.LANGUAGE);
 
         View letterView;
-        for(int i = 0; i < 10; i++) {
+        for(Letter letter: letters) {
             letterView = getLayoutInflater().inflate(R.layout.letter_layout, mainLayout, false);
             mainLayout.addView(letterView);
-            TextView label =
-                    (TextView)letterView.findViewById(R.id.letter);
-            label.setText(Integer.toString(i));
+            TextView tvLetter = (TextView)letterView.findViewById(R.id.letter);
+            TextView tvPronunciation = (TextView)letterView.findViewById(R.id.pronunciation_guide);
+
+            tvLetter.setText(letter.getLetter());
+            tvPronunciation.setText(letter.getPronunciation());
         }
     }
 

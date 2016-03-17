@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import com.example.spanishgrammarapp.resources.data.Letter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
@@ -227,4 +229,20 @@ System.out.println(jsonArray.length());
         return Uri.parse(uri);
     }
 
+
+    public static ArrayList<Letter> getLetters(String languageName) {
+        //TODO implement this method
+
+        ArrayList<Letter> letters = new ArrayList<Letter>();
+
+        String letter = "a";
+        String pronunciation = "b";
+        String audioUrl = "http://sites.google.com/site/ubiaccessmobile/sample_audio.amr";
+
+        for (int i = 0; i < 26; i++) {
+            letters.add(new Letter(letter, pronunciation, audioUrl));
+        }
+
+        return letters;
+    }
 }

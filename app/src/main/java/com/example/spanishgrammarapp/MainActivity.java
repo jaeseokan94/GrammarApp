@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
     public static UserProgress userProgress;
-    public String language = "A";
+    public static String LANGUAGE = "Spanish";
     public String level="B";
     public String currentLanguage ;
     public String currentLevel;
