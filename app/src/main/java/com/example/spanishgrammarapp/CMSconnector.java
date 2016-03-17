@@ -25,6 +25,9 @@ public class CMSconnector {
 
     public static Exercise getExercise(String topic, String subtopic) {
 
+
+
+
         Exercise exercise = new Exercise(topic+"/"+subtopic);
 
 
@@ -60,22 +63,7 @@ public class CMSconnector {
         return exercise;
     }
 
-    public static ArrayList getSubtopics(String language, String level,  String topic){
 
-         language = "Spain";  // These three variables are for test purpose!
-         level = "b";
-         topic = "topic";
-
-
-        ArrayList<String> subtopicsList = new ArrayList<String>();
-        subtopicsList.add("");
-        subtopicsList.add("");
-        subtopicsList.add("Ser y Estar");
-     //   subtopicsList.add(database.getSubtopicName(language,level,topic_name).getSubtopic());
-
-
-        return subtopicsList;
-    }
 
 
     public static List<LanguageData> getLanguages(Context context, DatabaseHelper database){

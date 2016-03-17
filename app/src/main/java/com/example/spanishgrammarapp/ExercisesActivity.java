@@ -34,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 
 import java.io.InputStream;
@@ -112,9 +113,10 @@ public class ExercisesActivity extends AppCompatActivity {
         String identifier = topic+"/"+subtopic; //define the identifier...
         Exercise exercise = getExerciseFromSaved(identifier); //initially use the getExerciseFromSaved method, this will return an existing exercise is there is one, otherwise null
         if(exercise==null){ //if getExerciseFromSaved returned null, then create a new exercise
-            exercise = new Exercise(identifier);
-            CMSconnector connector = new CMSconnector(exercise, topic, this.getBaseContext()); //pass that empty Exercise to the CMSconnector
-            connector.getExercise( topic, subtopic); //the connector populates it with data from the DB
+            //CMSconnector connector = new CMSconnector(exercise, topic, this.getBaseContext()); //pass that empty Exercise to the CMSconnector
+            //connector.getExercise( topic, subtopic); //the connector populates it with data from the DB
+            APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this.getBaseContext()));
+            exercise = apiWrapper.apiQuestions(topic, subtopic, false);
         }
         return exercise; //create a new Exercise, a set of questions (empty)
     }
