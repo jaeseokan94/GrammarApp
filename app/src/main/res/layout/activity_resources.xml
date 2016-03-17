@@ -27,7 +27,8 @@
         android:id="@+id/imageButton2"
         android:layout_marginTop="20dp"
         android:background="@drawable/numbers"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="showNumbersActivity"/>
 
     <ImageButton
         android:layout_width="100dp"
@@ -37,9 +38,7 @@
         android:background="@drawable/week"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:onClick="showAlphabetActivity" />
-
-
+        android:onClick="showDaysActivity" />
 
     <ImageButton
         android:layout_width="100dp"

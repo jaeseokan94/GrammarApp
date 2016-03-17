@@ -19,22 +19,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by janaldoustorres on 17/03/2016.
+ * Alphabet of chosen language is created and shown here. Letters are dynamically created and can
+ * be clicked to listen to the pronunciation.
  */
 public class AlphabetActivity extends AppCompatActivity {
     private MediaPlayer player;
+    private String resource = "Alphabet";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alphabet);
 
+        //Get instructions from API
+        String instructions = APIWrapper.getInstructions(MainActivity.LANGUAGE,
+                ResourcesActivity.DIALECT, resource);
+
         //Set up
         TextView tvTitle = (TextView) findViewById(R.id.tv_alphabet_title);
         tvTitle.setText("Alphabet - " + ResourcesActivity.DIALECT + " accent");
 
         TextView tvInstructions = (TextView) findViewById(R.id.tv_alphabet_instructions);
-        tvInstructions.setText("Click on a letter to hear it");
+        tvInstructions.setText(instructions);
 
         //Get set of Letters from API
         ArrayList<Letter> letters = APIWrapper.getLetters(MainActivity.LANGUAGE, ResourcesActivity.DIALECT);

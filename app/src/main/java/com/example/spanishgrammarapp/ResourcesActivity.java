@@ -22,6 +22,18 @@ public class ResourcesActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void showNumbersActivity(View v){
+        //TODO change to NumbersActivity
+        Intent intent = new Intent(this, AlphabetActivity.class);
+        startActivity(intent);
+    }
+
+    public void showDaysActivity(View v){
+        //TODO change to DaysActivity
+        Intent intent = new Intent(this, AlphabetActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

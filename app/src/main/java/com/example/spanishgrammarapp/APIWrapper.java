@@ -214,7 +214,7 @@ System.out.println(jsonArray.length());
 
 
     /**
-     * return grammar video url of a subtopic
+     * Uses API to get grammar video url of a subtopic
      * @param topicName
      * @param subtopicName
      * @return grammar video url
@@ -229,7 +229,12 @@ System.out.println(jsonArray.length());
         return Uri.parse(uri);
     }
 
-
+    /**
+     * Uses API to make list of letters.
+     * @param languageName
+     * @param dialect of langauge
+     * @return array list of Letters of passed language and dialect
+     */
     public static ArrayList<Letter> getLetters(String languageName, String dialect) {
         //TODO implement this method
 
@@ -244,5 +249,20 @@ System.out.println(jsonArray.length());
         }
 
         return letters;
+    }
+
+    /**
+     * gets instructions of how to use resource from API
+     * @param languageName
+     * @param dialect
+     * @param resource
+     * @return instructions
+     */
+    public static String getInstructions(String languageName, String dialect, String resource) {
+        //TODO implement this method
+
+        String instructions = "Click a letter to hear it.";
+
+        return instructions;
     }
 }
