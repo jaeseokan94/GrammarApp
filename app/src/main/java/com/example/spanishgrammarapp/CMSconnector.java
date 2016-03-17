@@ -3,7 +3,8 @@ package com.example.spanishgrammarapp;
 import android.content.Context;
 
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
-import com.example.spanishgrammarapp.Data.QuestionData;
+import com.example.spanishgrammarapp.Data.LanguageData;
+import com.example.spanishgrammarapp.Data.LevelData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,27 +15,30 @@ import java.util.List;
  */
 public class CMSconnector {
 
-    public CMSconnector(Exercise exercise, String topic ){
-        // placeholder
+    Context context;
+
+    public CMSconnector(Exercise exercise, String topic, Context context ){
+    this.context = context;
     }
 
-    public static Exercise getExercise(Context context, String topic, String subtopic) {
+
+
+    public static Exercise getExercise(String topic, String subtopic) {
 
         Exercise exercise = new Exercise(topic+"/"+subtopic);
 
-        DatabaseHelper database = new DatabaseHelper(context);
 
         ArrayList<String> answers1 = new ArrayList<>();
-        Question q;
+        Question q = new Question(ExercisesActivity.typing, "Test question 2", answers1.get(0), answers1); //temp
 
-        List<QuestionData> list = database.getAllQuestion(); // getAllquestions list Test purpose
-        System.out.println(list);
+
 
         int input = 0;
         //adds Questions to Exercise
 
         //multiple choice
         if(input==0) {
+            /*
             answers1.add(database.getQuestionText("---os llamàis").getChoice_1()); // "osllamàis" need to be replaced to topic and subtopic name , int API key
             answers1.add(database.getQuestionText("---os llamàis").getChoice_2());
             answers1.add(database.getQuestionText("---os llamàis").getChoice_3());
@@ -43,6 +47,7 @@ public class CMSconnector {
             answers1.add(database.getQuestionText("---os llamàis").getChoice_6());
             answers1.add(database.getQuestionText("---os llamàis").getCorrect_answer());
             q = new Question(ExercisesActivity.multipleChoice, "Question"+input+": " + database.getQuestionText("---os llamàis").getQuestionText() , answers1.get(0), answers1);
+            */
         }else if(input==1){
             answers1.add("Correct answer");
             q = new Question(ExercisesActivity.typing, "Test question 2", answers1.get(0), answers1);
@@ -55,45 +60,35 @@ public class CMSconnector {
         return exercise;
     }
 
-    public static ArrayList getSubtopics(Context context, String topic){
+    public static ArrayList getSubtopics(String language, String level,  String topic){
 
-        String language = "Spain";  // These three variables are for test purpose!
-        String level = "b";
-        String topic_name = "topic";
+         language = "Spain";  // These three variables are for test purpose!
+         level = "b";
+         topic = "topic";
 
-        DatabaseHelper database = new DatabaseHelper(context);
 
         ArrayList<String> subtopicsList = new ArrayList<String>();
-        subtopicsList.add(database.getSubtopicName(language,level,topic_name).getSubtopic());
-        subtopicsList.add(database.getSubtopicName(language,level,topic_name).getSubtopic());
+        subtopicsList.add("");
+        subtopicsList.add("");
         subtopicsList.add("Ser y Estar");
-        subtopicsList.add(database.getSubtopicName(language,level,topic_name).getSubtopic());
+     //   subtopicsList.add(database.getSubtopicName(language,level,topic_name).getSubtopic());
 
 
         return subtopicsList;
     }
 
 
-    public static ArrayList getLanguages(Context context, String Language){
-
-        ArrayList<String> languageList = new ArrayList<String>();
-        languageList.add("Spanish");
-        languageList.add("German");
-        languageList.add("French");
-        languageList.add("Mexican");
+    public static List<LanguageData> getLanguages(Context context, DatabaseHelper database){
 
 
-        return languageList;
+
+        return database.getLanguageList();
     }
 
-    public static ArrayList getLevels(Context context, String Level){
-
-        ArrayList<String> levelList = new ArrayList<String>();
-        levelList.add("Beginner class");
-        levelList.add("Intermediate class");
-        levelList.add("Upper class");
+    public static List<LevelData> getLevels(Context context, DatabaseHelper database, String language){
 
 
-        return levelList;
+
+        return database.getLevelList(language);
     }
 }

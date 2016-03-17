@@ -24,9 +24,8 @@ public class MainActivity extends AppCompatActivity {
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
 
     public static UserProgress userProgress;
-    public String level="B";
-    public String currentLanguage ;
-    public String currentLevel;
+    public static String currentLanguage ;
+    public static String currentLevel;
 
 
     private DatabaseHelper database;
@@ -45,21 +44,18 @@ public class MainActivity extends AppCompatActivity {
         //TextView textView = (TextView) findViewById(R.id.testing);
        // textView.setText(currentLanguage);
 
-        currentLevel = getIntent().getStringExtra("CURRENT_LEVEL");
-        currentLanguage =getIntent().getStringExtra("CURRENT_LANGUAGE");
         //TextView textView2 = (TextView) findViewById(R.id.testing2);
        // textView2.setText(currentLevel);
       //  currentLevel    = getIntent().getStringExtra("CURRENT_LANGUAGE");
 
+        System.out.println("CURRENT LEVEL TEST " + currentLevel + " Current Lang "+ currentLanguage);
 
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
         APIWrapper downloadAPI = new APIWrapper(database);
-        downloadAPI.apiHandler();
 
 
 
-        System.out.println("Lang list happen :" + database.getLanguageList());
 
         System.out.println(database.getAllKey());
         System.out.println("TESTING  "+database.getLevelList("Korean"));

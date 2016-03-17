@@ -9,12 +9,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import com.example.spanishgrammarapp.Data.LevelData;
+
+import java.util.List;
 
 public class LevelActivity extends AppCompatActivity implements OnClickListener {
     public final static String CURRENT_LEVEL = "CURRENT_LEVEL";
     public final static String CURRENT_LANGUAGE = "CURRENT_LANGUAGE";
     private String currentLanguage;
+    private DatabaseHelper database;
 
 
 
@@ -30,16 +34,17 @@ public class LevelActivity extends AppCompatActivity implements OnClickListener 
         TextView textView = (TextView) findViewById(R.id.tv_level);
         textView.setText(currentLanguage);
 
-
+        database = new DatabaseHelper(this.getBaseContext());
+        database.getLevelList(currentLanguage);
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_id);
 
         //This will pass subtopicList from Database
-        ArrayList<String> levels = CMSconnector.getLevels(getBaseContext(), CURRENT_LEVEL);
-
-        for (String Levels: levels) {
+        List<LevelData> levels = CMSconnector.getLevels(getBaseContext(),database, MainActivity.currentLanguage);
+        System.out.println("LEVEL LIST : " + levels);
+        for (LevelData Levels: levels) {
             Button button = new Button(this);
-            button.setText(Levels);
+            button.setText(Levels.toString());
             button.setOnClickListener(this);
             mainLayout.addView(button);
         }
@@ -48,11 +53,8 @@ public class LevelActivity extends AppCompatActivity implements OnClickListener 
 
     @Override
     public void onClick(View view) {
-
         Intent intent = new Intent(this, MainActivity.class);
-        String currentLevel = ((TextView) view).getText().toString();
-        intent.putExtra(CURRENT_LEVEL, currentLevel);
-        intent.putExtra(CURRENT_LANGUAGE, currentLanguage);
+        MainActivity.currentLevel = ((TextView) view).getText().toString();
         startActivity(intent);
     }
 }

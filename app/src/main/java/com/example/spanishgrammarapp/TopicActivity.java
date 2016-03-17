@@ -9,12 +9,17 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.spanishgrammarapp.Data.APIWrapper;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+
 import java.util.ArrayList;
 
 public class TopicActivity extends AppCompatActivity implements OnClickListener {
     public final static String CURRENT_TOPIC = "CURRENT_TOPIC";
     public final static String SUBTOPIC = "SUBTOPIC";
     private String currentTopic;
+    DatabaseHelper db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +35,15 @@ public class TopicActivity extends AppCompatActivity implements OnClickListener 
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_id);
 
+        // Get language level topic from proper variable
+        String language = "Spanish";
+        String level = "b";
+        String topic = "Greeting";
+
+        APIWrapper subtopicAPI = new APIWrapper(db);
         //This will pass subtopicList from Database
-        ArrayList<String> subtopics = CMSconnector.getSubtopics(getBaseContext(), currentTopic);
+        ArrayList<String> subtopics = subtopicAPI.getSubtopicList(language, level, topic);
+
 
 
         for (String subtopicTitle: subtopics) {

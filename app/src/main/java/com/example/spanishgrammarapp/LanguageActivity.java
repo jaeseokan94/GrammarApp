@@ -9,27 +9,37 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.example.spanishgrammarapp.Data.APIWrapper;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import com.example.spanishgrammarapp.Data.LanguageData;
+
+import java.util.List;
 
 public class LanguageActivity extends AppCompatActivity implements OnClickListener {
     public final static String CURRENT_LANGUAGE = "CURRENT_LANGUAGE";
 
+    private DatabaseHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language);
 
+        database = new DatabaseHelper(this.getBaseContext());
+        APIWrapper downloadAPI = new APIWrapper(database);
+        downloadAPI.getLangLevelAPI();
+
+        database.getLanguageList();
+
+
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_id);
 
         //This will pass subtopicList from Database
-        ArrayList<String> languages = CMSconnector.getLanguages(getBaseContext(), CURRENT_LANGUAGE);
+        List<LanguageData> languages = CMSconnector.getLanguages(getBaseContext(), database);
 
-
-
-        for (String languageTitle: languages) {
+        for (LanguageData languageTitle: languages) {
             Button button = new Button(this);
-            button.setText(languageTitle);
+            button.setText(languageTitle.toString());
             button.setOnClickListener(this);
             mainLayout.addView(button);
         }
@@ -41,8 +51,7 @@ public class LanguageActivity extends AppCompatActivity implements OnClickListen
      */
     public void onClick(View view){
         Intent intent = new Intent(this, LevelActivity.class);
-        String currentLanguage = ((TextView) view).getText().toString();
-        intent.putExtra(CURRENT_LANGUAGE, currentLanguage);
+        MainActivity.currentLanguage = ((TextView) view).getText().toString();
         startActivity(intent);
     }
 }

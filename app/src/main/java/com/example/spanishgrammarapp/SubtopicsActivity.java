@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
 
     private String topic;
     private String SUBTOPIC;
+    private String level;
+    private String language;
     DatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +32,12 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
 
         LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
 
-
+        APIWrapper subtopicAPI = new APIWrapper(db);
         //This will pass subtopicList from Database
-        ArrayList<String> subtopics = CMSconnector.getSubtopics(getBaseContext(), topic);
+        System.out.println(MainActivity.currentLanguage);
+        ArrayList<String> subtopics = subtopicAPI.getSubtopicList(MainActivity.currentLanguage, MainActivity.currentLevel, topic);
+        System.out.println("SUBTOPIC URL TEST ~~~~~~~~");
+        System.out.println(subtopics);
 
         for (String subtopic: subtopics) {
             Button button = new Button(this);

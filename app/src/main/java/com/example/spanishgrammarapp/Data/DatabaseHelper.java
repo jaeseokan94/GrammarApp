@@ -356,7 +356,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         System.out.println(Query);
 
-        Cursor cursor = db.rawQuery(Query, new String[]{language});
+        Cursor cursor = db.rawQuery(Query, new String[]{String.valueOf(language)});
 
         LevelData levelList = null;
         if(cursor!=null) {
@@ -365,8 +365,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 do {
                     levelList = new LevelData();
                     levelList.setLevel(cursor.getString(cursor.getColumnIndex(LEVEL)));
-                    levels.add(levelList);
-
+                    if(cursor.getString(cursor.getColumnIndex(LEVEL))!=null) {
+                        levels.add(levelList);
+                    }
                 } while (cursor.moveToNext());
             }
 

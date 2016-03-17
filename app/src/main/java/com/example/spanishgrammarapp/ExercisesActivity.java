@@ -113,8 +113,8 @@ public class ExercisesActivity extends AppCompatActivity {
         Exercise exercise = getExerciseFromSaved(identifier); //initially use the getExerciseFromSaved method, this will return an existing exercise is there is one, otherwise null
         if(exercise==null){ //if getExerciseFromSaved returned null, then create a new exercise
             exercise = new Exercise(identifier);
-            CMSconnector connector = new CMSconnector(exercise, topic); //pass that empty Exercise to the CMSconnector
-            connector.getExercise(this.getBaseContext(), topic, subtopic); //the connector populates it with data from the DB
+            CMSconnector connector = new CMSconnector(exercise, topic, this.getBaseContext()); //pass that empty Exercise to the CMSconnector
+            connector.getExercise( topic, subtopic); //the connector populates it with data from the DB
         }
         return exercise; //create a new Exercise, a set of questions (empty)
     }
