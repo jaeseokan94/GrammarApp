@@ -12,7 +12,7 @@ import com.example.spanishgrammarapp.APIWrapper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
-import com.example.spanishgrammarapp.resources.data.Letter;
+import com.example.spanishgrammarapp.resources.data.Holiday;
 
 import java.util.ArrayList;
 
@@ -44,12 +44,12 @@ public class HolidaysActivity extends AppCompatActivity {
         tvInstructions.setText(instructions);
 
         //Get set of Holidays from API
-        ArrayList<Letter> letters = APIWrapper.getLetters(MainActivity.LANGUAGE, ResourcesActivity.DIALECT);
+        ArrayList<Holiday> holidays = APIWrapper.getHolidays(MainActivity.LANGUAGE, ResourcesActivity.DIALECT);
 
         //Dynamically create images
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.holiday_layout);
 
-        for(Letter letter: letters) {
+        for(Holiday holiday: holidays) {
             ImageView ivHoliday = new ImageView(getBaseContext());
             ivHoliday.setImageDrawable(getDrawable(R.drawable.a));
             mainLayout.addView(ivHoliday);

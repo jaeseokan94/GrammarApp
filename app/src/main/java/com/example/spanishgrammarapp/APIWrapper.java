@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import com.example.spanishgrammarapp.resources.data.Holiday;
 import com.example.spanishgrammarapp.resources.data.Letter;
 
 import org.json.JSONArray;
@@ -264,5 +265,28 @@ System.out.println(jsonArray.length());
         String instructions = "Click a letter to hear it.";
 
         return instructions;
+    }
+
+    /**
+     * gets holidays from API
+     * @param languageName
+     * @param dialect
+     * @return instructions
+     */
+    public static ArrayList<Holiday> getHolidays(String languageName, String dialect) {
+        //TODO implement this method
+
+        ArrayList<Holiday> holidays = new ArrayList<Holiday>();
+
+        String name_english = "New year";
+        String name_language = "Año nuevo";
+        String date = "Primero de javier";
+        String imgURL = "http://www.dogoilpress.com/data/wallpapers/3/FDS_355863.jpg";
+
+        for (int i = 0; i < 26; i++) {
+            holidays.add(new Holiday(name_english, name_language, date, imgURL));
+        }
+
+        return holidays;
     }
 }
