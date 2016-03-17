@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.spanishgrammarapp.R;
 
@@ -22,10 +23,16 @@ public class AlphabetActivity extends AppCompatActivity {
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.alphabet_layout);
 
-        View letterView =
-                getLayoutInflater().inflate(R.layout.letter_layout, mainLayout, false);
 
-        mainLayout.addView(letterView);
+
+        View letterView;
+        for(int i = 0; i < 10; i++) {
+            letterView = getLayoutInflater().inflate(R.layout.letter_layout, mainLayout, false);
+            mainLayout.addView(letterView);
+            TextView label =
+                    (TextView)letterView.findViewById(R.id.letter);
+            label.setText(Integer.toString(i));
+        }
     }
 
     public void playSound(View view) {
