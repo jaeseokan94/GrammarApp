@@ -1,4 +1,4 @@
-package com.example.spanishgrammarapp.resources;
+package com.example.spanishgrammarapp.resources.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,7 @@ public class CalendarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alphabet);
+        //TODO implement layout
+        setContentView(R.layout.activity_calendar);
     }
 }

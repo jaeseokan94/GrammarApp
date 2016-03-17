@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Alphabet of chosen language is created and shown here. Letters are dynamically created and can
- * be clicked to listen to the pronunciation.
+ * Alphabet of chosen language, or Numbers or Days is created and shown here depending on the String
+ * Extra. Letters are dynamically created and can be clicked to listen to the pronunciation.
  */
 public class AlphabetActivity extends AppCompatActivity {
     private MediaPlayer player;

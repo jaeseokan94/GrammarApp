@@ -55,6 +55,9 @@
         <activity
             android:name=".resources.activities.AlphabetActivity" >
         </activity>
+        <activity
+            android:name=".resources.activities.CalendarActivity" >
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS"></uses-permission>

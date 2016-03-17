@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 
+import com.example.spanishgrammarapp.resources.activities.CalendarActivity;
 import com.example.spanishgrammarapp.resources.activities.AlphabetActivity;
 
 public class ResourcesActivity extends AppCompatActivity {
@@ -25,16 +26,20 @@ public class ResourcesActivity extends AppCompatActivity {
     }
 
     public void showNumbersActivity(View v){
-        //TODO change to NumbersActivity
         Intent intent = new Intent(this, AlphabetActivity.class);
         intent.putExtra(RESOURCE_NAME, "Numbers");
         startActivity(intent);
     }
 
     public void showDaysActivity(View v){
-        //TODO change to DaysActivity
         Intent intent = new Intent(this, AlphabetActivity.class);
         intent.putExtra(RESOURCE_NAME, "Days");
+        startActivity(intent);
+    }
+
+    public void showCalendarActivity(View v){
+        Intent intent = new Intent(this, CalendarActivity.class);
+        intent.putExtra(RESOURCE_NAME, "Calendar");
         startActivity(intent);
     }
 
