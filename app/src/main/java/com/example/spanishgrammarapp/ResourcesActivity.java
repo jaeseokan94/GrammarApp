@@ -10,6 +10,7 @@ import com.example.spanishgrammarapp.resources.activities.AlphabetActivity;
 
 public class ResourcesActivity extends AppCompatActivity {
     public static String DIALECT = "Mexican";
+    public static String RESOURCE_NAME = "Resource";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,18 +20,21 @@ public class ResourcesActivity extends AppCompatActivity {
 
     public void showAlphabetActivity(View v){
         Intent intent = new Intent(this, AlphabetActivity.class);
+        intent.putExtra(RESOURCE_NAME, "Alphabet");
         startActivity(intent);
     }
 
     public void showNumbersActivity(View v){
         //TODO change to NumbersActivity
         Intent intent = new Intent(this, AlphabetActivity.class);
+        intent.putExtra(RESOURCE_NAME, "Numbers");
         startActivity(intent);
     }
 
     public void showDaysActivity(View v){
         //TODO change to DaysActivity
         Intent intent = new Intent(this, AlphabetActivity.class);
+        intent.putExtra(RESOURCE_NAME, "Days");
         startActivity(intent);
     }
 

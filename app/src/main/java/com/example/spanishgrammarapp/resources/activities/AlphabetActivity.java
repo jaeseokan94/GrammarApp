@@ -1,5 +1,6 @@
 package com.example.spanishgrammarapp.resources.activities;
 
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,12 +25,15 @@ import java.util.ArrayList;
  */
 public class AlphabetActivity extends AppCompatActivity {
     private MediaPlayer player;
-    private String resource = "Alphabet";
+    private String resource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alphabet);
+
+        //Get resource name
+        resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
 
         //Get instructions from API
         String instructions = APIWrapper.getInstructions(MainActivity.LANGUAGE,
@@ -37,7 +41,7 @@ public class AlphabetActivity extends AppCompatActivity {
 
         //Set up
         TextView tvTitle = (TextView) findViewById(R.id.tv_alphabet_title);
-        tvTitle.setText("Alphabet - " + ResourcesActivity.DIALECT + " accent");
+        tvTitle.setText(resource + " - " + ResourcesActivity.DIALECT + " accent");
 
         TextView tvInstructions = (TextView) findViewById(R.id.tv_alphabet_instructions);
         tvInstructions.setText(instructions);
@@ -51,6 +55,7 @@ public class AlphabetActivity extends AppCompatActivity {
         View letterView;
         for(Letter letter: letters) {
             letterView = getLayoutInflater().inflate(R.layout.letter_layout, mainLayout, false);
+            letterView.setBackgroundColor(Color.YELLOW);
             mainLayout.addView(letterView);
             TextView tvLetter = (TextView)letterView.findViewById(R.id.letter);
             TextView tvPronunciation = (TextView)letterView.findViewById(R.id.pronunciation_guide);
@@ -66,7 +71,7 @@ public class AlphabetActivity extends AppCompatActivity {
      * @param view clicked letter_layout
      */
     public void playSound(View view) {
-        Log.d("MainActivity","resource sound played");
+        Log.d("MainActivity","resource sound played" + (String)view.getTag());
         try {
             player = new MediaPlayer();
             player.setDataSource((String)view.getTag());
