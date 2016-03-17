@@ -230,7 +230,7 @@ System.out.println(jsonArray.length());
     }
 
 
-    public static ArrayList<Letter> getLetters(String languageName) {
+    public static ArrayList<Letter> getLetters(String languageName, String dialect) {
         //TODO implement this method
 
         ArrayList<Letter> letters = new ArrayList<Letter>();

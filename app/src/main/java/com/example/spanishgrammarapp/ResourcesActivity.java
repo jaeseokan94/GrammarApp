@@ -9,6 +9,7 @@ import android.view.View;
 import com.example.spanishgrammarapp.resources.AlphabetActivity;
 
 public class ResourcesActivity extends AppCompatActivity {
+    public static String DIALECT = "Mexican";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

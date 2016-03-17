@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.spanishgrammarapp.APIWrapper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
+import com.example.spanishgrammarapp.ResourcesActivity;
 import com.example.spanishgrammarapp.resources.data.Letter;
 
 import java.io.IOException;
@@ -28,9 +29,9 @@ public class AlphabetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alphabet);
-        
+
         //Get set of Letters from API
-        ArrayList<Letter> letters = APIWrapper.getLetters(MainActivity.LANGUAGE);
+        ArrayList<Letter> letters = APIWrapper.getLetters(MainActivity.LANGUAGE, ResourcesActivity.DIALECT);
 
         //Dynamically create letters (with pronunciation and audioURL as tag) as views
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.alphabet_layout);
