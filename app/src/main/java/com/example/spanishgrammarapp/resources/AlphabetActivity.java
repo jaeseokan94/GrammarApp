@@ -22,6 +22,7 @@ public class AlphabetActivity extends AppCompatActivity {
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.alphabet_layout);
 
+
     }
 
     public void playSound(View view) {
