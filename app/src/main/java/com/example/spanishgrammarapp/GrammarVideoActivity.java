@@ -1,6 +1,5 @@
 package com.example.spanishgrammarapp;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.MediaController;
@@ -24,7 +23,7 @@ public class GrammarVideoActivity extends AppCompatActivity {
         subtopicTitle = getIntent().getStringExtra(TopicActivity.SUBTOPIC);
 
         //get uri of grammar video
-        Uri uri_grammar_video = APIWrapper.getGrammarVideoUri(topicTitle, subtopicTitle);
+      //  Uri uri_grammar_video = APIWrapper.getGrammarVideoUri(topicTitle, subtopicTitle);
 
         //setup
         TextView tvSubtopicTitle = (TextView) findViewById(R.id.tv_grammar_video_subtopic);
@@ -32,7 +31,7 @@ public class GrammarVideoActivity extends AppCompatActivity {
 
         VideoView video_player_view = (VideoView) findViewById(R.id.vv_grammar_video);
 
-        video_player_view.setVideoURI(uri_grammar_video);
+//        video_player_view.setVideoURI(uri_grammar_video);
         video_player_view.requestFocus();
         video_player_view.start();
 

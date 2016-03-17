@@ -10,10 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
-import com.example.spanishgrammarapp.Data.KeyData;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,11 +22,10 @@ public class MainActivity extends AppCompatActivity {
     public final static String QUESTION_TEXT = "QUESTION";
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
+
     public static UserProgress userProgress;
-    public static String LANGUAGE = "Spanish";
-    public String level="B";
-    public String currentLanguage ;
-    public String currentLevel;
+    public static String currentLanguage ;
+    public static String currentLevel;
 
 
     private DatabaseHelper database;
@@ -47,23 +44,25 @@ public class MainActivity extends AppCompatActivity {
         //TextView textView = (TextView) findViewById(R.id.testing);
        // textView.setText(currentLanguage);
 
-        currentLevel = getIntent().getStringExtra("CURRENT_LEVEL");
-        currentLanguage =getIntent().getStringExtra("CURRENT_LANGUAGE");
         //TextView textView2 = (TextView) findViewById(R.id.testing2);
        // textView2.setText(currentLevel);
       //  currentLevel    = getIntent().getStringExtra("CURRENT_LANGUAGE");
 
-
+        System.out.println("CURRENT LEVEL TEST " + currentLevel + " Current Lang "+ currentLanguage);
 
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
         APIWrapper downloadAPI = new APIWrapper(database);
-        downloadAPI.apiQuestions();
-        //downloadAPI.getSubtopics(language, level, TOPIC);
-        database.getAllKey();
-        List<KeyData> list = database.getAllKey(); // getAllquestions list Test purpose
-        System.out.println(list);
-        
+
+
+
+
+        System.out.println(database.getAllKey());
+        System.out.println("TESTING  "+database.getLevelList("Korean"));
+        System.out.println("TESTING  "+database.getLevelList("Spanish"));
+        System.out.println("TESTING REAL "+database.getSubTopicList("Spanish","b","Greeting"));
+
+
     }
 
 
@@ -89,11 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void glossaryActivity(View view){
         Intent intent = new Intent(this, GlossaryActivity.class);
-        startActivity(intent);
-    }
-
-    public void recordingActivity(View view){
-        Intent intent = new Intent(this, RecordingToolActivity.class);
         startActivity(intent);
     }
 

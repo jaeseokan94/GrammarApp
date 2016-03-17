@@ -11,6 +11,11 @@ import java.util.List;
 
 /**
  * Created by JAESEOKAN on 06/03/2016.
+ *
+ * TODO : SituationalVideo, GrammarVideo -> Need to be add into KEY DATA TABLE
+ * TODO : Resources
+ * TODO : QuestionExercise TABLE -> Foreign Key : subtopic from KEY DATA TABLE
+ *
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
     //Tag just for the logcat window
@@ -55,12 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //FOREIGN KEY(customer_id) REFERENCES customers(id),
 
 
-
-
-
-
-
-
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DB_VER);
         this.myContext = context;
@@ -103,9 +102,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean addLanguage(String language) {
         //check if data exist
         SQLiteDatabase dbCheck = this.getReadableDatabase();
-        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE " + LANGUAGE + " = ?"; //Replace questionText to primary key or ID
-        String ID = IDGenerator_language(language);
-        Cursor cursor = dbCheck.rawQuery(Query, new String[]{ID});
+        String Query = "SELECT " + "*" + " FROM " + KEY_TABLE + " WHERE " + LANGUAGE + " = ? LIMIT 1"; //Replace questionText to primary key or ID
+
+        Cursor cursor = dbCheck.rawQuery(Query, new String[]{language});
+
         System.out.println("DATA Language");
 
         if (cursor.getCount() != 0) {
@@ -114,7 +114,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
 
-        System.out.println("DATA ADDED SUCCESSFULLY");
         SQLiteDatabase db = this.getWritableDatabase();
 
         // To add column
@@ -126,6 +125,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return true;
     }
+
+    public boolean addLevel(String language, String level) {
+
+        //check if data exist
+        String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =? LIMIT 1" ;
+
+        System.out.println(Query);
+
+        SQLiteDatabase dbc = this.getReadableDatabase();
+        Cursor cursor = dbc.rawQuery(Query, new String[]{language, level});
+
+        if (cursor.getCount() != 0) {
+            cursor.close();
+            System.out.println("DATA LEVEL EXIST WORK!!");
+            return false;
+        }
+        cursor.close();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // To add column
+        ContentValues values = new ContentValues(); // this class is used to store a values
+        values.put(LANGUAGE, language);
+        values.put(LEVEL, level);
+
+        db.insert(KEY_TABLE, null, values);
+
+        db.close();
+        System.out.println("DATA ADDED SUCCESSFULLY");
+
+        return true;
+    }
+
 
 
     /*
@@ -250,6 +282,164 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return questionData;
     }
 
+    public List<KeyData> getAllKey() {
+        List<KeyData> keys = new LinkedList<KeyData>();
+
+        String query = "SELECT * FROM " + KEY_TABLE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        KeyData keyData = null;
+
+        if (cursor.moveToFirst()) {
+            do {
+                keyData = new KeyData();
+                keyData.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+                keyData.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
+                keyData.setLevel(cursor.getString(cursor.getColumnIndex(LEVEL)));
+                keyData.setTopic(cursor.getString(cursor.getColumnIndex(TOPIC)));
+                keyData.setSubtopic(cursor.getString(cursor.getColumnIndex(SUBTOPIC)));
+
+                keys.add(keyData);
+
+            } while (cursor.moveToNext());
+        }
+        System.out.println("SELECT ALL WORK IN KEY DATA!");
+
+        return keys;
+    }
+
+    /**
+     * returns languageNameList
+     */
+    public List<LanguageData> getLanguageList() // this need to be modified to get subtopic and topic name as parameters
+    {
+        List<LanguageData> languages = new LinkedList<LanguageData>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        String Query = "SELECT DISTINCT language"+ " FROM " + KEY_TABLE  ;
+
+        System.out.println(Query);
+
+        Cursor cursor = db.rawQuery(Query, null);
+
+        LanguageData languageList = null;
+
+        if (cursor.moveToFirst()) {
+            do {
+                languageList = new LanguageData();
+                languageList.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
+                languages.add(languageList);
+
+            } while (cursor.moveToNext());
+        }
+
+        return languages;
+
+    }
+
+    /**
+     * returns languageNameList
+     */
+    public List<LevelData> getLevelList(String language) // this need to be modified to get subtopic and topic name as parameters
+    {
+        List<LevelData> levels = new LinkedList<LevelData>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        String Query = "SELECT DISTINCT level"+ " FROM " + KEY_TABLE + " WHERE language =? "  ;
+
+        System.out.println(Query);
+
+        Cursor cursor = db.rawQuery(Query, new String[]{String.valueOf(language)});
+
+        LevelData levelList = null;
+        if(cursor!=null) {
+            if (cursor.moveToFirst()) {
+                System.out.println("DO I ADD?");
+                do {
+                    levelList = new LevelData();
+                    levelList.setLevel(cursor.getString(cursor.getColumnIndex(LEVEL)));
+                    if(cursor.getString(cursor.getColumnIndex(LEVEL))!=null) {
+                        levels.add(levelList);
+                    }
+                } while (cursor.moveToNext());
+            }
+
+        }
+        System.out.println("DID I ADD?");
+
+        return levels;
+
+    }
+
+    public List<SubtopicData> getSubTopicList(String language, String level, String topic) // this need to be modified to get subtopic and topic name as parameters
+    {
+        List<SubtopicData> subtopics = new LinkedList<SubtopicData>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        String Query = "SELECT DISTINCT level"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =? AND topic =? "  ;
+
+        System.out.println(Query);
+
+        Cursor cursor = db.rawQuery(Query, new String[]{language,level,topic});
+
+        SubtopicData subtopicList = null;
+
+        if (cursor.moveToFirst()) {
+            do {
+                subtopicList = new SubtopicData();
+                subtopicList.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
+                subtopicList.setLanguage(cursor.getString(cursor.getColumnIndex(LEVEL)));
+                subtopicList.setLanguage(cursor.getString(cursor.getColumnIndex(TOPIC)));
+                subtopicList.setLanguage(cursor.getString(cursor.getColumnIndex(SUBTOPIC)));
+                subtopics.add(subtopicList);
+
+            } while (cursor.moveToNext());
+        }
+
+        return subtopics;
+
+    }
+
+    /**
+     * returns subtopic Name
+     */
+    public KeyData getLevelName(String language) // this need to be modified to get subtopic and topic name as parameters
+    {
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? " ;
+
+        System.out.println(Query);
+
+        Cursor cursor = db.rawQuery(Query, new String[]{language});
+
+        if( cursor != null && cursor.getCount()>0)
+            cursor.moveToFirst();
+
+        KeyData keyData = new KeyData();
+        keyData.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+        keyData.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
+        keyData.setLevel(cursor.getString(cursor.getColumnIndex(LEVEL)));
+
+        cursor.close();
+        System.out.println("Get LEVEL NAME WORK !!");
+
+
+        return keyData;
+    }
+
+
     /**
      * returns subtopic Name
      * TODO: @param to Lang, level, topic name
@@ -260,7 +450,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // 2. build query
-          String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =? AND topic =?" ;
+        String Query = "SELECT *"+ " FROM " + KEY_TABLE + " WHERE language =? AND level =? AND topic =?" ;
 
         System.out.println(Query);
 
@@ -282,6 +472,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return keyData;
     }
+
+
     public List<QuestionData> getAllQuestion() {
         List<QuestionData> questions = new LinkedList<QuestionData>();
 
@@ -314,34 +506,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return questions;
     }
 
-    public List<KeyData> getAllKey() {
-        List<KeyData> keys = new LinkedList<KeyData>();
 
-        String query = "SELECT * FROM " + KEY_TABLE;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.rawQuery(query, null);
-
-        KeyData keyData = null;
-
-        if (cursor.moveToFirst()) {
-            do {
-                keyData = new KeyData();
-                keyData.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
-                keyData.setLanguage(cursor.getString(cursor.getColumnIndex(LANGUAGE)));
-                keyData.setLevel(cursor.getString(cursor.getColumnIndex(LEVEL)));
-                keyData.setTopic(cursor.getString(cursor.getColumnIndex(TOPIC)));
-                keyData.setSubtopic(cursor.getString(cursor.getColumnIndex(SUBTOPIC)));
-
-                keys.add(keyData);
-
-            } while (cursor.moveToNext());
-        }
-        System.out.println("SELECT ALL WORK IN KEY DATA!");
-
-        return keys;
-    }
 
 }
 
