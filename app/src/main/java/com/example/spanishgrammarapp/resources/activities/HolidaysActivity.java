@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.spanishgrammarapp.APIWrapper;
+import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
@@ -41,7 +41,7 @@ public class HolidaysActivity extends AppCompatActivity implements View.OnClickL
         resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
 
         //Get instructions from API
-        String instructions = APIWrapper.getInstructions(MainActivity.LANGUAGE,
+        String instructions = APIWrapper.getInstructions(MainActivity.currentLanguage,
                 ResourcesActivity.DIALECT, resource);
 
         //Set up
@@ -52,7 +52,7 @@ public class HolidaysActivity extends AppCompatActivity implements View.OnClickL
         tvInstructions.setText(instructions);
 
         //Get set of Holidays from API
-        holidays = APIWrapper.getHolidays(MainActivity.LANGUAGE, ResourcesActivity.DIALECT);
+        holidays = APIWrapper.getHolidays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
 
         //Dynamically create images of holidays
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.holiday_layout);

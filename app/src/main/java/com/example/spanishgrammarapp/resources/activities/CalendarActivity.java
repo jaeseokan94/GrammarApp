@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.example.spanishgrammarapp.APIWrapper;
+import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
@@ -25,7 +25,7 @@ public class CalendarActivity extends AppCompatActivity {
         resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
 
         //Get instructions from API
-        String instructions = APIWrapper.getInstructions(MainActivity.LANGUAGE,
+        String instructions = APIWrapper.getInstructions(MainActivity.currentLanguage,
                 ResourcesActivity.DIALECT, resource);
 
         //Set up
