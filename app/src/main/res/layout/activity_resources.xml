@@ -57,7 +57,8 @@
         android:id="@+id/imageButton5"
         android:background="@drawable/festival"
         android:layout_alignBottom="@+id/imageButton4"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="showHolidaysActivity"/>
 
     <ImageButton
         android:layout_width="100dp"
