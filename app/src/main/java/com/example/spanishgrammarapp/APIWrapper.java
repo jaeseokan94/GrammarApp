@@ -283,7 +283,7 @@ System.out.println(jsonArray.length());
         String date = "Primero de javier";
         String imgURL = "http://www.dogoilpress.com/data/wallpapers/3/FDS_355863.jpg";
 
-        for (int i = 0; i < 26; i++) {
+        for (int i = 0; i < 5; i++) {
             holidays.add(new Holiday(name_english, name_language, date, imgURL));
         }
 

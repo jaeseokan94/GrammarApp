@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,12 +47,30 @@ public class HolidaysActivity extends AppCompatActivity {
         //Get set of Holidays from API
         ArrayList<Holiday> holidays = APIWrapper.getHolidays(MainActivity.LANGUAGE, ResourcesActivity.DIALECT);
 
-        //Dynamically create images
+        //Dynamically create images of holidays
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.holiday_layout);
 
         for(Holiday holiday: holidays) {
+            /* code from http://stackoverflow.com/questions/6407324/how-to-get-image-from-url-in-android */
             ImageView ivHoliday = new ImageView(getBaseContext());
+//            InputStream is = null;
+//            try {
+//                is = (InputStream) new URL(holiday.getImageURL()).getContent();
+//                Drawable d = Drawable.createFromStream(is, "src name");
+//                ivHoliday.setImageDrawable(d);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+            //TODO Make it create images dynamically
             ivHoliday.setImageDrawable(getDrawable(R.drawable.a));
+            ivHoliday.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    
+                }
+            });
+            ivHoliday.setMaxHeight(10);
+            ivHoliday.setMaxWidth(10);
             mainLayout.addView(ivHoliday);
         }
     }

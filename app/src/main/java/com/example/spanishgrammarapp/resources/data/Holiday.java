@@ -15,4 +15,20 @@ public class Holiday {
         date = d;
         imageURL = i;
     }
+
+    public String getName_English() {
+        return name_English;
+    }
+
+    public String getName_InLanguage() {
+        return name_InLanguage;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
 }
