@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.spanishgrammarapp.APIWrapper;
+import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
@@ -36,7 +36,7 @@ public class AlphabetActivity extends AppCompatActivity {
         resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
 
         //Get instructions from API
-        String instructions = APIWrapper.getInstructions(MainActivity.LANGUAGE,
+        String instructions = APIWrapper.getInstructions(MainActivity.currentLanguage,
                 ResourcesActivity.DIALECT, resource);
 
         //Set up
@@ -48,7 +48,7 @@ public class AlphabetActivity extends AppCompatActivity {
 
         //TODO put if statement or change getLetters to only return Language
         //Get set of Letters from API
-        ArrayList<Letter> letters = APIWrapper.getLetters(MainActivity.LANGUAGE, ResourcesActivity.DIALECT);
+        ArrayList<Letter> letters = APIWrapper.getLetters(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
 
         //Dynamically create letters (with pronunciation and audioURL as tag) as views
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.alphabet_layout);
