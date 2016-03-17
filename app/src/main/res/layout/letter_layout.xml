@@ -2,18 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:onClick="playSound">
 
     <TextView
         android:id="@+id/letter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ch" />
+        android:text="letter" />
 
     <TextView
         android:id="@+id/pronunciation_guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="che" />
+        android:text="pronunciation" />
 
 </LinearLayout>

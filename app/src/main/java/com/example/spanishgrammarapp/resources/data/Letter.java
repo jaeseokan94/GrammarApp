@@ -1,19 +1,17 @@
 package com.example.spanishgrammarapp.resources.data;
 
-import java.net.URI;
-
 /**
  * Created by janaldoustorres on 17/03/2016.
  */
 public class Letter {
     private String letter;
     private String pronunciation;
-    private URI audioURL;
+    private String audioURL;
 
     public Letter (String l, String p, String a) {
         letter = l;
         pronunciation = p;
-        audioURL = URI.create(a);
+        audioURL = a;
     }
 
     public String getLetter() {
@@ -24,7 +22,7 @@ public class Letter {
         return pronunciation;
     }
 
-    public URI getAudioURL() {
+    public String getAudioURL() {
         return audioURL;
     }
 }
