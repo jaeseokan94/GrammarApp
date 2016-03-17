@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 
-import com.example.spanishgrammarapp.resources.AlphabetActivity;
+import com.example.spanishgrammarapp.resources.activities.AlphabetActivity;
 
 public class ResourcesActivity extends AppCompatActivity {
     public static String DIALECT = "Mexican";

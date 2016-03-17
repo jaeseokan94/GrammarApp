@@ -1,4 +1,4 @@
-package com.example.spanishgrammarapp.resources;
+package com.example.spanishgrammarapp.resources.activities;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;

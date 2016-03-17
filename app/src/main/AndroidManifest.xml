@@ -53,7 +53,7 @@
             android:label="@string/title_activity_situational_video" >
         </activity>
         <activity
-            android:name=".resources.AlphabetActivity" >
+            android:name=".resources.activities.AlphabetActivity" >
         </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
