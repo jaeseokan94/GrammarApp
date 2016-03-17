@@ -22,7 +22,10 @@ public class AlphabetActivity extends AppCompatActivity {
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.alphabet_layout);
 
+        View letterView =
+                getLayoutInflater().inflate(R.layout.letter_layout, mainLayout, false);
 
+        mainLayout.addView(letterView);
     }
 
     public void playSound(View view) {
