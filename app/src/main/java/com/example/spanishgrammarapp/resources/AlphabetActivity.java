@@ -28,13 +28,13 @@ public class AlphabetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alphabet);
-
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.alphabet_layout);
-
+        
         //Get set of Letters from API
         ArrayList<Letter> letters = APIWrapper.getLetters(MainActivity.LANGUAGE);
 
-        //Dynamically create letters (with pronunciation and audioURL as tag)
+        //Dynamically create letters (with pronunciation and audioURL as tag) as views
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.alphabet_layout);
+
         View letterView;
         for(Letter letter: letters) {
             letterView = getLayoutInflater().inflate(R.layout.letter_layout, mainLayout, false);
