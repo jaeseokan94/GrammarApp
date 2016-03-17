@@ -13,4 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView2"
+        android:layout_gravity="center_horizontal" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/holiday_layout"></LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

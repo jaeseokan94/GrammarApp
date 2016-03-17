@@ -1,13 +1,20 @@
 package com.example.spanishgrammarapp.resources.activities;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.APIWrapper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
+import com.example.spanishgrammarapp.resources.data.Letter;
+
+import java.util.ArrayList;
 
 /**
  * Created by janaldoustorres on 17/03/2016.
@@ -15,6 +22,7 @@ import com.example.spanishgrammarapp.ResourcesActivity;
 public class HolidaysActivity extends AppCompatActivity {
     private String resource;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +43,16 @@ public class HolidaysActivity extends AppCompatActivity {
         TextView tvInstructions = (TextView) findViewById(R.id.tv_instructions);
         tvInstructions.setText(instructions);
 
+        //Get set of Holidays from API
+        ArrayList<Letter> letters = APIWrapper.getLetters(MainActivity.LANGUAGE, ResourcesActivity.DIALECT);
 
+        //Dynamically create images
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.holiday_layout);
 
+        for(Letter letter: letters) {
+            ImageView ivHoliday = new ImageView(getBaseContext());
+            ivHoliday.setImageDrawable(getDrawable(R.drawable.a));
+            mainLayout.addView(ivHoliday);
+        }
     }
 }
