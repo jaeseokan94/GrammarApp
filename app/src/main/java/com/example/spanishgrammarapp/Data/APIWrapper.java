@@ -7,6 +7,8 @@ import com.example.spanishgrammarapp.Exercise;
 import com.example.spanishgrammarapp.ExercisesActivity;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.Question;
+import com.example.spanishgrammarapp.resources.data.Holiday;
+import com.example.spanishgrammarapp.resources.data.Letter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -316,7 +318,69 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         return Uri.parse(uri);
     }
 
+
+
+    /**
+     * Uses API to make list of letters.
+     * @param languageName
+     * @param dialect of langauge
+     * @return array list of Letters of passed language and dialect
+     */
+    public static ArrayList<Letter> getLetters(String languageName, String dialect) {
+        //TODO implement this method
+
+        ArrayList<Letter> letters = new ArrayList<Letter>();
+
+        String letter = "letter";
+        String pronunciation = "pronunciation";
+        String audioUrl = "http://sites.google.com/site/ubiaccessmobile/sample_audio.amr";
+
+        for (int i = 0; i < 26; i++) {
+            letters.add(new Letter(letter, pronunciation, audioUrl));
+        }
+
+        return letters;
+    }
+
+    /**
+     * gets instructions of how to use resource from API
+     * @param languageName
+     * @param dialect
+     * @param resource
+     * @return instructions
+     */
+    public static String getInstructions(String languageName, String dialect, String resource) {
+        //TODO implement this method
+
+        String instructions = "Click a letter to hear it.";
+
+        return instructions;
+    }
+
+    /**
+     * gets holidays from API
+     * @param languageName
+     * @param dialect
+     * @return instructions
+     */
+    public static ArrayList<Holiday> getHolidays(String languageName, String dialect) {
+        //TODO implement this method
+
+        ArrayList<Holiday> holidays = new ArrayList<Holiday>();
+
+        String name_english = "New year";
+        String name_language = "Año nuevo";
+        String date = "Primero de javier";
+        String imgURL = "http://www.dogoilpress.com/data/wallpapers/3/FDS_355863.jpg";
+
+        for (int i = 0; i < 5; i++) {
+            holidays.add(new Holiday(name_english, name_language, date, imgURL));
+        }
+
+        return holidays;
+    }
 }
+
 
 /* THIS METHOD FOR SUBTOPIC API SAVING INTO DB
     public void getSubtopicAPI(){
