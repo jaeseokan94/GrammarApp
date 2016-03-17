@@ -235,8 +235,8 @@ System.out.println(jsonArray.length());
 
         ArrayList<Letter> letters = new ArrayList<Letter>();
 
-        String letter = "a";
-        String pronunciation = "b";
+        String letter = "letter";
+        String pronunciation = "pronunciation";
         String audioUrl = "http://sites.google.com/site/ubiaccessmobile/sample_audio.amr";
 
         for (int i = 0; i < 26; i++) {
