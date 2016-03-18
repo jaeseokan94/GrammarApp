@@ -1,6 +1,5 @@
 package com.example.spanishgrammarapp;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -8,11 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.io.ObjectOutputStream;
 
 
 public class RecordingToolActivity extends AppCompatActivity {
@@ -20,12 +18,12 @@ public class RecordingToolActivity extends AppCompatActivity {
     // called when the activity is first created
     private MediaPlayer mediaPlayer;
     private MediaRecorder recorder;
-    private String OUTPUT_FILE;
+    private String OUTPUT_FILE = "files/TEST.mp3";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_recording_tool);
     }
 
     public void buttonTapped(View view){
@@ -69,20 +67,51 @@ public class RecordingToolActivity extends AppCompatActivity {
     }
 
     private void saveLastRecordedAudio() throws IOException {
-        String filename = "myfile";
-        String string = "Save1";
-        FileOutputStream outputStream;
-
+//        String state;
+//        state = Environment.getExternalStorageState();
+//        ListView lv = new ListView(this);
+//
+//        if (Environment.MEDIA_MOUNTED.equals(state));
+//        {
+//            File root = Environment.getExternalStorageDirectory();
+//            File Dir = new File(root.getAbsolutePath()+"/MyAppFile");
+//            if(!Dir.exists())
+//            {
+//                Dir.mkdir();
+//            }
+//            File file = new File(Dir, "MyMessage.txt");
+//            String message = lv.toString();
+//            try {
+//                FileOutputStream fop = new FileOutputStream(file);
+//                fop.write(message.getBytes());
+//                fop.close();
+//            }
+//            catch (FileNotFoundException e){
+//                e.printStackTrace();
+//            }
+//            catch (IOException e ){
+//                e.printStackTrace();
+//            }
         try {
-            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write(string.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
+            FileOutputStream fos = new FileOutputStream(new File(this.getBaseContext().getFilesDir(),"userProgress.ser"));
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+//            oos.writeObject(wrapper);
+            fos.close();
+            oos.close();
+            System.out.println("Progress saved");
+        } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("ERROR: File not written");
         }
 
+
+
+
+       ListView lv = new ListView(this);
+
+
+
         fileList();
-        ListView lv = new ListView(this);
         lv.setClickable(true);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -95,7 +124,7 @@ public class RecordingToolActivity extends AppCompatActivity {
             }
         });
     }
-    
+
 
     private void beginRecording() throws IOException {
         ditchMediaRecorder();
@@ -146,8 +175,6 @@ public class RecordingToolActivity extends AppCompatActivity {
         }
     }
 
-
-
     //If the media recorder is already in use
     private void ditchMediaRecorder(){
         if(recorder != null)
@@ -155,4 +182,3 @@ public class RecordingToolActivity extends AppCompatActivity {
     }
 
 }
-

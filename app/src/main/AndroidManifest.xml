@@ -58,20 +58,10 @@
             android:label="@string/title_activity_grammar_video" />
         <activity android:name=".ListeningComprehension" />
         <activity
-            android:name=".recording_tool"
-            android:label="@string/title_activity_recording_tool"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity
-            android:name=".RecordingTool"
-            android:label="@string/title_activity_recording_tool"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity
             android:name=".RecordingToolActivity"
-            android:label="@string/title_activity_recording_tool"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:label="@string/title_activity_recording_tool"/>
+
+
     </application>
 
 </manifest>
