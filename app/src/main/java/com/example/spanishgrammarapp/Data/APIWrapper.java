@@ -382,6 +382,12 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         return holidays;
     }
 
+    /**
+     * gets seasons and months data from API
+     * @param languageName
+     * @param dialect
+     * @return ArrayList of Seasons
+     */
     public static ArrayList<Season> getSeasonsAndMonthsData(String languageName, String dialect) {
         ArrayList<Season> seasons = new ArrayList<Season>();
         //TODO get actual data
@@ -398,7 +404,12 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         return seasons;
     }
 
-
+    /**
+     * gets time data from API
+     * @param languageName
+     * @param dialect
+     * @return ArrayList of Times
+     */
     public static ArrayList<Time> getTimeData(String languageName, String dialect) {
         ArrayList<Time> times = new ArrayList<>();
         //TODO get actual data
