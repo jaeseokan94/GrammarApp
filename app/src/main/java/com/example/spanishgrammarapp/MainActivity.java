@@ -50,9 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
         currentLevel = getIntent().getStringExtra("CURRENT_LEVEL");
         currentLanguage =getIntent().getStringExtra("CURRENT_LANGUAGE");
-        //TextView textView2 = (TextView) findViewById(R.id.testing2);
-       // textView2.setText(currentLevel);
-      //  currentLevel    = getIntent().getStringExtra("CURRENT_LANGUAGE");
+
+        // TextView textView2 = (TextView) findViewById(R.id.testing2);
+        // textView2.setText(currentLevel);
+        //  currentLevel    = getIntent().getStringExtra("CURRENT_LANGUAGE");
 
 
 

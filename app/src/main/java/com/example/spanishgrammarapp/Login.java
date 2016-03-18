@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -25,15 +27,12 @@ public class Login extends Activity {
 
     private static final String TAG_CANCEL = "FACEBOOK LOGIN";
     private Button fbbutton;
-    private Button hombtn;
-    public String str_email;
-    public String str_id;
-    public String str_firstname;
-    public String str_lastname;
     public Date data;
-    public String email2;
+
     // Creating Facebook CallbackManager Value
-    public CallbackManager callbackmanager;
+    CallbackManager callbackmanager;
+    AccessToken accessToken;
+    AccessTokenTracker accessTokenTracker;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -41,12 +40,25 @@ public class Login extends Activity {
         // Initialize SDK before setContentView(Layout ID)
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.fragment_main);
+
         callbackmanager = CallbackManager.Factory.create();
+
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(
+                    AccessToken oldAccessToken,
+                    AccessToken currentAccessToken) {
+
+            }
+        };
+        accessToken = AccessToken.getCurrentAccessToken();
+
 
         // Initialize layout button
         fbbutton = (Button) findViewById(R.id.login_button);
 
         fbbutton.setOnClickListener(new View.OnClickListener() {
+
 
             @Override
             public void onClick(View v) {
@@ -71,6 +83,7 @@ public class Login extends Activity {
                         startActivity(intent);
 
                     }
+
                     @Override
                     public void onCancel() {
                         // not called
@@ -95,4 +108,12 @@ public class Login extends Activity {
 
     }
 
+
+    @Override
+    public void onDestory() {
+        super.onDestroy();
+        accessTokenTracker.stopTracking();
+
+
+    }
 }

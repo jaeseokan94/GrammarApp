@@ -30,6 +30,7 @@ public class LanguageActivity extends AppCompatActivity implements OnClickListen
         for (String languageTitle: languages) {
             Button button = new Button(this);
             button.setText(languageTitle);
+            button.setTag(languageTitle);
             button.setOnClickListener(this);
             mainLayout.addView(button);
         }
@@ -41,6 +42,7 @@ public class LanguageActivity extends AppCompatActivity implements OnClickListen
      */
     public void onClick(View view){
         Intent intent = new Intent(this, LevelActivity.class);
+        ((Button) view).getText();
         String currentLanguage = ((TextView) view).getText().toString();
         intent.putExtra(CURRENT_LANGUAGE, currentLanguage);
         startActivity(intent);
