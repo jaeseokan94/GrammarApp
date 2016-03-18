@@ -12,7 +12,11 @@ import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import com.example.spanishgrammarapp.Data.KeyData;
 import com.example.spanishgrammarapp.resources.activities.DialectActivity;
+import com.facebook.appevents.AppEventsLogger;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,18 +58,26 @@ public class MainActivity extends AppCompatActivity {
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
         APIWrapper downloadAPI = new APIWrapper(database);
-
-
-
-
+        
         System.out.println(database.getAllKey());
-        System.out.println("TESTING  "+database.getLevelList("Korean"));
-        System.out.println("TESTING  "+database.getLevelList("Spanish"));
+        System.out.println("TESTING  " + database.getLevelList("Korean"));
+        System.out.println("TESTING  " + database.getLevelList("Spanish"));
         System.out.println("TESTING REAL "+database.getSubTopicList("Spanish","b","Greeting"));
+    }
+    
+    protected void onResume() {
+        super.onResume();
 
-
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
     }
 
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
+    }
 
     public void learnActivity(View view){
         Intent intent = new Intent(this, LearnActivity.class);

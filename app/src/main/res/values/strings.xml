@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Spanish Grammar App</string>
 
+    <string name="facebook_app_id">689134167895782</string>
     <string name="learn">Learn</string>
     <string name="practice">Practice</string>
     <string name="revise">Revise</string>
