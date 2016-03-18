@@ -47,4 +47,6 @@ public class LanguageActivity extends AppCompatActivity implements OnClickListen
         intent.putExtra(CURRENT_LANGUAGE, currentLanguage);
         startActivity(intent);
     }
+
+
 }

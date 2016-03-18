@@ -59,7 +59,6 @@ public class Login extends Activity {
 
         fbbutton.setOnClickListener(new View.OnClickListener() {
 
-
             @Override
             public void onClick(View v) {
                 LoginManager.getInstance().registerCallback(callbackmanager, new FacebookCallback<LoginResult>() {
@@ -79,6 +78,10 @@ public class Login extends Activity {
                                     }
 
                                 });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields","id,name");
+                        request.setParameters(parameters);
+                        request.executeAsync();
                         Intent intent = new Intent(Login.this, LanguageActivity.class);
                         startActivity(intent);
 
@@ -105,15 +108,16 @@ public class Login extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackmanager.onActivityResult(requestCode, resultCode, data);
-
     }
 
 
-    @Override
+
+
+
     public void onDestory() {
         super.onDestroy();
         accessTokenTracker.stopTracking();
-
-
     }
+
+
 }
