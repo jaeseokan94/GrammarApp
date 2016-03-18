@@ -9,6 +9,7 @@ import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
+import com.example.spanishgrammarapp.resources.data.Season;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,41 +56,18 @@ public class SeasonsAndMonthsActivity extends AppCompatActivity {
     }
 
     private void prepareListData() {
+        listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding header data
-        listDataHeader = APIWrapper.getSeasons(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        ArrayList<Season> seasons = APIWrapper.getSeasonsAndMonthsData(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
 
         // Adding child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
-
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
-
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
-
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
-        listDataChild.put(listDataHeader.get(3), comingSoon);
-
+        for(Season season: seasons) {
+            String name = season.getSeason();
+            listDataHeader.add(name);
+            listDataChild.put(name, season.getMonths());
+        }
     }
 
 }

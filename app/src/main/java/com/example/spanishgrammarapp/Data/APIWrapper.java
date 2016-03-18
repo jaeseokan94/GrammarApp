@@ -9,6 +9,7 @@ import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.Question;
 import com.example.spanishgrammarapp.resources.data.Holiday;
 import com.example.spanishgrammarapp.resources.data.Letter;
+import com.example.spanishgrammarapp.resources.data.Season;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -380,15 +381,21 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         return holidays;
     }
 
-    public static ArrayList<String> getSeasons(String languageName, String dialect) {
-        ArrayList<String> seasons = new ArrayList<String>();
-        seasons.add("Primavera");
-        seasons.add("Verano");
-        seasons.add("Otoño");
-        seasons.add("Invierno");
+    public static ArrayList<Season> getSeasonsAndMonthsData(String languageName, String dialect) {
+        ArrayList<Season> seasons = new ArrayList<Season>();
+        Season spring = new Season("Primavera", "Marso", "Avril", "Mayo");
+        Season summer = new Season("Verano", "Junio", "Julio", "Agosto");
+        Season autumn = new Season("Otoño", "Septiembre", "Octubre", "Noviembre");
+        Season winter = new Season("Invierno", "Diciembre", "Enero", "Febrero");
+
+        seasons.add(spring);
+        seasons.add(summer);
+        seasons.add(autumn);
+        seasons.add(winter);
 
         return seasons;
     }
+
 }
 
 
