@@ -4,7 +4,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.R;
@@ -18,7 +18,7 @@ public class HolidayInstanceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //TODO implement layout
-        setContentView(R.layout.activity_holidays);
+        setContentView(R.layout.activity_holiday_instance);
 
         //Get intents
         String imgURL = getIntent().getStringExtra(HolidaysActivity.HOLIDAY_IMG);
@@ -27,16 +27,18 @@ public class HolidayInstanceActivity extends AppCompatActivity {
         String nameInEnglish = getIntent().getStringExtra(HolidaysActivity.NAME_IN_ENGLISH);
 
         //Set references to xml views
-        ImageView ivImg = (ImageView) findViewById(R.id.iv_holiday_image);
+        //ImageView ivImg = (ImageView) findViewById(R.id.iv_holiday_image);
         TextView tvDate = (TextView) findViewById(R.id.tv_date);
         TextView tvNameInLanguage = (TextView) findViewById(R.id.tv_name_in_language);
         TextView tvNameInEnglish = (TextView) findViewById(R.id.tv_name_english);
 
+        Log.d("check", tvDate.toString());
+
         //Set values to views
         //TODO make drawable into actual image
         //ivImg.setImageDrawable(getDrawable(R.drawable.b));
-        //tvDate.setText(date);
-        //tvNameInLanguage.setText(nameInLanguage);
-        //tvNameInEnglish.setText(nameInEnglish);
+        tvDate.setText(date);
+        tvNameInLanguage.setText(nameInLanguage);
+        tvNameInEnglish.setText(nameInEnglish);
     }
 }
