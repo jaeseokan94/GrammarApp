@@ -73,6 +73,9 @@
         <activity
             android:name=".resources.activities.SeasonsAndMonthsActivity" >
         </activity>
+        <activity
+            android:name=".resources.activities.DialectActivity" >
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS"></uses-permission>

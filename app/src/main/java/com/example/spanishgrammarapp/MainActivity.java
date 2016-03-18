@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import com.example.spanishgrammarapp.resources.activities.DialectActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void resourcesActivity(View view){
-        Intent intent = new Intent(this, ResourcesActivity.class);
+        Intent intent = new Intent(this, DialectActivity.class);
         startActivity(intent);
     }
 

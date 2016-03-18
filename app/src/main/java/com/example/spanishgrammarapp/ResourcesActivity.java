@@ -8,11 +8,12 @@ import android.view.View;
 
 import com.example.spanishgrammarapp.resources.activities.CalendarActivity;
 import com.example.spanishgrammarapp.resources.activities.AlphabetActivity;
+import com.example.spanishgrammarapp.resources.activities.DialectActivity;
 import com.example.spanishgrammarapp.resources.activities.HolidaysActivity;
 import com.example.spanishgrammarapp.resources.activities.SeasonsAndMonthsActivity;
 
 public class ResourcesActivity extends AppCompatActivity {
-    public static String DIALECT = "Mexican";
+    public static String DIALECT = "";
     public static String RESOURCE_NAME = "Resource";
     public static String ALPHABET = "Alphabet";
     public static String NUMBERS = "Numbers";
@@ -27,6 +28,8 @@ public class ResourcesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resources);
+
+        DIALECT = getIntent().getStringExtra(DialectActivity.DIALECT);
     }
 
     public void showAlphabetActivity(View v){

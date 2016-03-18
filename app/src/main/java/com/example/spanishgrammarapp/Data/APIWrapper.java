@@ -421,6 +421,14 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
         return times;
     }
+
+    public static ArrayList<String> getDialects(String languageName) {
+        ArrayList<String> dialects = new ArrayList<>();
+        dialects.add("Spanish");
+        dialects.add("Mexican");
+
+        return dialects;
+    }
 }
 
 
