@@ -9,6 +9,7 @@ import android.view.View;
 import com.example.spanishgrammarapp.resources.activities.CalendarActivity;
 import com.example.spanishgrammarapp.resources.activities.AlphabetActivity;
 import com.example.spanishgrammarapp.resources.activities.HolidaysActivity;
+import com.example.spanishgrammarapp.resources.activities.SeasonsAndMonthsActivity;
 
 public class ResourcesActivity extends AppCompatActivity {
     public static String DIALECT = "Mexican";
@@ -53,6 +54,12 @@ public class ResourcesActivity extends AppCompatActivity {
     public void showHolidaysActivity(View v){
         Intent intent = new Intent(this, HolidaysActivity.class);
         intent.putExtra(RESOURCE_NAME, HOLIDAYS);
+        startActivity(intent);
+    }
+
+    public void showSeasonsAndMonthsActivity(View v) {
+        Intent intent = new Intent(this, SeasonsAndMonthsActivity.class);
+        intent.putExtra(RESOURCE_NAME, SEASONS_MONTHS);
         startActivity(intent);
     }
 

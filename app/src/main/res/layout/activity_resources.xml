@@ -67,7 +67,8 @@
         android:background="@drawable/seasons"
         android:layout_alignTop="@+id/imageButton5"
         android:layout_alignLeft="@+id/imageButton3"
-        android:layout_alignStart="@+id/imageButton3" />
+        android:layout_alignStart="@+id/imageButton3"
+        android:onClick="showSeasonsAndMonthsActivity"/>
 
     <ImageButton
         android:layout_width="100dp"

@@ -70,6 +70,9 @@
         <activity
             android:name=".resources.activities.HolidayInstanceActivity" >
         </activity>
+        <activity
+            android:name=".resources.activities.SeasonsAndMonthsActivity" >
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS"></uses-permission>
