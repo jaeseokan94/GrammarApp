@@ -424,6 +424,8 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 }
 
 
+
+
 /* THIS METHOD FOR SUBTOPIC API SAVING INTO DB
     public void getSubtopicAPI(){
 
