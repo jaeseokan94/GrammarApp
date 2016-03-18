@@ -10,6 +10,7 @@ import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
 import com.example.spanishgrammarapp.resources.data.Season;
+import com.example.spanishgrammarapp.resources.data.Time;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +48,11 @@ public class SeasonsAndMonthsActivity extends AppCompatActivity {
 
 
         // preparing list data
-        prepareListData();
+        if (resource.equals(ResourcesActivity.SEASONS_MONTHS)) {
+            prepareSeasonsListData();
+        } else {
+            prepareTimeListData();
+        }
 
         ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
 
@@ -55,7 +60,7 @@ public class SeasonsAndMonthsActivity extends AppCompatActivity {
         expandableListView.setAdapter(listAdapter);
     }
 
-    private void prepareListData() {
+    private void prepareSeasonsListData() {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<String, List<String>>();
 
@@ -70,4 +75,20 @@ public class SeasonsAndMonthsActivity extends AppCompatActivity {
         }
     }
 
+    private void prepareTimeListData() {
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<String, List<String>>();
+
+        // Adding header data
+        ArrayList<Time> times = APIWrapper.getTimeData(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+
+        // Adding child data
+        for(Time time: times) {
+            String time_digital = time.getTime_digital();
+            listDataHeader.add(time_digital);
+            List<String> item = new ArrayList<String>();
+            item.add(time.getTime_language());
+            listDataChild.put(time_digital, item);
+        }
+    }
 }

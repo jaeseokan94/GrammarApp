@@ -20,6 +20,8 @@ public class ResourcesActivity extends AppCompatActivity {
     public static String CALENDAR = "Calendar";
     public static String HOLIDAYS = "Holidays";
     public static String SEASONS_MONTHS = "Seasons and Months";
+    public static String TIME = "Time";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,12 @@ public class ResourcesActivity extends AppCompatActivity {
     public void showSeasonsAndMonthsActivity(View v) {
         Intent intent = new Intent(this, SeasonsAndMonthsActivity.class);
         intent.putExtra(RESOURCE_NAME, SEASONS_MONTHS);
+        startActivity(intent);
+    }
+
+    public void showTimeActivity(View v) {
+        Intent intent = new Intent(this, SeasonsAndMonthsActivity.class);
+        intent.putExtra(RESOURCE_NAME, TIME);
         startActivity(intent);
     }
 
