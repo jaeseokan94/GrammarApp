@@ -16,6 +16,7 @@
     <string name="title_activity_revise">ReviseActivity</string>
     <string name="title_activity_resources">ResourcesActivity</string>
     <string name="title_activity_glossary">GlossaryActivity</string>
+    <string name="title_activity_login">Login</string>
     <string name="alphabet">El Alfabeto</string>
     <string name="numbers">Los Números</string>
     <string name="days">Los Días</string>
