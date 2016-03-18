@@ -379,6 +379,16 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
         return holidays;
     }
+
+    public static ArrayList<String> getSeasons(String languageName, String dialect) {
+        ArrayList<String> seasons = new ArrayList<String>();
+        seasons.add("Primavera");
+        seasons.add("Verano");
+        seasons.add("Otoño");
+        seasons.add("Invierno");
+
+        return seasons;
+    }
 }
 
 

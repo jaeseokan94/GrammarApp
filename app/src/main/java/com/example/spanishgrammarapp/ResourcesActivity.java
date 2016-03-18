@@ -19,7 +19,7 @@ public class ResourcesActivity extends AppCompatActivity {
     public static String DAYS = "Days";
     public static String CALENDAR = "Calendar";
     public static String HOLIDAYS = "Holidays";
-    public static String SEASONS_MONTHS = "Seasons";
+    public static String SEASONS_MONTHS = "Seasons and Months";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
