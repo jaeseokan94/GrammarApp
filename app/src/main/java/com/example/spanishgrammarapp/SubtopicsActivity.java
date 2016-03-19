@@ -6,9 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
@@ -25,19 +24,13 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //자바 코드로 만들꺼라서 우선 주석처리 XML코드 LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);setContentView(R.layout.activity_subtopics);
+        setContentView(R.layout.activity_subtopics);
 
-        // RelativeLayout 생성
-        RelativeLayout  activity_subtopic= new RelativeLayout(this);
+//        This is how we tell what topic we've entered.
+        topic = getIntent().getStringExtra("TOPIC");
 
 
-        // RelativeLayout width, height 설정
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
-                (ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT);
-
-        // RelativeLayout에 width, height 설정 적용
-        activity_subtopic.setLayoutParams(params);
+        LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
 
         APIWrapper subtopicAPI = new APIWrapper(db);
         //This will pass subtopicList from Database
@@ -46,27 +39,13 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
         System.out.println("SUBTOPIC URL TEST ~~~~~~~~");
         System.out.println(subtopics);
 
-        for (String subtopic: subtopics) {
+        for (String subtopic : subtopics) {
             Button button = new Button(this);
             button.setText(subtopic);
-
             button.setTag(subtopic);
             button.setOnClickListener(this);
-            activity_subtopic.addView(button);
-
-            RelativeLayout.LayoutParams buttonParams = new RelativeLayout.LayoutParams
-                    (ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            button.setLayoutParams(buttonParams);
+            subtopicLayout.addView(button);
         }
-        // This is how we tell what topic we've entered.
-        topic = getIntent().getStringExtra("TOPIC");
-
-
-        //자바 코드로 만들꺼라서 우선 주석처리 XML코드 LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id)
-    }
-
 
 
 //    @Override
@@ -78,6 +57,7 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
 //        intent.putExtra(SUBTOPIC, subtopic);
 //        startActivity(intent);
 //    }
+    }
 
     /**This method ensures the correct behaviour of the app when the back button is pressed.*/
     @Override
