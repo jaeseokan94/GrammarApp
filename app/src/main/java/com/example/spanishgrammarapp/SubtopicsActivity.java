@@ -28,31 +28,23 @@ public class SubtopicsActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subtopics);
-        Intent intent = getIntent();
         goToExercise = new Intent(this, MainActivity.class);
         //goToExercise.putExtra(SubtopicsActivity.SUBTOPIC, intent.getStringExtra(subto.TOPIC));
 
+
         activity_subtopics = new RelativeLayout(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        addContentView(activity_subtopics,params);
+        addContentView(activity_subtopics, params);
 
 
 
         // RelativeLayout에 width, height 설정 적용
         activity_subtopics.setLayoutParams(params);
-
         topic = getIntent().getStringExtra("TOPIC");
-
-
         //LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
-        RelativeLayout.LayoutParams ButtonParams = new RelativeLayout.LayoutParams
-                (ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-
+        RelativeLayout.LayoutParams ButtonParams = new RelativeLayout.LayoutParams();
         // RelativeLayout의 차일드 View이기 때문에 RelativeLayout의 LayoutParams을
-        // 적용해 준다.
-
-
+        // 적용해 준다.  ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
 
         APIWrapper subtopicAPI = new APIWrapper(db);
         //This will pass subtopicList from Database
@@ -61,19 +53,24 @@ public class SubtopicsActivity extends AppCompatActivity  {
         System.out.println("SUBTOPIC URL TEST ~~~~~~~~");
         System.out.println(subtopics);
 
-        for (String subtopic : subtopics) {
-            Button button = new Button(this);
-            button.setText(subtopic);
-            button.setTag(subtopic);
-            button.setLayoutParams(ButtonParams);
-            activity_subtopics.addView(button);
-            button.setOnClickListener(buttonListner);
+
+        Button[] SubtopicsButton = new Button[subtopics.size()];
+        for (int i=0; i < subtopics.size(); i++) {
+            SubtopicsButton[i] = new Button(this);
+            SubtopicsButton[i].setLayoutParams(new ViewGroup.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+            SubtopicsButton[i].setText(subtopics.get(i));
+            SubtopicsButton[i].setTag(subtopics.get(i));
+            activity_subtopics.addView(SubtopicsButton[i]);
+            SubtopicsButton[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(goToExercise); //create a new intent
+                    intent.putExtra(MainActivity.TOPIC, topic);
+                    intent.putExtra(MainActivity.SUBTOPIC, v.getTag().toString());
+                    startActivity(intent); //start the activity
+                }
+            });
         }
-
-
-        setContentView(activity_subtopics);
-
-
 
 
 
@@ -92,6 +89,7 @@ public class SubtopicsActivity extends AppCompatActivity  {
     }
 
     /**This method ensures the correct behaviour of the app when the back button is pressed.*/
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, PracticeActivity.class);
@@ -105,13 +103,11 @@ public class SubtopicsActivity extends AppCompatActivity  {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(goToExercise); //create a new intent
-            intent.putExtra(MainActivity.TOPIC, topic);
-            intent.putExtra(MainActivity.SUBTOPIC, v.getTag().toString());
-            startActivity(intent); //start the activity
+
         }
 
     };
+
 
 
     @Override
