@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 public class AlphabetActivity extends AppCompatActivity {
     private MediaPlayer player;
     private String resource;
+    DatabaseHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +50,16 @@ public class AlphabetActivity extends AppCompatActivity {
 
         //TODO put if statement or change getLetters to only return Language
         //Get set of Letters from API
-        ArrayList<Letter> letters = APIWrapper.getLetters(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+
+        APIWrapper apiWrapper = new APIWrapper(database);
+
+        ArrayList<Letter> letters = apiWrapper.getLetters(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
 
         //Dynamically create letters (with pronunciation and audioURL as tag) as views
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.alphabet_layout);
 
         View letterView;
-        for(Letter letter: letters) {
+       for(Letter letter: letters) {
             letterView = getLayoutInflater().inflate(R.layout.letter_layout, mainLayout, false);
             letterView.setBackgroundColor(Color.YELLOW);
             mainLayout.addView(letterView);

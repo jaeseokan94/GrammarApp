@@ -327,22 +327,38 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      * @param languageName
      * @param dialect of langauge
      * @return array list of Letters of passed language and dialect
+     * Thank you for someone writing these codes. i could work easily due to your nice codes. -Jae
      */
-    public static ArrayList<Letter> getLetters(String languageName, String dialect) {
+
+    public  ArrayList<Letter> getLetters(String language, String dialect) {
         //TODO implement this method
 
         ArrayList<Letter> letters = new ArrayList<Letter>();
+        String resourceLetterURL = URL+"/"+language+"/"+dialect+"/Alphabet";
+        System.out.println("this is url : " +resourceLetterURL);
 
-        String letter = "letter";
-        String pronunciation = "pronunciation";
-        String audioUrl = "http://sites.google.com/site/ubiaccessmobile/sample_audio.amr";
 
-        for (int i = 0; i < 26; i++) {
-            letters.add(new Letter(letter, pronunciation, audioUrl));
+        try {
+            JSONArray jsonArray = execute(resourceLetterURL)
+                    .get(); //this link is temporary, it needs to be generalized
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String letter= jsonObject.getString("word");
+                String pronounciation = jsonObject.getString("pronounciation_guide_or_date");
+                String audioUrl = jsonObject.getString("audio_url");
+
+                letters.add(new Letter(letter, pronounciation, audioUrl));
+            }
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR HERE");
+            e.printStackTrace();
         }
 
         return letters;
     }
+
 
     /**
      * gets instructions of how to use resource from API
