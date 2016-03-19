@@ -6,15 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class SubtopicsActivity extends AppCompatActivity implements View.OnClickListener {
+public class SubtopicsActivity extends AppCompatActivity  {
 
     private String topic;
     private String SUBTOPIC;
@@ -24,13 +25,26 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_subtopics);
+        //setContentView(R.layout.activity_subtopics);
+        RelativeLayout activity_subtopics = new RelativeLayout(this);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
+                (ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT);
+        // RelativeLayout에 width, height 설정 적용
+        activity_subtopics.setLayoutParams(params);
 
-//        This is how we tell what topic we've entered.
         topic = getIntent().getStringExtra("TOPIC");
 
 
-        LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
+        //LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
+        RelativeLayout.LayoutParams ButtonParams = new RelativeLayout.LayoutParams
+                (ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        // RelativeLayout의 차일드 View이기 때문에 RelativeLayout의 LayoutParams을
+        // 적용해 준다.
+
+
 
         APIWrapper subtopicAPI = new APIWrapper(db);
         //This will pass subtopicList from Database
@@ -43,9 +57,19 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
             Button button = new Button(this);
             button.setText(subtopic);
             button.setTag(subtopic);
-            button.setOnClickListener(this);
-            subtopicLayout.addView(button);
+            button.setLayoutParams(ButtonParams);
+            activity_subtopics.addView(button);
+            button.setOnClickListener(buttonListner);
         }
+
+
+        setContentView(activity_subtopics);
+
+
+
+
+
+//        This is how we tell what topic we've entered.
 
 
 //    @Override
@@ -67,13 +91,20 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
         startActivity(intent);
     }
 
-    @Override
-    public void onClick(View v) {
-            Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
+
+
+    public View.OnClickListener buttonListner = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(); //create a new intent
             intent.putExtra(MainActivity.TOPIC, topic);
             intent.putExtra(MainActivity.SUBTOPIC, v.getTag().toString());
             startActivity(intent); //start the activity
-    }
+        }
+
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,4 +127,6 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
