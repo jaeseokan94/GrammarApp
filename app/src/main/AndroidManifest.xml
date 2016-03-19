@@ -11,108 +11,68 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
 
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity
             android:name=".LanguageActivity"
-            android:label="@string/app_name" >
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+
         <activity
             android:name=".Login"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login">
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_learn"
-            android:parentActivityName=".LevelActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.spanishgrammarapp.LevelActivity" />
->
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_learn">
         </activity>
         <activity
             android:name=".LevelActivity"
-            android:label="@string/title_activity_learn"
-            android:parentActivityName=".LanguageActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.spanishgrammarapp.LanguageActivity" />
->
+            android:label="@string/title_activity_learn">
         </activity>
         <activity
             android:name=".LearnActivity"
-            android:label="@string/title_activity_learn"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.spanishgrammarapp.MainActivity" />
->
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_learn" >
         </activity>
         <activity
             android:name=".PracticeActivity"
-            android:label="@string/title_activity_practice"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.spanishgrammarapp.MainActivity" />
->
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_practice" >
         </activity>
         <activity
             android:name=".ReviseActivity"
-            android:label="@string/title_activity_revise"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.spanishgrammarapp.MainActivity" />
->
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_revise" >
         </activity>
         <activity
             android:name=".ResourcesActivity"
-            android:label="@string/title_activity_resources"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.spanishgrammarapp.MainActivity" />
->
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_resources" >
         </activity>
         <activity
             android:name=".GlossaryActivity"
-            android:label="@string/title_activity_glossary"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.spanishgrammarapp.MainActivity" />
->
+            android:label="@string/title_activity_glossary" >
         </activity>
         <activity
             android:name=".ExercisesActivity"
-            android:label="@string/title_activity_exercises"
-            android:parentActivityName=".ExerciseSelector" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.spanishgrammarapp.ExerciseSelector" />
->
+            android:label="@string/title_activity_exercises" >
         </activity>
         <activity
             android:name=".SubtopicsActivity"
-            android:label="@string/title_activity_subtopics"
-            android:parentActivityName=".TopicActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.spanishgrammarapp.TopicActivity" />
->
+            android:label="@string/title_activity_subtopics" >
         </activity>
         <activity
             android:name=".TopicActivity"
@@ -122,40 +82,32 @@
             android:name=".SituationalVideoActivity"
             android:label="@string/title_activity_situational_video" >
         </activity>
-        <activity android:name=".resources.activities.AlphabetActivity" >
+        <activity
+            android:name=".resources.activities.AlphabetActivity" >
         </activity>
-        <activity android:name=".resources.activities.CalendarActivity" >
+        <activity
+            android:name=".resources.activities.CalendarActivity" >
         </activity>
-        <activity android:name=".resources.activities.HolidaysActivity" >
+        <activity
+            android:name=".resources.activities.HolidaysActivity" >
         </activity>
-        <activity android:name=".resources.activities.HolidayInstanceActivity" >
+        <activity
+            android:name=".resources.activities.HolidayInstanceActivity" >
         </activity>
-        <activity android:name=".resources.activities.SeasonsAndMonthsActivity" >
+        <activity
+            android:name=".resources.activities.SeasonsAndMonthsActivity" >
         </activity>
-        <activity android:name=".resources.activities.DialectActivity" >
+        <activity
+            android:name=".resources.activities.DialectActivity" >
         </activity>
         <activity
             android:name=".GrammarVideoActivity"
-            android:label="@string/title_activity_grammar_video" >
-        </activity>
-        <activity android:name=".ListeningComprehension" >
+            android:label="@string/title_activity_grammar_video">
         </activity>
         <activity
-            android:name=".ExerciseSelector"
-            android:label="@string/title_activity_exercise_selector"
-            android:parentActivityName=".SubtopicsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.spanishgrammarapp.SubtopicsActivity" />
+            android:name=".ListeningComprehension">
         </activity>
-        <activity
-            android:name=".ExerciseReview"
-            android:label="@string/title_activity_exercise_review"
-            android:parentActivityName=".ExerciseSelector" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.spanishgrammarapp.ExerciseSelector" />
-        </activity>
+
     </application>
 
 </manifest>

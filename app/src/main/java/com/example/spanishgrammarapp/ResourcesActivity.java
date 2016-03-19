@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -79,5 +80,15 @@ public class ResourcesActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_resources, menu);
         return true;
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setContentView(R.layout.activity_resources);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            System.out.println("ORIENTATION_LANDSCAPE");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("ORIENTATION_PORTRAIT");
+        }
     }
 }

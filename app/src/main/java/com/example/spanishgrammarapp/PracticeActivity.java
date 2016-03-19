@@ -2,6 +2,7 @@ package com.example.spanishgrammarapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -16,28 +17,50 @@ public class PracticeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_practice);
-        setDefaultImageButtonSizes();
+        // ---------------------------------------modified
+        setDefaultImageButtonSizes(Configuration.ORIENTATION_PORTRAIT);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_practice, menu);
-        return true;
-    }
-
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            // Inflate the menu; this adds items to the action bar if it is present.
+            getMenuInflater().inflate(R.menu.menu_revise, menu);
+            return true;
+        }
     public void enterTopic(View view){
         Intent intent = new Intent(this, SubtopicsActivity.class);
         intent.putExtra(MainActivity.TOPIC, (String) view.getTag());
         startActivity(intent);
     }
 
-    private void setDefaultImageButtonSizes(){
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        // TODO Auto-generated method stub
+        super.onConfigurationChanged(newConfig);
+
+        // ---------------------------------------modified
+        setContentView(R.layout.activity_learn);
+        setDefaultImageButtonSizes(newConfig.orientation);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            System.out.println("ORIENTATION_LANDSCAPE");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("ORIENTATION_PORTRAIT");
+        }
+    }
+
+    private void setDefaultImageButtonSizes(int orientation) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        int screenWidth = displayMetrics.widthPixels;
-        int idealSize = (screenWidth/3) - 32;
+        // ---------------------------------------modified
+        int screenWidth;
+        if(orientation== Configuration.ORIENTATION_PORTRAIT){
+            screenWidth= displayMetrics.widthPixels;
+        }else{
+            screenWidth = displayMetrics.heightPixels;
+        }
+
+        int idealSize = (screenWidth / 3) - 32;
         findViewById(R.id.button_greetings).getLayoutParams().width = idealSize;
         findViewById(R.id.button_greetings).getLayoutParams().height = idealSize;
         findViewById(R.id.button_checking_in).getLayoutParams().width = idealSize;
