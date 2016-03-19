@@ -381,19 +381,34 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      * @param dialect
      * @return instructions
      */
-    public static ArrayList<Holiday> getHolidays(String languageName, String dialect) {
+    public ArrayList<Holiday> getHolidays(String language, String dialect) {
         //TODO implement this method
+
+        String resourceHolidayURL = URL+"/"+language+"/"+dialect+"/Holidays";
+
 
         ArrayList<Holiday> holidays = new ArrayList<Holiday>();
 
-        String name_english = "New year";
-        String name_language = "Año nuevo";
-        String date = "Primero de javier";
-        String imgURL = "http://www.dogoilpress.com/data/wallpapers/3/FDS_355863.jpg";
 
-        for (int i = 0; i < 5; i++) {
-            holidays.add(new Holiday(name_english, name_language, date, imgURL));
+        try {
+            JSONArray jsonArray = execute(resourceHolidayURL)
+                    .get(); //this link is temporary, it needs to be generalized
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String name_english= jsonObject.getString("word");
+                String name_language = jsonObject.getString("pronounciation_guide_or_date");
+                String date = jsonObject.getString("audio_url");
+                String imgURL = jsonObject.getString("audio_url");
+
+                holidays.add(new Holiday(name_english, name_language, date, imgURL));
+            }
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR HERE");
+            e.printStackTrace();
         }
+
 
         return holidays;
     }
@@ -404,9 +419,13 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      * @param dialect
      * @return ArrayList of Seasons
      */
-    public static ArrayList<Season> getSeasonsAndMonthsData(String languageName, String dialect) {
+    public ArrayList<Season> getSeasonsAndMonthsData(String language, String dialect) {
         ArrayList<Season> seasons = new ArrayList<Season>();
-        //TODO get actual data
+
+
+        String resourceMonthsURL = URL+"/"+language+"/"+dialect+"/Alphabet";
+
+        /*
         Season spring = new Season("Primavera", "Marso", "Avril", "Mayo");
         Season summer = new Season("Verano", "Junio", "Julio", "Agosto");
         Season autumn = new Season("Otoño", "Septiembre", "Octubre", "Noviembre");
@@ -415,7 +434,24 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         seasons.add(spring);
         seasons.add(summer);
         seasons.add(autumn);
-        seasons.add(winter);
+        seasons.add(winter);*/
+        try {
+            JSONArray jsonArray = execute(resourceMonthsURL)
+                    .get(); //this link is temporary, it needs to be generalized
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String months= jsonObject.getString("word");
+                seasons.add(new Season(months));
+
+            }
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR HERE");
+            e.printStackTrace();
+        }
+
+
 
         return seasons;
     }

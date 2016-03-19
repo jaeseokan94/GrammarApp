@@ -6,6 +6,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
@@ -23,6 +24,7 @@ public class SeasonsAndMonthsActivity extends AppCompatActivity {
     private String resource;
     private ArrayList<String> listDataHeader;
     private HashMap<String, List<String>> listDataChild;
+    DatabaseHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +66,9 @@ public class SeasonsAndMonthsActivity extends AppCompatActivity {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<String, List<String>>();
 
+        APIWrapper apiWrapper = new APIWrapper(database);
         // Adding header data
-        ArrayList<Season> seasons = APIWrapper.getSeasonsAndMonthsData(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        ArrayList<Season> seasons = apiWrapper.getSeasonsAndMonthsData(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
 
         // Adding child data
         for(Season season: seasons) {
