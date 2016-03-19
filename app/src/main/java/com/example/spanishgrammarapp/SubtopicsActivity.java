@@ -21,15 +21,23 @@ public class SubtopicsActivity extends AppCompatActivity  {
     private String SUBTOPIC;
     private String level;
     private String language;
+    private Intent goToExercise;
+    private RelativeLayout activity_subtopics;
     DatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_subtopics);
-        RelativeLayout activity_subtopics = new RelativeLayout(this);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
-                (ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT);
+        setContentView(R.layout.activity_subtopics);
+        Intent intent = getIntent();
+        goToExercise = new Intent(this, MainActivity.class);
+        //goToExercise.putExtra(SubtopicsActivity.SUBTOPIC, intent.getStringExtra(subto.TOPIC));
+
+        activity_subtopics = new RelativeLayout(this);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        addContentView(activity_subtopics,params);
+
+
+
         // RelativeLayout에 width, height 설정 적용
         activity_subtopics.setLayoutParams(params);
 
@@ -97,7 +105,7 @@ public class SubtopicsActivity extends AppCompatActivity  {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(); //create a new intent
+            Intent intent = new Intent(goToExercise); //create a new intent
             intent.putExtra(MainActivity.TOPIC, topic);
             intent.putExtra(MainActivity.SUBTOPIC, v.getTag().toString());
             startActivity(intent); //start the activity
