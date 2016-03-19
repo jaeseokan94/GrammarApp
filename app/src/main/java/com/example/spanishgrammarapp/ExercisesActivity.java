@@ -51,6 +51,8 @@ public class ExercisesActivity extends AppCompatActivity {
     public static final String trueFalse = "tf";
     public static final String dragAndDrop = "dnd";
     public static final String typing = "t";
+    public static final String vocab = "VOCAB";
+    public static final String IDENTIFIER = "IDENTIFIER";
 
     private RelativeLayout relativeLayout; //accessed multiple times throughout the code in various methods.
     private String cAnswer; //removing this would mean it features in 4 new places.
@@ -71,7 +73,7 @@ public class ExercisesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercises);
-        //trying to call database here which didnt work.
+        //trying to call database here which didn't work.
         database = new DatabaseHelper(getApplicationContext());
 
         Intent intent = getIntent(); //the intent we used to make this activity...
@@ -99,7 +101,7 @@ public class ExercisesActivity extends AppCompatActivity {
 
         /*This is where we attempt to resume user's progress for this exercise. It may be the case that they have no progress
         * for this exercise, in which case this method does nothing. If it has been started, the user can resume, if it has been
-        * completed the user can choose to retart the exercise.*/
+        * completed the user can choose to restart the exercise.*/
         resumeUserProgress(intent.getStringExtra(MainActivity.TOPIC) + "/" + intent.getStringExtra(MainActivity.SUBTOPIC));
         reconstructGUI();
     }
@@ -116,7 +118,10 @@ public class ExercisesActivity extends AppCompatActivity {
             //CMSconnector connector = new CMSconnector(exercise, topic, this.getBaseContext()); //pass that empty Exercise to the CMSconnector
             //connector.getExercise( topic, subtopic); //the connector populates it with data from the DB
             APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this.getBaseContext()));
-            exercise = apiWrapper.apiQuestions(topic, subtopic, false);
+            exercise = apiWrapper.apiQuestions(topic, subtopic, getIntent().getBooleanExtra(vocab, false));
+        }
+        if(getIntent().getBooleanExtra(vocab, false)){
+            exercise.setVocab(true);
         }
         return exercise; //create a new Exercise, a set of questions (empty)
     }
@@ -344,6 +349,7 @@ public class ExercisesActivity extends AppCompatActivity {
         }
         if (userAnswer.equals(cAnswer)){
             correct=true; //we have proved the user has answered the question correctly
+            exerciseReceived.getQuestions().get(currentQuestionIndex).setCompleted(true);
             exerciseReceived.incrementCorrectlyAnswered(); //increment the number of correctly answered questions for the Exercise object
         }
         exerciseQuestions.get(currentQuestionIndex).userGivenAnswer = userAnswer; //record the user answer in the Exercise object
@@ -412,7 +418,7 @@ public class ExercisesActivity extends AppCompatActivity {
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                startActivity(afterExerciseIntent);
+                reviewExercise();
             }
         });
         dialog.show();
@@ -496,6 +502,11 @@ public class ExercisesActivity extends AppCompatActivity {
     private void reviewExercise(){
         currentQuestionIndex = 0;
         //placeholder for now
+        Intent intent = new Intent(this, ExerciseReview.class);
+        intent.putExtra(IDENTIFIER ,getIntent().getStringExtra(MainActivity.TOPIC) + "/" + getIntent().getStringExtra(MainActivity.SUBTOPIC));
+        intent.putExtra(MainActivity.TOPIC, getIntent().getStringExtra(MainActivity.TOPIC));
+        intent.putExtra(MainActivity.SUBTOPIC, getIntent().getStringExtra(MainActivity.SUBTOPIC));
+        startActivity(intent);
     }
 
     //This private class is used to set an Image to an ImageView from the given URL
@@ -522,13 +533,6 @@ public class ExercisesActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
-    }
-
-    /**This method override ensure the correct behaviour of the app when the back button is pressed.*/
-    @Override
-    public void onBackPressed() {
-        startActivity(afterExerciseIntent);
-        return;
     }
 
     @Override

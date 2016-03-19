@@ -18,6 +18,7 @@ public class Exercise implements Serializable {
      * regardless of whether or not the exercise has been finished yet.*/
     private int numCorrectlyAnswered = 0;
 
+    private boolean isVocab = false;
 
     /**This string describes where the Exercise belongs. Each Topic has a collection of Subtopics, and each
     * of those has its own exercise. This identifier is very important for loading user progress from file
@@ -61,5 +62,13 @@ public class Exercise implements Serializable {
     /**Returns the correctness rating for the exercise (a percentage as decimal)*/
     public double getCorrectnessRating(){
         return numCorrectlyAnswered/ (double) questions.size();
+    }
+
+    public void setVocab(boolean vocab){
+        isVocab = vocab;
+    }
+
+    public boolean getVocab(){
+        return isVocab;
     }
 }

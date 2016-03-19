@@ -21,62 +21,11 @@ public class CMSconnector {
     this.context = context;
     }
 
-
-
-    public static Exercise getExercise(String topic, String subtopic) {
-
-
-
-
-        Exercise exercise = new Exercise(topic+"/"+subtopic);
-
-
-        ArrayList<String> answers1 = new ArrayList<>();
-        Question q = new Question(ExercisesActivity.typing, "Test question 2", answers1.get(0), answers1); //temp
-
-
-
-        int input = 0;
-        //adds Questions to Exercise
-
-        //multiple choice
-        if(input==0) {
-            /*
-            answers1.add(database.getQuestionText("---os llamàis").getChoice_1()); // "osllamàis" need to be replaced to topic and subtopic name , int API key
-            answers1.add(database.getQuestionText("---os llamàis").getChoice_2());
-            answers1.add(database.getQuestionText("---os llamàis").getChoice_3());
-            answers1.add(database.getQuestionText("---os llamàis").getChoice_4());
-            answers1.add(database.getQuestionText("---os llamàis").getChoice_5());
-            answers1.add(database.getQuestionText("---os llamàis").getChoice_6());
-            answers1.add(database.getQuestionText("---os llamàis").getCorrect_answer());
-            q = new Question(ExercisesActivity.multipleChoice, "Question"+input+": " + database.getQuestionText("---os llamàis").getQuestionText() , answers1.get(0), answers1);
-            */
-        }else if(input==1){
-            answers1.add("Correct answer");
-            q = new Question(ExercisesActivity.typing, "Test question 2", answers1.get(0), answers1);
-        }else{
-            q = new Question(ExercisesActivity.trueFalse, "Test question 3", "true", answers1);
-        }
-
-        exercise.addQuestion(q);
-
-        return exercise;
-    }
-
-
-
-
     public static List<LanguageData> getLanguages(Context context, DatabaseHelper database){
-
-
-
         return database.getLanguageList();
     }
 
     public static List<LevelData> getLevels(Context context, DatabaseHelper database, String language){
-
-
-
         return database.getLevelList(language);
     }
 }

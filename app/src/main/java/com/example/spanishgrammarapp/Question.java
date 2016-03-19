@@ -62,7 +62,7 @@ public class Question implements Serializable {
         ++attempts;
     }
 
-    /*Functionality replaced by isAnswered for now, but likely to be used somewhere*/
+    /*Indicates whether or not the user has SUCCESSFULLY answered the question.*/
     public boolean isCompleted(){
         return isCompleted;
     }

@@ -45,5 +45,7 @@
     <string name="save">SAVE</string>
     <string name="record">Record</string>
     <string name="button_record">record</string>
+    <string name="title_activity_exercise_selector">Select exercise</string>
+    <string name="title_activity_exercise_review">ExerciseReview</string>
 
 </resources>

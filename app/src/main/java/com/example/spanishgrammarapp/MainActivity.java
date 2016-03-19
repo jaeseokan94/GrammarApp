@@ -42,16 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
         userProgress = new UserProgress(this.getBaseContext());
         userProgress.loadProgress();
-        
-     //   Intent intent = getIntent();
-     //  language = intent.getStringExtra("lang");
-       // currentLanguage = getIntent().getStringExtra("CURRENT_LANGUAGE");
-        //TextView textView = (TextView) findViewById(R.id.testing);
-       // textView.setText(currentLanguage);
-
-        //TextView textView2 = (TextView) findViewById(R.id.testing2);
-       // textView2.setText(currentLevel);
-      //  currentLevel    = getIntent().getStringExtra("CURRENT_LANGUAGE");
 
         System.out.println("CURRENT LEVEL TEST " + currentLevel + " Current Lang "+ currentLanguage);
 

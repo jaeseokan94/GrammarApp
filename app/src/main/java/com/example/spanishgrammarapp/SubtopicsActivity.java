@@ -50,27 +50,16 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        String subtopic = ((TextView) v).getText().toString();
-//        Exercise exercise = CMSconnector.getExercise(getBaseContext(), topic, SUBTOPIC);
-//        Intent intent = new Intent(this, ExercisesActivity.class);  //create a new intent
-//        intent.putExtra(MainActivity.QUESTIONS, exercise); //pass in the exercise (populated)
-//        intent.putExtra(SUBTOPIC, subtopic);
-//        startActivity(intent);
-//    }
-
     /**This method ensures the correct behaviour of the app when the back button is pressed.*/
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, PracticeActivity.class);
-
         startActivity(intent);
     }
 
     @Override
     public void onClick(View v) {
-            Intent intent = new Intent(this, ExercisesActivity.class); //create a new intent
+            Intent intent = new Intent(this, ExerciseSelector.class); //create a new intent
             intent.putExtra(MainActivity.TOPIC, topic);
             intent.putExtra(MainActivity.SUBTOPIC, v.getTag().toString());
             startActivity(intent); //start the activity
