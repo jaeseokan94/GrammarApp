@@ -43,7 +43,7 @@ public class LanguageActivity extends AppCompatActivity implements OnClickListen
             Button button = new Button(this);
             button.setText(languageTitle.toString());
             button.setOnClickListener(this);
-            button.setBackground(getDrawable(R.drawable.button));
+            //button.setBackground(getDrawable(R.drawable.button));
 
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,

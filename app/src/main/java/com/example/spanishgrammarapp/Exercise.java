@@ -19,6 +19,8 @@ public class Exercise implements Serializable {
     private int numCorrectlyAnswered = 0;
 
     private boolean isVocab = false;
+    private String name;
+    private String id;
 
     /**This string describes where the Exercise belongs. Each Topic has a collection of Subtopics, and each
     * of those has its own exercise. This identifier is very important for loading user progress from file
@@ -27,8 +29,10 @@ public class Exercise implements Serializable {
 
     /**Public constructor for this class. It only needs one argument, which is its identifier.
     * @param identifier is the "Topic/Subtopic" string that is used to identify where the Exercise belongs*/
-    public Exercise(String identifier){
+    public Exercise(String identifier, String id, String name){
         this.identifier = identifier;
+        this.id = id;
+        this.name = name;
     }
 
     /**Adds the given question object to the collection of Questions for this Exercise.
@@ -80,5 +84,19 @@ public class Exercise implements Serializable {
     public String toString(){
         String[] order = getIdentifier().split("/");
         return order[0]+" - "+order[1]+" - "+getCorrectnessRating();
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public String getName(){
+        return name;
+    }
+    public String getId(){
+        return id;
     }
 }

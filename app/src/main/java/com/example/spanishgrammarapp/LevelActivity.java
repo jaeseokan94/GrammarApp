@@ -48,7 +48,7 @@ public class LevelActivity extends AppCompatActivity implements OnClickListener 
             Button button = new Button(this);
             button.setText(Levels.toString());
             button.setOnClickListener(this);
-            button.setBackground(getDrawable(R.drawable.button2));
+//            button.setBackground(getDrawable(R.drawable.button2));
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT

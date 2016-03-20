@@ -12,6 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Scroller;
 
+import com.example.spanishgrammarapp.Data.APIWrapper;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+
 import java.util.ArrayList;
 
 public class ExerciseSelector extends AppCompatActivity {
@@ -26,23 +29,13 @@ public class ExerciseSelector extends AppCompatActivity {
         RelativeLayout relativeLayout = new RelativeLayout(this);
         scrollView.addView(relativeLayout);
 
-        ArrayList<String> exerciseList = new ArrayList(2); //will need to get this from CMS
-        exerciseList.add("Test 1");
-        exerciseList.add("Test 2");
-        exerciseList.add("Test 3");
-        exerciseList.add("Test 4");
-        exerciseList.add("Test 5");
-        exerciseList.add("Test 6");
-        exerciseList.add("Test 7");
-        exerciseList.add("Test 8");
-        exerciseList.add("Test 9");
-        exerciseList.add("Test 10");
-        exerciseList.add("Test 11");
+        APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this));
+        ArrayList<Exercise> exerciseList = apiWrapper.getExercisesList(getIntent().getStringExtra(MainActivity.TOPIC), getIntent().getStringExtra(MainActivity.SUBTOPIC)); //will need to get this from CMS
 
         createGUI(exerciseList, relativeLayout);
     }
 
-    private void createGUI(ArrayList<String> exerciseList, RelativeLayout relativeLayout){
+    private void createGUI(ArrayList<Exercise> exerciseList, RelativeLayout relativeLayout){
         Button buttonV = new Button(this);
         buttonV.setText("Vocabulary");
         buttonV.setOnClickListener(new View.OnClickListener() {
@@ -54,9 +47,10 @@ public class ExerciseSelector extends AppCompatActivity {
         relativeLayout.addView(buttonV, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         int buttonID = 10;
         buttonV.setId(buttonID);
-        for (String s : exerciseList){
+        for (Exercise s : exerciseList){
             Button button = new Button(this);
-            button.setText(s);
+            button.setText(s.getName());
+            button.setTag(s.getId());
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.addRule(RelativeLayout.BELOW, buttonID); //first time adds button below the vocab button
             relativeLayout.addView(button, layoutParams);
@@ -81,6 +75,8 @@ public class ExerciseSelector extends AppCompatActivity {
         intent.putExtra(ExercisesActivity.vocab, isVocab);
         intent.putExtra(MainActivity.TOPIC, getIntent().getStringExtra(MainActivity.TOPIC)); //forward the topic string
         intent.putExtra(MainActivity.SUBTOPIC, getIntent().getStringExtra(MainActivity.SUBTOPIC)); //forward the subtopic string
+        intent.putExtra(MainActivity.EXERCISE_NAME, ((Button) view).getText());
+        intent.putExtra(MainActivity.EXERCISE_ID, view.getTag().toString());
         startActivity(intent);
     }
 

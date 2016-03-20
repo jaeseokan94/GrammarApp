@@ -16,11 +16,8 @@ import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
-import com.example.spanishgrammarapp.Data.KeyData;
 import com.example.spanishgrammarapp.resources.activities.DialectActivity;
 import com.facebook.appevents.AppEventsLogger;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     public final static String QUESTION_TEXT = "QUESTION";
     public final static String ANSWERS = "ANSWERS";
     public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
+    public final static String EXERCISE_NAME = "EXERCISE_NAME";
+    public final static String EXERCISE_ID = "EXERCISE_ID";
 
     public static UserProgress userProgress;
     public static String currentLanguage ;

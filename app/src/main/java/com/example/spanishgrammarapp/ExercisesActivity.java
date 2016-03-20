@@ -123,7 +123,7 @@ public class ExercisesActivity extends AppCompatActivity {
             //CMSconnector connector = new CMSconnector(exercise, topic, this.getBaseContext()); //pass that empty Exercise to the CMSconnector
             //connector.getExercise( topic, subtopic); //the connector populates it with data from the DB
             APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this.getBaseContext()));
-            exercise = apiWrapper.apiQuestions(topic, subtopic, getIntent().getBooleanExtra(vocab, false));
+            exercise = apiWrapper.apiQuestions(topic, subtopic, getIntent().getBooleanExtra(vocab, false), getIntent().getStringExtra(MainActivity.EXERCISE_ID), getIntent().getStringExtra(MainActivity.EXERCISE_NAME));
         }
         if(getIntent().getBooleanExtra(vocab, false)){
             exercise.setVocab(true);
