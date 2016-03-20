@@ -9,6 +9,12 @@ public class Season {
     private String season;
     private String month1, month2, month3;
 
+    // TODO : Doesnt have Season attribute from CMS so I made this constructor
+    public Season(String m){
+        month1 = m ;
+
+    }
+
     public Season(String n, String m1, String m2, String m3) {
         season = n;
         month1 = m1;

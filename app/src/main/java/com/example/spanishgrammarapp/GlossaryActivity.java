@@ -6,10 +6,14 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -61,7 +65,6 @@ public class GlossaryActivity extends AppCompatActivity implements View.OnClickL
         });
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

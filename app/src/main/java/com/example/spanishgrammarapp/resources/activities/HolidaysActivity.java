@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
@@ -29,6 +30,7 @@ public class HolidaysActivity extends AppCompatActivity implements View.OnClickL
     public static String NAME_IN_ENGLISH = "nameInEnglish";
     private String resource;
     private ArrayList<Holiday> holidays;
+    DatabaseHelper database;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -51,8 +53,9 @@ public class HolidaysActivity extends AppCompatActivity implements View.OnClickL
         TextView tvInstructions = (TextView) findViewById(R.id.tv_instructions);
         tvInstructions.setText(instructions);
 
+        APIWrapper apiWrapper = new APIWrapper(database);
         //Get set of Holidays from API
-        holidays = APIWrapper.getHolidays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        holidays = apiWrapper.getHolidays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
 
         //Dynamically create images of holidays
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.holiday_layout);

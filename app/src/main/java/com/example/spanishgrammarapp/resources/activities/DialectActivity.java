@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
  */
 public class DialectActivity extends AppCompatActivity implements View.OnClickListener{
     public static String DIALECT = "Dialect";
+    DatabaseHelper database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +28,9 @@ public class DialectActivity extends AppCompatActivity implements View.OnClickLi
 
         //Set up
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.ll_dialect);
+        APIWrapper apiWrapper = new APIWrapper(database);
 
-        ArrayList<String> dialects = APIWrapper.getDialects(MainActivity.currentLanguage);
+        ArrayList<String> dialects = apiWrapper.getDialects(MainActivity.currentLanguage);
 
         for (String dialect: dialects) {
             Button button = new Button(this);
