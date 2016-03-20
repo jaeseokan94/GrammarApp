@@ -31,6 +31,7 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
 
 
         LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
+        subtopicLayout.setOrientation(LinearLayout.VERTICAL);
 
         APIWrapper subtopicAPI = new APIWrapper(db);
         //This will pass subtopicList from Database

@@ -3,6 +3,7 @@ package com.example.spanishgrammarapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -33,6 +34,7 @@ public class LanguageActivity extends AppCompatActivity implements OnClickListen
 
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_id);
+        mainLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
         //This will pass subtopicList from Database
         List<LanguageData> languages = CMSconnector.getLanguages(getBaseContext(), database);
@@ -41,7 +43,15 @@ public class LanguageActivity extends AppCompatActivity implements OnClickListen
             Button button = new Button(this);
             button.setText(languageTitle.toString());
             button.setOnClickListener(this);
-            mainLayout.addView(button);
+            button.setBackground(getDrawable(R.drawable.button));
+
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+
+
+            mainLayout.addView(button,p);
         }
     }
 

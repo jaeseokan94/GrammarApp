@@ -12,6 +12,7 @@ import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 public class ExerciseReview extends AppCompatActivity {
@@ -41,6 +42,8 @@ public class ExerciseReview extends AppCompatActivity {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         relativeLayout.addView(gridLayout, layoutParams);
         gridLayout.setColumnCount(3);
+        TableLayout tableLayout = new TableLayout(this);
+        TableLayout.LayoutParams layoutParams1 =  new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 //        GridLayout.Spec columnSpec1 = GridLayout.spec(0, 1.0f);
 //        GridLayout.Spec rowSpec1 = GridLayout.spec(GridLayout.UNDEFINED);
 //        GridLayout.LayoutParams gridParams1 = new GridLayout.LayoutParams(rowSpec1, columnSpec1);

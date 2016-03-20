@@ -3,7 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_layout_id"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@drawable/bkg2">
 
 
     <TextView
