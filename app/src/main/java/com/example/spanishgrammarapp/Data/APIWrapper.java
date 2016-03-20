@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.example.spanishgrammarapp.Exercise;
 import com.example.spanishgrammarapp.ExercisesActivity;
+import com.example.spanishgrammarapp.Glossary;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.Question;
 import com.example.spanishgrammarapp.resources.data.Holiday;
@@ -499,6 +500,41 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
         return dialects;
     }
+
+    /*
+    THIS IS METHOD RETURNING LIST OF GLOSSARY
+    Search for Glossary class for data type
+    there are two data (word, word_in_lang) 
+     */
+    public  ArrayList<Glossary> getGlossary(String language) {
+
+        ArrayList<Glossary> glossary = new ArrayList<Glossary>();
+        String glosaryURL = URL+"/"+language+"/glossaryList";
+        System.out.println("this is url : " +glosaryURL);
+
+
+        try {
+            JSONArray jsonArray = execute(glosaryURL)
+                    .get(); //this link is temporary, it needs to be generalized
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String word= jsonObject.getString("word");
+                String word_in_language = jsonObject.getString("word_in_language");
+
+                glossary.add(new Glossary(word,word_in_language));
+            }
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR HERE");
+            e.printStackTrace();
+        }
+
+        return glossary;
+    }
+
+
+
 }
 
 

@@ -1,17 +1,57 @@
 package com.example.spanishgrammarapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.SearchView;
+import android.widget.TextView;
 
-public class GlossaryActivity extends AppCompatActivity {
+/**
+ * This Activity creates a Glossary Page with a Search Button and clickable Alphabet buttons
+ */
+public class GlossaryActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private SearchView searchBar; // search bar for the glossary
+    private TextView resultsview; // the results are shown here
+    // This is just a sample data for testing
+    String[] strAry = {"Apple","Ball","test","Cat","Dog","Egg","Fat","Green","Horse","Ink","Joke","King","Lamp","Mum","Night","Oil","Puddle","Queen","Rabbit","Spoon","Tree","Umbrella","Van","Wet","X-ray","Yoga","Zebra"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_glossary);
+
+       /* //sets up the search bar to facilitate the search on the glossary
+        SearchManager sManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchBar = (SearchView) findViewById(R.id.searchView);
+        searchBar.setBackgroundColor(Color.WHITE);
+
+        //sets up the results page
+        resultsview = (TextView) findViewById(R.id.resultsView);
+        resultsview.setTextSize(20);
+        resultsview.setBackgroundColor(Color.WHITE);
+        resultsview.setMovementMethod(new ScrollingMovementMethod());
+
+        // this enables the search bar to update while typing and after submitting
+        searchBar.setSearchableInfo(sManager.getSearchableInfo(getComponentName()));*/
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                updateSearch(query, 0);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                updateSearch(newText, 0);
+                return false;
+            }
+        });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -33,5 +73,51 @@ public class GlossaryActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     *This method uses the input String to filter out the glossary
+     * @param input text to search in the glossary
+     * @param integer value given to decide if button click or search bar
+     */
+    public void updateSearch(String input,Integer integer){
+
+        //Based on the input and how theThe actual data is given , i can sort the data
+
+        String str = "";
+
+        if (integer==0){
+
+            for (int i =0; i < strAry.length;i++){
+                if(strAry[i].toLowerCase().contains(input.toLowerCase())){
+                 str += strAry[i] + "\n";
+                 }
+            }
+
+        resultsview.setText(str);
+            str = "";
+
+        } else if(integer==1){
+
+            for (int i =0;i<strAry.length;i++){
+                if (strAry[i].toLowerCase().charAt(0)==input.toLowerCase().charAt(0)){
+                    str += strAry[i] + "\n";
+                }
+            }
+
+            resultsview.setText(str);
+            str = "";
+
+        }
+
+    }
+
+    /**
+     * based on the clicked button, the search bar will show the results respectively
+     * @param v the button being clicked
+     */
+    @Override
+    public void onClick(View v) {
+        updateSearch(v.getTag().toString(),1);
     }
 }
