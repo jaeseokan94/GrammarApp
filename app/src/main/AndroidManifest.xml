@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.spanishgrammarapp" >
+    package="com.example.spanishgrammarapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -10,9 +10,11 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity
             android:name=".LanguageActivity"
             android:configChanges="orientation|screenSize"
@@ -23,91 +25,70 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".Login"
-            android:label="@string/title_activity_login">
-        </activity>
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_learn">
-        </activity>
+            android:label="@string/title_activity_learn" />
         <activity
             android:name=".LevelActivity"
-            android:label="@string/title_activity_learn">
-        </activity>
+            android:label="@string/title_activity_learn" />
         <activity
             android:name=".LearnActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_learn" >
-        </activity>
+            android:label="@string/title_activity_learn" />
         <activity
             android:name=".PracticeActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_practice" >
-        </activity>
+            android:label="@string/title_activity_practice" />
         <activity
             android:name=".ReviseActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_revise" >
-        </activity>
+            android:label="@string/title_activity_revise" />
         <activity
             android:name=".ResourcesActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_resources" >
-        </activity>
+            android:label="@string/title_activity_resources" />
         <activity
             android:name=".GlossaryActivity"
-            android:label="@string/title_activity_glossary" >
-        </activity>
+            android:label="@string/title_activity_glossary" />
         <activity
             android:name=".ExercisesActivity"
-            android:label="@string/title_activity_exercises" >
-        </activity>
+            android:label="@string/title_activity_exercises" />
         <activity
             android:name=".SubtopicsActivity"
-            android:label="@string/title_activity_subtopics" >
-        </activity>
+            android:label="@string/title_activity_subtopics" />
         <activity
             android:name=".TopicActivity"
-            android:label="@string/title_activity_topics" >
-        </activity>
+            android:label="@string/title_activity_topics" />
         <activity
             android:name=".SituationalVideoActivity"
-            android:label="@string/title_activity_situational_video" >
-        </activity>
-        <activity
-            android:name=".resources.activities.AlphabetActivity" >
-        </activity>
-        <activity
-            android:name=".resources.activities.CalendarActivity" >
-        </activity>
-        <activity
-            android:name=".resources.activities.HolidaysActivity" >
-        </activity>
-        <activity
-            android:name=".resources.activities.HolidayInstanceActivity" >
-        </activity>
-        <activity
-            android:name=".resources.activities.SeasonsAndMonthsActivity" >
-        </activity>
-        <activity
-            android:name=".resources.activities.DialectActivity" >
-        </activity>
+            android:label="@string/title_activity_situational_video" />
+        <activity android:name=".resources.activities.AlphabetActivity" />
+        <activity android:name=".resources.activities.CalendarActivity" />
+        <activity android:name=".resources.activities.HolidaysActivity" />
+        <activity android:name=".resources.activities.HolidayInstanceActivity" />
+        <activity android:name=".resources.activities.SeasonsAndMonthsActivity" />
+        <activity android:name=".resources.activities.DialectActivity" />
         <activity
             android:name=".GrammarVideoActivity"
-            android:label="@string/title_activity_grammar_video">
-        </activity>
+            android:label="@string/title_activity_grammar_video" />
+        <activity android:name=".ListeningComprehension" />
         <activity
-            android:name=".ListeningComprehension">
-        </activity>
-
+            android:name=".ExerciseReview"
+            android:label="@string/title_activity_exercise_review"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ExerciseSelector"
+            android:label="@string/title_activity_exercise_selector"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

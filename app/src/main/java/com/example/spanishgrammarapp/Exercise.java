@@ -71,4 +71,14 @@ public class Exercise implements Serializable {
     public boolean getVocab(){
         return isVocab;
     }
+
+    /**
+     * for creating a string output for Exercise
+     * @return a String containing, topic, subtopic and rating
+     */
+    @Override
+    public String toString(){
+        String[] order = getIdentifier().split("/");
+        return order[0]+" - "+order[1]+" - "+getCorrectnessRating();
+    }
 }

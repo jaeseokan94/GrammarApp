@@ -102,7 +102,12 @@ public class ExercisesActivity extends AppCompatActivity {
         /*This is where we attempt to resume user's progress for this exercise. It may be the case that they have no progress
         * for this exercise, in which case this method does nothing. If it has been started, the user can resume, if it has been
         * completed the user can choose to restart the exercise.*/
-        resumeUserProgress(intent.getStringExtra(MainActivity.TOPIC) + "/" + intent.getStringExtra(MainActivity.SUBTOPIC));
+        if(intent.getStringExtra("RESET")!=null) { //for the purpose of revise section
+            restartExercise(intent.getStringExtra(MainActivity.TOPIC)+"/"+intent.getStringExtra(MainActivity.SUBTOPIC));
+        }else {
+            resumeUserProgress(intent.getStringExtra(MainActivity.TOPIC) + "/" + intent.getStringExtra(MainActivity.SUBTOPIC));
+        }
+
         reconstructGUI();
     }
 

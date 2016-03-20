@@ -7,15 +7,28 @@
     tools:context="com.example.spanishgrammarapp.GlossaryActivity"
     android:background="@drawable/bkg">
 
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/searchView"
+        android:id="@+id/space" />
+
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:id="@+id/scrollView"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:touchscreenBlocksFocus="false"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:layout_below="@+id/space"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <GridLayout
             android:layout_width="wrap_content"
@@ -32,7 +45,9 @@
                 android:background="@drawable/a"
                 android:id="@+id/button_a"
                 android:layout_row="0"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="a"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -41,7 +56,9 @@
                 android:background="@drawable/b"
                 android:id="@+id/button_b"
                 android:layout_row="1"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="b"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -50,7 +67,9 @@
                 android:background="@drawable/c"
                 android:id="@+id/button_c"
                 android:layout_row="2"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="c"
+                android:onClick="onClick" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -59,7 +78,9 @@
                 android:background="@drawable/d"
                 android:id="@+id/button_d"
                 android:layout_row="3"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="d"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -68,7 +89,9 @@
                 android:background="@drawable/e"
                 android:id="@+id/button_e"
                 android:layout_row="4"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="e"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -77,7 +100,9 @@
                 android:background="@drawable/f"
                 android:id="@+id/button_f"
                 android:layout_row="5"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="f"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -86,7 +111,9 @@
                 android:background="@drawable/g"
                 android:id="@+id/button_g"
                 android:layout_row="6"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="g"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -95,7 +122,9 @@
                 android:background="@drawable/h"
                 android:id="@+id/button_h"
                 android:layout_row="7"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="h"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -104,7 +133,9 @@
                 android:background="@drawable/i"
                 android:id="@+id/button_i"
                 android:layout_row="8"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="i"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -113,7 +144,9 @@
                 android:background="@drawable/j"
                 android:id="@+id/button_j"
                 android:layout_row="9"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="j"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -122,7 +155,9 @@
                 android:background="@drawable/k"
                 android:id="@+id/button_k"
                 android:layout_row="10"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="k"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -131,7 +166,9 @@
                 android:background="@drawable/l"
                 android:id="@+id/button_l"
                 android:layout_row="11"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="l"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -140,7 +177,9 @@
                 android:background="@drawable/m"
                 android:id="@+id/button_m"
                 android:layout_row="12"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="m"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -149,7 +188,9 @@
                 android:background="@drawable/n"
                 android:id="@+id/button_n"
                 android:layout_row="13"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="n"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -158,7 +199,9 @@
                 android:background="@drawable/o"
                 android:id="@+id/button_o"
                 android:layout_row="14"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="o"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -167,7 +210,9 @@
                 android:background="@drawable/p"
                 android:id="@+id/button_p"
                 android:layout_row="15"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="p"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -176,7 +221,9 @@
                 android:background="@drawable/q"
                 android:id="@+id/button_q"
                 android:layout_row="16"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="q"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -185,7 +232,9 @@
                 android:background="@drawable/r"
                 android:id="@+id/button_r"
                 android:layout_row="17"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="r"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -194,7 +243,9 @@
                 android:background="@drawable/s"
                 android:id="@+id/button_s"
                 android:layout_row="18"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="s"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -203,7 +254,9 @@
                 android:background="@drawable/t"
                 android:id="@+id/button_t"
                 android:layout_row="19"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="t"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -212,7 +265,9 @@
                 android:background="@drawable/u"
                 android:id="@+id/button_u"
                 android:layout_row="20"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="u"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -221,7 +276,31 @@
                 android:background="@drawable/v"
                 android:id="@+id/button_v"
                 android:layout_row="21"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:tag="v"
+                android:onClick="onClick"/>
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/w"
+                android:id="@+id/button_w"
+                android:layout_row="22"
+                android:layout_column="0"
+                android:tag="w"
+                android:onClick="onClick"/>
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/x"
+                android:id="@+id/button_x"
+                android:layout_row="23"
+                android:layout_column="0"
+                android:tag="x"
+                android:onClick="onClick"/>
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -229,8 +308,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/y"
                 android:id="@+id/button_y"
-                android:layout_row="22"
-                android:layout_column="0" />
+                android:layout_row="24"
+                android:layout_column="0"
+                android:tag="y"
+                android:onClick="onClick" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -238,10 +319,26 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/z"
                 android:id="@+id/button_Z"
-                android:layout_row="23"
-                android:layout_column="0" />
+                android:layout_row="25"
+                android:layout_column="0"
+                android:tag="z"
+                android:onClick="onClick" />
         </GridLayout>
     </ScrollView>
+
+    <Space
+        android:layout_width="10dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/scrollView"
+        android:id="@+id/space2"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/resultsView"
+        android:layout_below="@id/space"
+        android:layout_toRightOf="@id/space2"
+        android:scrollbars="vertical"/>
 
 
 </RelativeLayout>

@@ -1,73 +1,76 @@
 package com.example.spanishgrammarapp;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-public class ReviseActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * This Activity displays all the
+ */
+public class ReviseActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+
+    RelativeLayout mainLayout; //This is the layout for this Activity
+    Context context; // This is the Context of this Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_revise);
-        // ---------------------------------------modified
-        setDefaultImageButtonSizes(Configuration.ORIENTATION_PORTRAIT);
+        mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
+        context = this;
+
+        /* This sets up the current Activity to show all the completed Exercises on a list View*/
+        showListView();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        // TODO Auto-generated method stub
-        super.onConfigurationChanged(newConfig);
+    /**
+     * This creates a listview of all the completed exercises based on correctness rating
+     */
+    public void showListView(){
 
-        // ---------------------------------------modified
-        setContentView(R.layout.activity_learn);
-        setDefaultImageButtonSizes(newConfig.orientation);
+        ListView listView = new ListView(this);
 
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            System.out.println("ORIENTATION_LANDSCAPE");
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            System.out.println("ORIENTATION_PORTRAIT");
-        }
+        ArrayList<Exercise> exerciseList = new ArrayList<>(UserProgress.completedExercises);
+
+        Collections.sort(exerciseList, new Comparator<Exercise>() {
+            @Override
+            public int compare(Exercise exercise1, Exercise exercise2) {
+                if (exercise1.getCorrectnessRating() >= exercise2.getCorrectnessRating()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+
+        ArrayAdapter<Exercise> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,exerciseList);
+
+        listView.setOnItemClickListener(this);
+        listView.setAdapter(adapter);
+
+        mainLayout.addView(listView);
     }
-
-    private void setDefaultImageButtonSizes(int orientation) {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
-        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        // ---------------------------------------modified
-        int screenWidth;
-        if(orientation== Configuration.ORIENTATION_PORTRAIT){
-            screenWidth= displayMetrics.widthPixels;
-        }else{
-            screenWidth = displayMetrics.heightPixels;
-        }
-
-        int idealSize = (screenWidth / 3) - 32;
-        findViewById(R.id.button_greetings).getLayoutParams().width = idealSize;
-        findViewById(R.id.button_greetings).getLayoutParams().height = idealSize;
-        findViewById(R.id.button_checking_in).getLayoutParams().width = idealSize;
-        findViewById(R.id.button_checking_in).getLayoutParams().height = idealSize;
-        findViewById(R.id.button_sightseeing).getLayoutParams().width = idealSize;
-        findViewById(R.id.button_sightseeing).getLayoutParams().height = idealSize;
-        findViewById(R.id.button_directions).getLayoutParams().width = idealSize;
-        findViewById(R.id.button_directions).getLayoutParams().height = idealSize;
-        findViewById(R.id.button_eating).getLayoutParams().width = idealSize;
-        findViewById(R.id.button_eating).getLayoutParams().height = idealSize;
-        findViewById(R.id.button_likes).getLayoutParams().width = idealSize;
-        findViewById(R.id.button_likes).getLayoutParams().height = idealSize;
-        findViewById(R.id.button_planning).getLayoutParams().width = idealSize;
-        findViewById(R.id.button_planning).getLayoutParams().height = idealSize;
-        findViewById(R.id.button_shopping).getLayoutParams().width = idealSize;
-        findViewById(R.id.button_shopping).getLayoutParams().height = idealSize;
-        findViewById(R.id.button_dating).getLayoutParams().width = idealSize;
-        findViewById(R.id.button_dating).getLayoutParams().height = idealSize;
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,5 +92,34 @@ public class ReviseActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
+
+        Exercise curExe = (Exercise) parent.getAdapter().getItem(position);
+        final String[] identifier = curExe.getIdentifier().split("/");
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Do you want to Attempt this Exercise?");
+        dialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(context, ExercisesActivity.class);
+                intent.putExtra(MainActivity.TOPIC, identifier[0]);
+                intent.putExtra(MainActivity.SUBTOPIC, identifier[1]);
+                intent.putExtra("RESET", "true"); //this is for me, so when you start your Exercise from THIS class, I'll know to reset the exercise rather than ask user to reset it.
+                startActivity(intent);
+            }
+        });
+        dialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            //do nothing
+            }
+        });
+
+        dialogBuilder.create();
+        dialogBuilder.show();
     }
 }
