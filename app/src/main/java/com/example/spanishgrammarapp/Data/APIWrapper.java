@@ -474,10 +474,28 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         return times;
     }
 
-    public static ArrayList<String> getDialects(String languageName) {
+    public ArrayList<String> getDialects(String language) {
+        String dialectListURL = URL+"/"+language+"/dialectList";
+
+
         ArrayList<String> dialects = new ArrayList<>();
-        dialects.add("Spanish");
-        dialects.add("Mexican");
+
+        try {
+            JSONArray jsonArray = execute(dialectListURL)
+                    .get(); //this link is temporary, it needs to be generalized
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String dialect_name= jsonObject.getString("name");
+
+
+                dialects.add((dialect_name));
+            }
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR HERE");
+            e.printStackTrace();
+        }
 
         return dialects;
     }
