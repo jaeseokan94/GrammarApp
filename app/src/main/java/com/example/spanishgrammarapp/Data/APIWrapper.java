@@ -7,7 +7,7 @@ import com.example.spanishgrammarapp.Exercise;
 import com.example.spanishgrammarapp.Glossary;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.Question;
-import com.example.spanishgrammarapp.resources.data.Day;
+import com.example.spanishgrammarapp.resources.data.Numb;
 import com.example.spanishgrammarapp.resources.data.Holiday;
 import com.example.spanishgrammarapp.resources.data.Letter;
 import com.example.spanishgrammarapp.resources.data.Season;
@@ -402,35 +402,35 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
 
 
-    //for the Calendar activity
+    //for the Calendar activity tempor
 
-    public  ArrayList<Day> getDays(String language, String dialect) {
+    public  ArrayList<Numb> getNumbs(String language, String dialect) {
         //TODO implement this method
 
-        ArrayList<Day> days = new ArrayList<Day>();
-        String resourceDayURL = URL+"/"+language+"/"+dialect+"/Day";
-        System.out.println("this is url : " +resourceDayURL);
+        ArrayList<Numb> numbs = new ArrayList<Numb>();
+        String resourceNumbURL = URL+"/"+language+"/"+dialect+"/Numbers";
+        System.out.println("this is url : " +resourceNumbURL);
 
 
         try {
-            JSONArray jsonArray = execute(resourceDayURL)
+            JSONArray jsonArray = execute(resourceNumbURL)
                     .get(); //this link is temporary, it needs to be generalized
             for(int i = 0 ; i < jsonArray.length(); i++ ){
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                String day= jsonObject.getString("Day");
-                String pronounciation = jsonObject.getString("pronounciation_guide_or_date");
-                String audioUrl = jsonObject.getString("audio_url");
+                String numb= jsonObject.getString("word");
+                String pronounciationNumb = jsonObject.getString("word_in_language");
+                String numAudioUrl = jsonObject.getString("audio_url");
 
-                days.add(new Day(day, pronounciation, audioUrl));
+                numbs.add(new Numb(numb, pronounciationNumb, numAudioUrl));
             }
         } catch (Exception e) {
             System.out.println("JSON EXCEPTION ERROR HERE");
             e.printStackTrace();
         }
 
-        return days;
+        return numbs;
     }
 
 
@@ -483,7 +483,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
     /**
      * gets seasons and months data from API
-     * @param languageName
+  //   * @param languageName
      * @param dialect
      * @return ArrayList of Seasons
      */
