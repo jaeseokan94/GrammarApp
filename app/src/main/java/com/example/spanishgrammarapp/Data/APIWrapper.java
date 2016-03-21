@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.example.spanishgrammarapp.Exercise;
-import com.example.spanishgrammarapp.ExercisesActivity;
 import com.example.spanishgrammarapp.Glossary;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.Question;
@@ -26,6 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
@@ -177,7 +177,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
     /*
     TOPICLIST PARAMETER ONLY LEVEL
-    IT WILL RETURN ARRAYLIST OF TOPICS 
+    IT WILL RETURN ARRAYLIST OF TOPICS
      */
     public ArrayList getTopicList(String level){
         String topicURL=URL+"/"+level+"/topicList";
@@ -240,54 +240,91 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         isVocabuary=false;
         String questionURL = URL + "/" + MainActivity.currentLanguage + "/" + MainActivity.currentLevel + "/" + topic + "/" + subtopic + "/"
                 + exerciseId;
+        Exercise exercise = new Exercise(topic+"/"+subtopic, exerciseId, exerciseName);
 
 
         if(isVocabuary) {
             questionURL += "/vocabExercisesQuestions";
+            try {
+                JSONArray jsonArray = execute(questionURL).get();
+                System.out.println(questionURL);
+                for(int i = 0 ; i < jsonArray.length(); i++ ){
+                    ArrayList<String> answers = new ArrayList<>();
+
+
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                    String questionText = jsonObject.getString("question_text"); // get question_text from API
+                    String questionType = "vocab";
+                    answers.add(jsonObject.getString("choice_1"));
+                    answers.add(jsonObject.getString("choice_2"));
+                    answers.add(jsonObject.getString("choice_3"));
+                    answers.add(jsonObject.getString("choice_4"));
+                    answers.add(jsonObject.getString("choice_5"));
+                    answers.add(jsonObject.getString("choice_6"));
+                    answers.add(jsonObject.getString("correct_answer"));
+                    String correct_answer = jsonObject.getString("correct_answer");
+                    Question question = new Question(questionType, questionText, correct_answer, answers);
+                    exercise.addQuestion(question);
+                    System.out.println("TEST QUESTION LIST JSON " + question);
+                }
+
+            } catch (Exception e) {
+                System.out.println("JSON EXCEPTION ERROR HERE");
+                e.printStackTrace();
+            }
+
         } else {
             questionURL += "/exerciseQuestions";
+            try {
+                JSONArray jsonArray = execute(questionURL).get();
+                //   jsonArray.getJSONObject("exercise_question");
+                System.out.println("JSON ARRAY "+jsonArray);
+
+                for(int k = 0 ; k <jsonArray.length() ; k++){
+                    JSONObject questions = jsonArray.getJSONObject(k);
+                    JSONArray sublist = questions.getJSONArray("exercise_questions");
+
+                    System.out.println("JSON SUBARRAY???" + sublist);
+                    for (int i = 0; i < sublist.length(); i++) {
+
+                        ArrayList<String> answers = new ArrayList<>();
+
+
+                        JSONObject jsonObject = sublist.getJSONObject(i);
+
+                        String questionText = jsonObject.getString("question_text"); // get question_text from API
+                        String questionType = jsonObject.getString("question_type");
+                        answers.add(jsonObject.getString("choice_1"));
+                        answers.add(jsonObject.getString("choice_2"));
+                        answers.add(jsonObject.getString("choice_3"));
+                        answers.add(jsonObject.getString("choice_4"));
+                        answers.add(jsonObject.getString("choice_5"));
+                        answers.add(jsonObject.getString("choice_6"));
+                        answers.add(jsonObject.getString("correct_answer"));
+
+                        String type = Character.toString(questionType.charAt(2))+Character.toString(questionType.charAt(3)) ;
+
+                        String correct_answer = jsonObject.getString("correct_answer");
+                        System.out.println("question text : " + questionText);
+                        System.out.println("question type : " + type);
+                        System.out.println("choice_1 " + answers);
+                        Question question = new Question(type, questionText, correct_answer, answers);
+                        exercise.addQuestion(question);
+                        System.out.println("TEST QUESTION LIST JSON " + question);
+                    }
+                }
+
+            } catch (Exception e) {
+                System.out.println("JSON EXCEPTION ERROR IN QUESTONS");
+                e.printStackTrace();
+            }
         }
         System.out.println("QUESTION URL DEBUG : "+questionURL);
 
         // String urlQuestions = URL +"/"+topicName+"/"+subTopicName+"/"+"exerciseQuestion";
-        Exercise exercise = new Exercise(topic+"/"+subtopic, exerciseId, exerciseName);
 
 
-        try {
-            JSONArray jsonArray = execute(
-                   questionURL)
-                    .get(); //this link is temporary, it needs to be generalized
-
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-
-                ArrayList<String> answers = new ArrayList<>();
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                String questionText = jsonObject.getString("question_text"); // get question_text from API
-                String questionType = jsonObject.getString("question_type");
-                answers.add(jsonObject.getString("choice_1"));
-                answers.add(jsonObject.getString("choice_2"));
-                answers.add(jsonObject.getString("choice_3"));
-                answers.add(jsonObject.getString("choice_4"));
-                answers.add(jsonObject.getString("choice_5"));
-                answers.add(jsonObject.getString("choice_6"));
-                answers.add(jsonObject.getString("correct_answer"));
-
-                String correct_answer = jsonObject.getString("correct_answer");
-                System.out.println("question text : " + questionText);
-                System.out.println("question type : " + questionType);
-                System.out.println("choice_1 "+ answers);
-                Question question = new Question(questionType, questionText, correct_answer, answers);
-                exercise.addQuestion(question);
-                System.out.println("JSON PASSED TO DATABASE");
-                System.out.println(i);
-            }
-
-        } catch (Exception e) {
-            System.out.println("JSON EXCEPTION ERROR IN QUESTONS");
-            e.printStackTrace();
-        }
         return exercise;
     }
 
@@ -299,12 +336,12 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         System.out.println("EXERCISES LIST : "+exercisesListURL);
 
 
+       // JSONArray jsonMainArr = mainJSON.getJSONArray("exercise_questions");
 
         try {
             JSONArray jsonArray = execute(
                     exercisesListURL)
                     .get(); //this link is temporary, it needs to be generalized
-
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);

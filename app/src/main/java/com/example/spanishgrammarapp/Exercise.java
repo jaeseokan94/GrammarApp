@@ -48,7 +48,7 @@ public class Exercise implements Serializable {
 
     /**@return the identifier of this exercise (i.e. "Topic/Subtopic"*/
     public String getIdentifier(){
-        return identifier;
+        return identifier+"/"+id;
     }
 
     /**Sets the number of questions answered correctly to the given input.
