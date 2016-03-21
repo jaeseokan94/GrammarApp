@@ -22,7 +22,7 @@ public class Glossary {
     }
 
     public String toString(){
-        return word+","+word_in_lang ;
+        return word+" : "+word_in_lang ;
     }
 
 }

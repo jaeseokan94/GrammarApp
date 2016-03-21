@@ -17,6 +17,9 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.example.spanishgrammarapp.Data.APIWrapper;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -31,11 +34,19 @@ public class GlossaryActivity extends AppCompatActivity implements View.OnClickL
     private TextView resultsview; // the results are shown here
     // This is just a sample data for testing
     String[] strAry = {"Apple","Ball","Cat","Dog","Egg","Fat","Green","Horse","Ink","Joke","King","Lamp","Mum","Night","Oil","Puddle","Queen","Rabbit","Spoon","Tree","Umbrella","Van","Wet","X-ray","Yoga","Zebra"};
+    ArrayList<Glossary> glossData;
+    private DatabaseHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_glossary);
+
+        //getting the data for the glossary
+        database = new DatabaseHelper(this.getBaseContext());
+        APIWrapper downloadAPI = new APIWrapper(database);
+        glossData = downloadAPI.getGlossary(LanguageActivity.CURRENT_LANGUAGE);
+//        resultsview.setText(""+glossData.get(0).getWord());
 
         //sets up the search bar to facilitate the search on the glossary
         SearchManager sManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -53,13 +64,13 @@ public class GlossaryActivity extends AppCompatActivity implements View.OnClickL
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                updateSearch(query, 0);
+//                updateSearch(query, 0);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                updateSearch(newText, 0);
+//                updateSearch(newText, 0);
                 return false;
             }
         });
@@ -101,9 +112,9 @@ public class GlossaryActivity extends AppCompatActivity implements View.OnClickL
 
         if (integer==0){
 
-            for (int i =0; i < strAry.length;i++){
-                if(strAry[i].toLowerCase().contains(input.toLowerCase())){
-                 str += strAry[i] + "\n";
+            for (int i =0; i < glossData.size();i++){
+                if(glossData.get(i).getWord().toLowerCase().contains(input.toLowerCase())){
+                 str += glossData.toString() + "\n";
                  }
             }
 
@@ -112,9 +123,9 @@ public class GlossaryActivity extends AppCompatActivity implements View.OnClickL
 
         } else if(integer==1){
 
-            for (int i =0;i<strAry.length;i++){
-                if (strAry[i].toLowerCase().charAt(0)==input.toLowerCase().charAt(0)){
-                    str += strAry[i] + "\n";
+            for (int i =0;i<glossData.size();i++){
+                if (glossData.get(i).getWord().toLowerCase().charAt(0)==input.toLowerCase().charAt(0)){
+                    str += glossData.toString() + "\n";
                 }
             }
 
@@ -131,6 +142,6 @@ public class GlossaryActivity extends AppCompatActivity implements View.OnClickL
      */
     @Override
     public void onClick(View v) {
-        updateSearch(v.getTag().toString(),1);
+//        updateSearch(v.getTag().toString(),1);
     }
 }
