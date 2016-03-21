@@ -4,10 +4,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.example.spanishgrammarapp.Exercise;
-import com.example.spanishgrammarapp.ExercisesActivity;
 import com.example.spanishgrammarapp.Glossary;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.Question;
+import com.example.spanishgrammarapp.resources.data.Day;
 import com.example.spanishgrammarapp.resources.data.Holiday;
 import com.example.spanishgrammarapp.resources.data.Letter;
 import com.example.spanishgrammarapp.resources.data.Season;
@@ -398,13 +398,43 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     }
 
 
-    /**
-     * gets instructions of how to use resource from API
-     * @param languageName
-     * @param dialect
-     * @param resource
-     * @return instructions
-     */
+
+
+
+
+    //for the Calendar activity
+
+    public  ArrayList<Day> getDays(String language, String dialect) {
+        //TODO implement this method
+
+        ArrayList<Day> days = new ArrayList<Day>();
+        String resourceDayURL = URL+"/"+language+"/"+dialect+"/Day";
+        System.out.println("this is url : " +resourceDayURL);
+
+
+        try {
+            JSONArray jsonArray = execute(resourceDayURL)
+                    .get(); //this link is temporary, it needs to be generalized
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String day= jsonObject.getString("Day");
+                String pronounciation = jsonObject.getString("pronounciation_guide_or_date");
+                String audioUrl = jsonObject.getString("audio_url");
+
+                days.add(new Day(day, pronounciation, audioUrl));
+            }
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR HERE");
+            e.printStackTrace();
+        }
+
+        return days;
+    }
+
+
+
     public static String getInstructions(String languageName, String dialect, String resource) {
         //TODO implement this method
 
@@ -547,7 +577,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
         ArrayList<Glossary> glossary = new ArrayList<Glossary>();
         String glosaryURL = URL+"/"+language+"/glossaryList";
-        System.out.println("this is url : " +glosaryURL);
+        System.out.println("this is url : " + glosaryURL);
 
 
         try {
