@@ -445,7 +445,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
     /**
      * gets holidays from API
-     * @param languageName
+     * @param language
      * @param dialect
      * @return instructions
      */
