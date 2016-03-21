@@ -3,6 +3,7 @@ package com.example.spanishgrammarapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
 
         LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
         subtopicLayout.setOrientation(LinearLayout.VERTICAL);
+        subtopicLayout.setGravity(Gravity.CENTER);
 
         APIWrapper subtopicAPI = new APIWrapper(db);
         //This will pass subtopicList from Database
@@ -43,6 +45,7 @@ public class SubtopicsActivity extends AppCompatActivity implements View.OnClick
         for (String subtopic: subtopics) {
             Button button = new Button(this);
             button.setText(subtopic);
+            button.setGravity(Gravity.CENTER);
             button.setTag(subtopic);
             button.setOnClickListener(this);
             subtopicLayout.addView(button);
