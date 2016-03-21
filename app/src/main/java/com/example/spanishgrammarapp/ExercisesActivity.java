@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
@@ -541,6 +542,26 @@ public class ExercisesActivity extends AppCompatActivity {
         }
     }
 
+    public void instructions(){
+        String instruction = "";
+        switch (exerciseReceived.getQuestions().get(currentQuestionIndex).getQuestionType()){
+            case multipleChoice:
+                instruction = "Press the button with the correct answer to proceed. You only choose once.";
+                break;
+            case typing:
+                instruction = "Tap the screen and a keyboard will appear. Type your answer and submit.";
+                break;
+            case trueFalse:
+                instruction = "Choose whether or not the statement is true or false using the buttons.";
+                break;
+            case dragAndDrop:
+                instruction = "Drag the word onto the picture that it matches and drop it there.";
+                break;
+        }
+        Toast toast = Toast.makeText(this, instruction, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -556,7 +577,8 @@ public class ExercisesActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_instructions) {
+            instructions();
             return true;
         }
 
