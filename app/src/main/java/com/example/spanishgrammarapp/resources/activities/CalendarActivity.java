@@ -1,12 +1,10 @@
 package com.example.spanishgrammarapp.resources.activities;
 
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,10 +59,10 @@ public class CalendarActivity extends AppCompatActivity {
         for(Numb numb: numbs) {
             dayView = getLayoutInflater().inflate(R.layout.calendar_layout, dayLayout, false);
 
-            dayView.setBackgroundColor(Color.YELLOW);
+            //dayView.setBackgroundColor(Color.YELLOW);
             dayLayout.addView(dayView);
             //TextView tvDay = (TextView)dayView.findViewById(R.id.day);
-            Button tvDay = (Button)dayView.findViewById(R.id.day);
+            TextView tvDay = (TextView)dayView.findViewById(R.id.day);
             TextView tvPronunciation = (TextView)dayView.findViewById(R.id.pronunciation_guide);
 
             tvDay.setText(numb.getNumber());
