@@ -49,11 +49,10 @@ public class ExercisesActivity extends AppCompatActivity {
     // Member variables for question types, to prevent bugs due to typos.
     public static final String multipleChoice = "mc";
     public static final String trueFalse = "tf";
-    public static final String dragAndDrop = "dnd";
-    public static final String typing = "t";
+    public static final String dragAndDrop = "dd";
+    public static final String typing = "ty";
     public static final String vocab = "VOCAB";
     public static final String IDENTIFIER = "IDENTIFIER";
-
     private RelativeLayout relativeLayout; //accessed multiple times throughout the code in various methods.
     private String cAnswer; //removing this would mean it features in 4 new places.
     private ArrayList<String> answers; //accessed in multiple places (10 in the class)
@@ -83,6 +82,7 @@ public class ExercisesActivity extends AppCompatActivity {
         * just a new reference to that object. If it did not exist in the file, then a new exercise is made.*/
         exerciseReceived = getOrMakeExercise(intent.getStringExtra(MainActivity.SUBTOPIC), intent.getStringExtra(MainActivity.TOPIC));
         exerciseQuestions = exerciseReceived.getQuestions();
+        String identifier = intent.getStringExtra(MainActivity.TOPIC)+"/"+intent.getStringExtra(MainActivity.SUBTOPIC)+"/"+getIntent().getStringExtra(MainActivity.EXERCISE_ID);
 
         /*This intent is used for the functionality of the back button and also for leaving the exercise after it has been completed*/
         afterExerciseIntent = new Intent(this, SubtopicsActivity.class);
@@ -103,9 +103,9 @@ public class ExercisesActivity extends AppCompatActivity {
         * for this exercise, in which case this method does nothing. If it has been started, the user can resume, if it has been
         * completed the user can choose to restart the exercise.*/
         if(intent.getStringExtra("RESET")!=null) { //for the purpose of revise section
-            restartExercise(intent.getStringExtra(MainActivity.TOPIC)+"/"+intent.getStringExtra(MainActivity.SUBTOPIC));
+            restartExercise(identifier);
         }else {
-            resumeUserProgress(intent.getStringExtra(MainActivity.TOPIC) + "/" + intent.getStringExtra(MainActivity.SUBTOPIC));
+            resumeUserProgress(identifier);
         }
 
         reconstructGUI();
@@ -117,7 +117,7 @@ public class ExercisesActivity extends AppCompatActivity {
     * @param topic The topic of the exercise
     * @return Exercise for this configuration of topic/subtopic*/
     private Exercise getOrMakeExercise(String subtopic, String topic){
-        String identifier = topic+"/"+subtopic; //define the identifier...
+        String identifier = topic+"/"+subtopic+"/"+getIntent().getStringExtra(MainActivity.EXERCISE_ID); //define the identifier...
         Exercise exercise = getExerciseFromSaved(identifier); //initially use the getExerciseFromSaved method, this will return an existing exercise is there is one, otherwise null
         if(exercise==null){ //if getExerciseFromSaved returned null, then create a new exercise
             //CMSconnector connector = new CMSconnector(exercise, topic, this.getBaseContext()); //pass that empty Exercise to the CMSconnector
@@ -399,15 +399,16 @@ public class ExercisesActivity extends AppCompatActivity {
         UserProgress.completedExercises.add(exerciseReceived);
         UserProgress.exercisesInProgress.remove(exerciseReceived); //we've completed the exercise, it's no longer in progress
         MainActivity.userProgress.saveProgress();
-        ratingDialog(exerciseReceived.getCorrectnessRating());
+        ratingDialog(exerciseReceived);
     }
 
     /** This method displays the rating for the exercises with the appropriate pictures*/
-    private void ratingDialog(double correctnessRating){
+    private void ratingDialog(final Exercise exercise){
         Dialog dialog = new Dialog(this);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams((int) (getScreenWidth()*0.6), (int) (getScreenWidth()*0.18));
         ImageView rating = new ImageView(getBaseContext());
+        Double correctnessRating= exerciseReceived.getCorrectnessRating();
         if(correctnessRating<0.4) {
             rating.setBackground(getDrawable(R.drawable.star0));
         }else if(correctnessRating<0.6){
@@ -423,7 +424,7 @@ public class ExercisesActivity extends AppCompatActivity {
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                reviewExercise();
+                reviewExercise(exercise);
             }
         });
         dialog.show();
@@ -504,11 +505,11 @@ public class ExercisesActivity extends AppCompatActivity {
         }
     }
 
-    private void reviewExercise(){
+    private void reviewExercise(Exercise exercise){
         currentQuestionIndex = 0;
         //placeholder for now
         Intent intent = new Intent(this, ExerciseReview.class);
-        intent.putExtra(IDENTIFIER ,getIntent().getStringExtra(MainActivity.TOPIC) + "/" + getIntent().getStringExtra(MainActivity.SUBTOPIC));
+        intent.putExtra(IDENTIFIER ,getIntent().getStringExtra(MainActivity.TOPIC) + "/" + getIntent().getStringExtra(MainActivity.SUBTOPIC)+"/"+exercise.getId());
         intent.putExtra(MainActivity.TOPIC, getIntent().getStringExtra(MainActivity.TOPIC));
         intent.putExtra(MainActivity.SUBTOPIC, getIntent().getStringExtra(MainActivity.SUBTOPIC));
         startActivity(intent);
