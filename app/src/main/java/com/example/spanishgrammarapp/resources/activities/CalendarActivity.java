@@ -28,6 +28,7 @@ public class CalendarActivity extends AppCompatActivity {
     private MediaPlayer player;
     DatabaseHelper database;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,17 +42,31 @@ public class CalendarActivity extends AppCompatActivity {
         String instructions = APIWrapper.getInstructions(MainActivity.currentLanguage,
                 ResourcesActivity.DIALECT, resource);
 
-        APIWrapper apiWrapper = new APIWrapper(database);
-        APIWrapper apiWrapper1 = new APIWrapper(database);
 
-        ArrayList<Numb> numbs = apiWrapper.getNumbs(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
-        ArrayList<Day>  days  = apiWrapper1.getDays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        ArrayList<Numb> numbs = new ArrayList<>();
+        ArrayList<Day>  days = new ArrayList<>();
+
+
+
+
+        for(int i = 0 ; i < 2 ; i ++ ){
+            APIWrapper apiWrapper = new APIWrapper(database);
+            if(i == 0){
+                numbs = apiWrapper.getNumbs(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+
+            } else {
+                days  = apiWrapper.getDays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+
+            }
+
+        }
+
 
 
         TextView text1 = (TextView)findViewById(R.id.textView1);
         text1.setText(days.get(0).getDay());
         text1.setTag(days.get(0).getAudioURL());
-
+/*
         TextView text2 = (TextView)findViewById(R.id.textView2);
         text2.setText(days.get(1).getDay());
         text2.setTag(days.get(1).getAudioURL());
@@ -78,7 +93,7 @@ public class CalendarActivity extends AppCompatActivity {
         TextView text7 = (TextView)findViewById(R.id.textView7);
         text7.setText(days.get(6).getDay());
         text7.setTag(days.get(6).getAudioURL());
-
+*/
 
         Button button1 = (Button) findViewById(R.id.button1);
             button1.setText(numbs.get(0).getNumber()+"\n"+numbs.get(0).getPronunciation());

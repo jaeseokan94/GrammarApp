@@ -453,6 +453,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                 String audioUrl = jsonObject.getString("audio_url");
 
                 letters.add(new Letter(letter, pronounciation, audioUrl));
+                System.out.println("Letter " + letters.toString() + "letter one" + letter.toString());
             }
         } catch (Exception e) {
             System.out.println("JSON EXCEPTION ERROR HERE");
@@ -464,18 +465,14 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
 
 
-
-
-
-
-
-
-
     public  ArrayList<Day> getDays(String language, String dialect) {
         //TODO implement this method
 
         ArrayList<Day> days = new ArrayList<Day>();
-        String resourceDayURL = URL+"/"+language+"/"+dialect+"/Days";
+        String resourceDayURL;
+             resourceDayURL = URL+"/"+language+"/"+dialect+"/Days";
+
+
         System.out.println("this is url : " +resourceDayURL);
 
 
@@ -487,7 +484,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 String day= jsonObject.getString("word");
-                String dayPronounciation = jsonObject.getString("pronounciation_guide_or_date");
+                String dayPronounciation = jsonObject.getString("word_in_language");
                 String dayAudioUrl = jsonObject.getString("audio_url");
 
                 days.add(new Day(day, dayPronounciation, dayAudioUrl));
@@ -499,6 +496,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
         return days;
     }
+
 
 
     //for the Calendar activity tempor
@@ -523,6 +521,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                 String numAudioUrl = jsonObject.getString("audio_url");
 
                 numbs.add(new Numb(numb, pronounciationNumb, numAudioUrl));
+
             }
         } catch (Exception e) {
             System.out.println("JSON EXCEPTION ERROR HERE");
