@@ -414,6 +414,8 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
                 letters.add(new Letter(letter, pronounciation, audioUrl));
                 System.out.println("Letter " + letters.toString() + "letter one" + letter.toString());
+
+
             }
         } catch (Exception e) {
             System.out.println("JSON EXCEPTION ERROR HERE");
