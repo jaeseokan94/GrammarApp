@@ -175,6 +175,32 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         return levelList;
     }
 
+    /*
+    TOPICLIST PARAMETER ONLY LEVEL
+    IT WILL RETURN ARRAYLIST OF TOPICS 
+     */
+    public ArrayList getTopicList(String level){
+        String topicURL=URL+"/"+level+"/topicList";
+        ArrayList<String> topicList = new ArrayList<String>();
+        try {
+            JSONArray jsonArray = execute(
+                    topicURL)
+                    .get(); //this link is temporary, it needs to be generalized
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String topic_name= jsonObject.getString("topic_name");
+                topicList.add(topic_name);
+            }
+
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR");
+            e.printStackTrace();
+        }
+        return topicList;
+
+    }
+
     /**
      * @return ArrayList of subtopic names
      */
