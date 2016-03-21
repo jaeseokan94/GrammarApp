@@ -42,26 +42,11 @@ public class CalendarActivity extends AppCompatActivity {
         String instructions = APIWrapper.getInstructions(MainActivity.currentLanguage,
                 ResourcesActivity.DIALECT, resource);
 
-
         ArrayList<Numb> numbs = new ArrayList<>();
         ArrayList<Day>  days = new ArrayList<>();
 
-
-
-
-        for(int i = 0 ; i < 2 ; i ++ ){
-            APIWrapper apiWrapper = new APIWrapper(database);
-            if(i == 0){
-                numbs = apiWrapper.getNumbs(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
-
-            } else {
-                days  = apiWrapper.getDays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
-
-            }
-
-        }
-
-
+        APIWrapper apiWrapper = new APIWrapper(database);
+        days  = apiWrapper.getDays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
 
         TextView text1 = (TextView)findViewById(R.id.textView1);
         text1.setText(days.get(0).getDay());
@@ -233,9 +218,5 @@ public class CalendarActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             Toast.makeText(getApplicationContext(), "Start the Source", Toast.LENGTH_LONG).show();
-
-
     }
-
-
-    }
+}
