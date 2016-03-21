@@ -1,12 +1,13 @@
 package com.example.spanishgrammarapp;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +26,7 @@ import java.util.Arrays;
 /**
  * This Activity creates a Glossary Page with a Search Button and clickable Alphabet buttons
  */
-public class GlossaryActivity extends AppCompatActivity implements View.OnClickListener {
+public class GlossaryActivity extends Activity implements View.OnClickListener {
 
     private SearchView searchBar; // search bar for the glossary
     private TextView resultsview; // the results are shown here

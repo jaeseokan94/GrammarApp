@@ -1,9 +1,10 @@
 package com.example.spanishgrammarapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.View;
 
@@ -13,7 +14,7 @@ import com.example.spanishgrammarapp.resources.activities.DialectActivity;
 import com.example.spanishgrammarapp.resources.activities.HolidaysActivity;
 import com.example.spanishgrammarapp.resources.activities.SeasonsAndMonthsActivity;
 
-public class ResourcesActivity extends AppCompatActivity {
+public class ResourcesActivity extends Activity {
     public static String DIALECT = "";
     public static String RESOURCE_NAME = "Resource";
     public static String ALPHABET = "Alphabet";

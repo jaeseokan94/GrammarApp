@@ -1,11 +1,12 @@
 package com.example.spanishgrammarapp;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +20,7 @@ import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.resources.activities.DialectActivity;
 import com.facebook.appevents.AppEventsLogger;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     public final static String QUESTIONS = "QUESTIONS";
     public final static String TOPIC = "TOPIC";

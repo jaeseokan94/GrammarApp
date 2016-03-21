@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main_layout_id">
+    android:id="@+id/main_layout_id"
+    android:background="@drawable/bkg2">
 
 
     <TextView
@@ -23,8 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_situational_video"
+        android:background="@drawable/button1"
         android:id="@+id/btn_situational_video"
-        android:onClick="enterSituationalVideo"/>
+        android:onClick="enterSituationalVideo"
+        android:layout_gravity="center_horizontal"/>
 
     <TextView
         android:layout_width="wrap_content"

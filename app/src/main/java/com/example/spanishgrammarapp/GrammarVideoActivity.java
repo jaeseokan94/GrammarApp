@@ -1,7 +1,8 @@
 package com.example.spanishgrammarapp;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -9,7 +10,7 @@ import android.widget.VideoView;
 /**
  * Created by janaldoustorres on 06/03/2016.
  */
-public class GrammarVideoActivity extends AppCompatActivity {
+public class GrammarVideoActivity extends Activity {
     private String topicTitle;
     private String subtopicTitle;
 

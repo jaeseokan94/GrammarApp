@@ -1,10 +1,11 @@
 package com.example.spanishgrammarapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 
 
-public class RecordingToolActivity extends AppCompatActivity {
+public class RecordingToolActivity extends Activity {
 
     // called when the activity is first created
     private MediaPlayer mediaPlayer;

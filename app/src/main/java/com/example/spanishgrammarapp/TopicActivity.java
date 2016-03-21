@@ -1,8 +1,9 @@
 package com.example.spanishgrammarapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -14,7 +15,7 @@ import com.example.spanishgrammarapp.Data.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class TopicActivity extends AppCompatActivity implements OnClickListener {
+public class TopicActivity extends Activity implements OnClickListener {
     public final static String CURRENT_TOPIC = "CURRENT_TOPIC";
     public final static String SUBTOPIC = "SUBTOPIC";
     private String currentTopic;

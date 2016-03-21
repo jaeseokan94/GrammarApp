@@ -1,9 +1,10 @@
 package com.example.spanishgrammarapp;
 
+import android.app.Activity;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Sets up a Listening Comprehension Activity
  */
-public class ListeningComprehension extends AppCompatActivity implements View.OnClickListener{
+public class ListeningComprehension extends Activity implements View.OnClickListener{
 
     private String url;
     private ArrayList<String> answers;

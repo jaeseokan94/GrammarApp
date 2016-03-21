@@ -1,12 +1,13 @@
 package com.example.spanishgrammarapp;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * This Activity displays all the
  */
-public class ReviseActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class ReviseActivity extends Activity implements AdapterView.OnItemClickListener{
 
     RelativeLayout mainLayout; //This is the layout for this Activity
     Context context; // This is the Context of this Activity

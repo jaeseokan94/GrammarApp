@@ -1,13 +1,17 @@
 package com.example.spanishgrammarapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
@@ -15,7 +19,7 @@ import com.example.spanishgrammarapp.Data.LevelData;
 
 import java.util.List;
 
-public class LevelActivity extends AppCompatActivity implements OnClickListener {
+public class LevelActivity extends Activity implements OnClickListener {
     public final static String CURRENT_LEVEL = "CURRENT_LEVEL";
     public final static String CURRENT_LANGUAGE = "CURRENT_LANGUAGE";
     private String currentLanguage;
@@ -35,24 +39,40 @@ public class LevelActivity extends AppCompatActivity implements OnClickListener 
         TextView textView = (TextView) findViewById(R.id.tv_level);
         textView.setText(currentLanguage);
 
+
+        ImageView imageView = new ImageView(this);
+        imageView.setBackground(getDrawable(R.drawable.girl));
+
+        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.main_layout_id2);
+        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        rlp.addRule(RelativeLayout.ALIGN_LEFT);
+
+        mainLayout.addView(imageView, rlp);
+        mainLayout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
+
         database = new DatabaseHelper(this.getBaseContext());
         database.getLevelList(currentLanguage);
 
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_id);
         mainLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
         //This will pass subtopicList from Database
         List<LevelData> levels = CMSconnector.getLevels(getBaseContext(),database, MainActivity.currentLanguage);
         System.out.println("LEVEL LIST : " + levels);
+        int i = 200;
+        findViewById(R.id.tv_situational_video_title).setId(i);
         for (LevelData Levels: levels) {
             Button button = new Button(this);
             button.setText(Levels.toString());
             button.setOnClickListener(this);
-//            button.setBackground(getDrawable(R.drawable.button2));
-            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
+            button.setBackground(getDrawable(R.drawable.button));
+            RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
+            p.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+            p.addRule(RelativeLayout.BELOW, i++);
+            button.setId(i);
             mainLayout.addView(button,p);
         }
     }
