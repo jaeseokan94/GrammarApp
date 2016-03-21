@@ -501,28 +501,6 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //for the Calendar activity tempor
 
     public  ArrayList<Numb> getNumbs(String language, String dialect) {
