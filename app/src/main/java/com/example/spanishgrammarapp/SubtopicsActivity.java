@@ -3,7 +3,7 @@ package com.example.spanishgrammarapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +34,8 @@ public class SubtopicsActivity extends Activity implements View.OnClickListener 
 
 
         LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
-        subtopicLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+        subtopicLayout.setOrientation(LinearLayout.VERTICAL);
+        subtopicLayout.setGravity(Gravity.CENTER);
 
         APIWrapper subtopicAPI = new APIWrapper(db);
         //This will pass subtopicList from Database
@@ -47,6 +48,7 @@ public class SubtopicsActivity extends Activity implements View.OnClickListener 
         for (String subtopic: subtopics) {
             Button button = new Button(this);
             button.setText(subtopic);
+            button.setGravity(Gravity.CENTER);
             button.setTag(subtopic);
             button.setBackground(getDrawable(R.drawable.button));
             button.setOnClickListener(this);

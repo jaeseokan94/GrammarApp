@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
@@ -13,6 +14,7 @@ import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
+import com.example.spanishgrammarapp.resources.data.Day;
 import com.example.spanishgrammarapp.resources.data.Numb;
 
 import java.io.IOException;
@@ -40,16 +42,51 @@ public class CalendarActivity extends AppCompatActivity {
                 ResourcesActivity.DIALECT, resource);
 
         APIWrapper apiWrapper = new APIWrapper(database);
+        APIWrapper apiWrapper1 = new APIWrapper(database);
 
         ArrayList<Numb> numbs = apiWrapper.getNumbs(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        ArrayList<Day>  days  = apiWrapper1.getDays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
 
-            Button button1 = (Button) findViewById(R.id.button1);
+
+        TextView text1 = (TextView)findViewById(R.id.textView1);
+        text1.setText(days.get(0).getDay());
+        text1.setTag(days.get(0).getAudioURL());
+
+        TextView text2 = (TextView)findViewById(R.id.textView2);
+        text2.setText(days.get(1).getDay());
+        text2.setTag(days.get(1).getAudioURL());
+
+        TextView text3 = (TextView)findViewById(R.id.textView3);
+        text3.setText(days.get(2).getDay());
+        text3.setTag(days.get(2).getAudioURL());
+
+        TextView text4 = (TextView)findViewById(R.id.textView4);
+        text4.setText(days.get(3).getDay());
+        text4.setTag(days.get(3).getAudioURL());
+
+
+        TextView text5 = (TextView)findViewById(R.id.textView5);
+        text1.setText(days.get(4).getDay());
+        text1.setTag(days.get(4).getAudioURL());
+
+
+        TextView text6 = (TextView)findViewById(R.id.textView6);
+        text6.setText(days.get(5).getDay());
+        text6.setTag(days.get(5).getAudioURL());
+
+
+        TextView text7 = (TextView)findViewById(R.id.textView7);
+        text7.setText(days.get(6).getDay());
+        text7.setTag(days.get(6).getAudioURL());
+
+
+        Button button1 = (Button) findViewById(R.id.button1);
             button1.setText(numbs.get(0).getNumber()+"\n"+numbs.get(0).getPronunciation());
             button1.setTag(numbs.get(0).getAudioURL());
 
-            Button button2 = (Button) findViewById(R.id.button2);
-            button2.setText(numbs.get(1).getNumber()+"\n"+numbs.get(1).getPronunciation());
-            button2.setTag(numbs.get(1).getAudioURL());
+//            Button button2 = (Button) findViewById(R.id.button2);
+//            button2.setText(numbs.get(1).getNumber()+"\n"+numbs.get(1).getPronunciation());
+//            button2.setTag(numbs.get(1).getAudioURL());
 
 //            Button button3 = (Button) findViewById(R.id.button3);
 //            button3.setText(numbs.get(2).getNumber()+"\n"+numbs.get(2).getPronunciation());
