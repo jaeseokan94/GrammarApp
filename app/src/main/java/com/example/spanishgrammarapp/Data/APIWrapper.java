@@ -7,6 +7,7 @@ import com.example.spanishgrammarapp.Exercise;
 import com.example.spanishgrammarapp.Glossary;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.Question;
+import com.example.spanishgrammarapp.resources.data.Numb;
 import com.example.spanishgrammarapp.resources.data.Holiday;
 import com.example.spanishgrammarapp.resources.data.Letter;
 import com.example.spanishgrammarapp.resources.data.Season;
@@ -461,13 +462,43 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     }
 
 
-    /**
-     * gets instructions of how to use resource from API
-     * @param languageName
-     * @param dialect
-     * @param resource
-     * @return instructions
-     */
+
+
+
+
+    //for the Calendar activity tempor
+
+    public  ArrayList<Numb> getNumbs(String language, String dialect) {
+        //TODO implement this method
+
+        ArrayList<Numb> numbs = new ArrayList<Numb>();
+        String resourceNumbURL = URL+"/"+language+"/"+dialect+"/Numbers";
+        System.out.println("this is url : " +resourceNumbURL);
+
+
+        try {
+            JSONArray jsonArray = execute(resourceNumbURL)
+                    .get(); //this link is temporary, it needs to be generalized
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String numb= jsonObject.getString("word");
+                String pronounciationNumb = jsonObject.getString("word_in_language");
+                String numAudioUrl = jsonObject.getString("audio_url");
+
+                numbs.add(new Numb(numb, pronounciationNumb, numAudioUrl));
+            }
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR HERE");
+            e.printStackTrace();
+        }
+
+        return numbs;
+    }
+
+
+
     public static String getInstructions(String languageName, String dialect, String resource) {
         //TODO implement this method
 
@@ -478,7 +509,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
     /**
      * gets holidays from API
-     * @param languageName
+     * @param language
      * @param dialect
      * @return instructions
      */
@@ -516,7 +547,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
     /**
      * gets seasons and months data from API
-     * @param languageName
+  //   * @param languageName
      * @param dialect
      * @return ArrayList of Seasons
      */
@@ -610,7 +641,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
         ArrayList<Glossary> glossary = new ArrayList<Glossary>();
         String glosaryURL = URL+"/"+language+"/glossaryList";
-        System.out.println("this is url : " +glosaryURL);
+        System.out.println("this is url : " + glosaryURL);
 
 
         try {
