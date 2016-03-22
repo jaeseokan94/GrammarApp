@@ -2,6 +2,8 @@ package com.example.spanishgrammarapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.view.Gravity;
@@ -36,14 +38,17 @@ public class LevelActivity extends Activity implements OnClickListener {
         currentLanguage = getIntent().getStringExtra("CURRENT_LANGUAGE");
 
         //Set up
-        TextView textView = (TextView) findViewById(R.id.tv_level);
-        textView.setText(currentLanguage);
-
+        //TextView textView = (TextView) findViewById(R.id.tv_level);
+        //textView.setText(currentLanguage);
+        Typeface font = Typeface.createFromAsset(getAssets(), "font2.ttf");
+        TextView textViewTitle = (TextView) findViewById(R.id.tv_level_title);
+        textViewTitle.setTypeface(font);
 
         ImageView imageView = new ImageView(this);
         imageView.setBackground(getDrawable(R.drawable.girl));
 
         RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.main_layout_id2);
+        mainLayout.setBackgroundColor(Color.rgb(118, 178, 197));
         RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         rlp.addRule(RelativeLayout.ALIGN_LEFT);
@@ -60,11 +65,12 @@ public class LevelActivity extends Activity implements OnClickListener {
         List<LevelData> levels = CMSconnector.getLevels(getBaseContext(),database, MainActivity.currentLanguage);
         System.out.println("LEVEL LIST : " + levels);
         int i = 200;
-        findViewById(R.id.tv_situational_video_title).setId(i);
+        findViewById(R.id.tv_level_title).setId(i);
         for (LevelData Levels: levels) {
             Button button = new Button(this);
             button.setText(Levels.toString());
             button.setOnClickListener(this);
+            button.setTypeface(font);
             button.setBackground(getDrawable(R.drawable.button));
             RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,

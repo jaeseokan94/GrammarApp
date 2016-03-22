@@ -3,7 +3,9 @@ package com.example.spanishgrammarapp.resources.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -28,6 +30,8 @@ public class DialectActivity extends AppCompatActivity implements View.OnClickLi
 
         //Set up
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.ll_dialect);
+        linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+        LinearLayout.LayoutParams pp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         APIWrapper apiWrapper = new APIWrapper(database);
 
         ArrayList<String> dialects = apiWrapper.getDialects(MainActivity.currentLanguage);
@@ -37,7 +41,8 @@ public class DialectActivity extends AppCompatActivity implements View.OnClickLi
             button.setText(dialect);
             button.setOnClickListener(this);
             button.setTag(dialect);
-            linearLayout.addView(button);
+            button.setBackground(getDrawable(R.drawable.button));
+            linearLayout.addView(button,pp);
         }
     }
 

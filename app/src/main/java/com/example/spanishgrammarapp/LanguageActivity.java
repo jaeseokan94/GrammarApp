@@ -2,8 +2,9 @@ package com.example.spanishgrammarapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
-
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,10 +35,16 @@ public class LanguageActivity extends Activity implements OnClickListener {
         APIWrapper downloadAPI = new APIWrapper(database);
         downloadAPI.getLangLevelAPI();
 
+        Typeface font = Typeface.createFromAsset(getAssets(), "font2.ttf");
+        TextView textView = ((TextView) findViewById(R.id.tv_language));
+        textView.setTypeface(font);
+        textView.setTextSize(25f);
+
         ImageView imageView = new ImageView(this);
         imageView.setBackground(getDrawable(R.drawable.girl));
 
         RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.main_layout_id);
+        mainLayout.setBackgroundColor(Color.rgb(118,178,197));
         RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         rlp.addRule(RelativeLayout.ALIGN_LEFT);
@@ -48,16 +55,18 @@ public class LanguageActivity extends Activity implements OnClickListener {
 
         database.getLanguageList();
 
+
+
         //This will pass subtopicList from Database
         List<LanguageData> languages = CMSconnector.getLanguages(getBaseContext(), database);
         int i = 200;
-        findViewById(R.id.tv_level).setId(i);
-        for (LanguageData languageTitle: languages) {
+        findViewById(R.id.tv_language).setId(i);
+        for (LanguageData languageTitle : languages) {
             Button button = new Button(this);
             button.setText(languageTitle.toString());
             button.setOnClickListener(this);
             button.setBackground(getDrawable(R.drawable.button));
-
+            button.setTypeface(font);
             RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);

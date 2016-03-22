@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.view.View;
@@ -37,6 +38,9 @@ public class GlossaryActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_glossary);
+
+        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.glossary_page);
+        mainLayout.setBackgroundColor(Color.rgb(118, 178, 197));
 
         //sets up the search bar to facilitate the search on the glossary
         SearchManager sManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
