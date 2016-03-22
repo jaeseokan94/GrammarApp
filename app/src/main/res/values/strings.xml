@@ -39,10 +39,11 @@
     <string name="playback">PlayBack</string>
     <string name="finish">Finish Recording</string>
     <string name="start">Start Recording</string>
-    <string name="stop">Stop Playback</string>
+    <string name="stop">Stop</string>
     <string name="save">SAVE</string>
     <string name="record">Record</string>
     <string name="button_record">record</string>
     <string name="title_activity_toolrecordz">toolrecordz</string>
+    <string name="load">Load</string>
 
 </resources>

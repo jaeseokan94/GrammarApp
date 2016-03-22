@@ -1,71 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main_layout_id">
+    android:id="@+id/main_layout_id"
+    android:weightSum="1"
+    android:background="@drawable/bkg">
 
-    <Button
+    <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start"
-        android:id="@+id/startBtn"
-        android:layout_alignParentTop="true"
+        android:layout_height="206dp"
+        android:id="@+id/listView1"
+        android:choiceMode="singleChoice"
+        android:layout_above="@+id/stopBtn"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/startBtn"
+        android:background="@drawable/record"
+        android:layout_below="@+id/listView1"
+        android:layout_toLeftOf="@+id/playBtn"
+        android:layout_toStartOf="@+id/playBtn"
+        android:layout_marginRight="58dp"
+        android:layout_marginEnd="58dp"
         android:onClick="buttonTapped" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/finish"
-        android:id="@+id/finishBtn"
-        android:layout_alignParentTop="true"
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/playBtn"
+        android:background="@drawable/replay"
+        android:layout_below="@+id/listView1"
+        android:layout_toLeftOf="@+id/saveBtn"
+        android:layout_toStartOf="@+id/saveBtn"
+        android:layout_marginRight="56dp"
+        android:layout_marginEnd="56dp"
+        android:onClick="buttonTapped" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/stopBtn"
+        android:background="@drawable/stop2"
+        android:layout_alignTop="@+id/saveBtn"
+        android:layout_alignLeft="@+id/listView1"
+        android:layout_alignStart="@+id/listView1"
+        android:onClick="buttonTapped" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/saveBtn"
+        android:background="@drawable/save"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:onClick="buttonTapped" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/playback"
-        android:id="@+id/playBtn"
-        android:layout_below="@+id/startBtn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="54dp"
-        android:onClick="buttonTapped" />
+    <ImageButton
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:id="@+id/imageButton12"
+        android:background="@drawable/globe"
+        android:layout_above="@+id/listView1"
+        android:layout_centerHorizontal="true" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stop"
-        android:id="@+id/stopBtn"
-        android:layout_alignTop="@+id/playBtn"
-        android:layout_alignRight="@+id/finishBtn"
-        android:layout_alignEnd="@+id/finishBtn"
-        android:onClick="buttonTapped" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        android:id="@+id/saveBtn"
-        android:layout_below="@+id/stopBtn"
-        android:layout_toLeftOf="@+id/finishBtn"
-        android:layout_toStartOf="@+id/finishBtn"
-        android:layout_marginTop="44dp"
-        android:onClick="buttonTapped" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/saveBtn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="99dp"
-        android:choiceMode="multipleChoiceModal" />
-
-</LinearLayout>
+</RelativeLayout>
