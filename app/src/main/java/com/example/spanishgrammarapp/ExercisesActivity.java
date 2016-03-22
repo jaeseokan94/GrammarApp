@@ -92,6 +92,7 @@ public class ExercisesActivity extends AppCompatActivity {
         /*There's one container used to hold all the questions of all types, and it is the relativeLayout variable.
         * This block of code initializes it, gives it layout parameters and adds it as the content view for the activity*/
         relativeLayout = new RelativeLayout(this);
+        relativeLayout.setFocusableInTouchMode(true);
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         addContentView(relativeLayout, relativeParams);
         /*Regardless of question type, all have a TextView. This block of code initializes the said TextView but does not assign
@@ -178,7 +179,7 @@ public class ExercisesActivity extends AppCompatActivity {
                 constructDragAndDrop();
                 break;
             case typing:
-                constructTypingActivity();
+                constructTypingActivity(relativeLayout);
         }
     }
 
@@ -319,18 +320,20 @@ public class ExercisesActivity extends AppCompatActivity {
     }
 
     /**This method constructs the GUI of Typing type questions*/
-    private void constructTypingActivity(){
+    private void constructTypingActivity(final RelativeLayout relativeLayout){
         final EditText userInput = new EditText(this);
         userInput.setId(10100);
         userInput.setInputType(InputType.TYPE_CLASS_TEXT);
         userInput.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                System.out.println("keyCode is:   " + keyCode);
                 if (event.getAction() == KeyEvent.ACTION_DOWN && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     results(typing, userInput);
+                }else if(keyCode == KeyEvent.KEYCODE_BACK){
+                    System.out.println("TEST12345678910");
+                    relativeLayout.requestFocus();
                 }
                 return true;
             }
