@@ -2,6 +2,7 @@ package com.example.spanishgrammarapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
@@ -36,6 +38,9 @@ public class SubtopicsActivity extends Activity implements View.OnClickListener 
         LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
         subtopicLayout.setOrientation(LinearLayout.VERTICAL);
         subtopicLayout.setGravity(Gravity.CENTER);
+
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
+        mainLayout.setBackgroundColor(Color.rgb(118, 178, 197));
 
         APIWrapper subtopicAPI = new APIWrapper(db);
         //This will pass subtopicList from Database

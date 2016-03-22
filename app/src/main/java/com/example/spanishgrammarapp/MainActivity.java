@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.util.DisplayMetrics;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
@@ -38,6 +40,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.relative_layout);
+        mainLayout.setBackgroundColor(Color.rgb(118, 178, 197));
 
         userProgress = new UserProgress(this.getBaseContext());
         userProgress.loadProgress();
