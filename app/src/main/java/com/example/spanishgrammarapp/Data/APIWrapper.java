@@ -2,7 +2,6 @@ package com.example.spanishgrammarapp.Data;
 
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.spanishgrammarapp.Exercise;
 import com.example.spanishgrammarapp.Glossary;
@@ -11,6 +10,7 @@ import com.example.spanishgrammarapp.Question;
 import com.example.spanishgrammarapp.resources.data.Day;
 import com.example.spanishgrammarapp.resources.data.Holiday;
 import com.example.spanishgrammarapp.resources.data.Letter;
+import com.example.spanishgrammarapp.resources.data.Numb;
 import com.example.spanishgrammarapp.resources.data.Season;
 import com.example.spanishgrammarapp.resources.data.Time;
 
@@ -38,6 +38,8 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             "Sightseeing", "Directions", "Eating", "Likes", "Planning", "Shopping", "Dating"));
 
     ArrayList<Exercise> exercisesList = new ArrayList<>();
+
+    private final String imageURL = "https://lang-it-up.herokuapp.com";
 
     public APIWrapper(DatabaseHelper db) {
         database = db;
@@ -132,10 +134,10 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     /**
      * @return LevelList
      */
-    public ArrayList<LevelData> apiLevel(String language ) {
+    public ArrayList<LevelData> apiLevel() {
         ArrayList<LevelData> levelList = new ArrayList<LevelData>();
 
-        String levelListURL = "http://lang-it-up.herokuapp.com/polls/api"+"/"+language+"/levelList";
+        String levelListURL = "http://lang-it-up.herokuapp.com/polls/api"+"/"+MainActivity.currentLanguage+"/levelList";
 
         try {
             JSONArray jsonArray = execute(
@@ -144,7 +146,6 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             for(int i = 0 ; i < jsonArray.length(); i++ ){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String level_name= jsonObject.getString("level");
-                //database.addLevel(langauge, level_name);
                 levelList.add(new LevelData(level_name));
 
             }
@@ -215,11 +216,16 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      *  language, topicName, subtopicName
      */
     public Exercise apiQuestions(String topic, String subtopic, boolean isVocabuary, String exerciseId , String exerciseName) {
-        isVocabuary=false;
-        String questionURL = URL + "/" + MainActivity.currentLanguage + "/" + MainActivity.currentLevel + "/" + topic + "/" + subtopic + "/"
-                + exerciseId;
+
+
+
+       // isVocabuary=false;
+
+        System.out.println("SUBTOPIC "+subtopic);
+
+        String questionURL = URL + "/" + MainActivity.currentLanguage + "/" + MainActivity.currentLevel + "/" + topic + "/" + subtopic ;
         Exercise exercise = new Exercise(topic+"/"+subtopic, exerciseId, exerciseName);
-        if(isVocabuary) {
+        if(subtopic.equals("Vocabulary")) {
             questionURL += "/vocabExercisesQuestions";
 
             try {
@@ -231,17 +237,18 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                     String questionText = jsonObject.getString("question_text"); // get question_text from API
-                    String questionType = "vocab";
-                    answers.add(jsonObject.getString("choice_1"));
-                    answers.add(jsonObject.getString("choice_2"));
-                    answers.add(jsonObject.getString("choice_3"));
-                    answers.add(jsonObject.getString("choice_4"));
-                    answers.add(jsonObject.getString("choice_5"));
-                    answers.add(jsonObject.getString("choice_6"));
-                    answers.add(jsonObject.getString("correct_answer"));
+                    String questionType = "dd";
+                    answers.add(imageURL+jsonObject.getString("choice_1"));
+                    answers.add(imageURL+jsonObject.getString("choice_2"));
+                    answers.add(imageURL+jsonObject.getString("choice_3"));
+                    answers.add(imageURL+jsonObject.getString("choice_4"));
+                    answers.add(imageURL+jsonObject.getString("choice_5"));
+                    answers.add(imageURL+jsonObject.getString("choice_6"));
+                    //answers.add(jsonObject.getString("correct_answer"));
                     String correct_answer = jsonObject.getString("correct_answer");
                     Question question = new Question(questionType, questionText, correct_answer, answers);
                     exercise.addQuestion(question);
+                    System.out.println("CHOICES :"+question.getAnswers());
                     System.out.println("TEST QUESTION LIST JSON " + question);
                 }
             } catch (Exception e) {
@@ -249,8 +256,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                 e.printStackTrace();
             }
         } else {
-            questionURL += "/exerciseQuestions";
-
+            questionURL +=  "/" + exerciseId+"/exerciseQuestions";
             try {
                 JSONArray jsonArray = execute(questionURL).get();
                 //   jsonArray.getJSONObject("exercise_question");
@@ -260,7 +266,6 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                     JSONObject questions = jsonArray.getJSONObject(k);
                     JSONArray sublist = questions.getJSONArray("exercise_questions");
 
-                    System.out.println("JSON SUBARRAY???" + sublist);
                     for (int i = 0; i < sublist.length(); i++) {
 
                         ArrayList<String> answers = new ArrayList<>();
@@ -277,13 +282,13 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                         answers.add(jsonObject.getString("choice_6"));
                         answers.add(jsonObject.getString("correct_answer"));
 
-                        String type = Character.toString(questionType.charAt(2))+Character.toString(questionType.charAt(3)) ;
+                       // String type = Character.toString(questionType.charAt(2))+Character.toString(questionType.charAt(3)) ;
 
                         String correct_answer = jsonObject.getString("correct_answer");
                         System.out.println("question text : " + questionText);
-                        System.out.println("question type : " + type);
+                        System.out.println("question type : " + questionType);
                         System.out.println("choice_1 " + answers);
-                        Question question = new Question(type, questionText, correct_answer, answers);
+                        Question question = new Question(questionType, questionText, correct_answer, answers);
                         exercise.addQuestion(question);
                         System.out.println("TEST QUESTION LIST JSON " + question);
                     }
@@ -417,18 +422,21 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         return letters;
     }
 
+
     public  ArrayList<Day> getDays(String language, String dialect) {
         //TODO implement this method
 
         ArrayList<Day> days = new ArrayList<Day>();
         String resourceDayURL;
-             resourceDayURL = URL+"/"+language+"/"+dialect+"/Days";
+        resourceDayURL = URL+"/"+language+"/"+dialect+"/Days";
+
 
         System.out.println("this is url : " +resourceDayURL);
 
-        try {
-            JSONArray jsonArray = execute(resourceDayURL).get(); //this link is temporary, it needs to be generalized
 
+        try {
+            JSONArray jsonArray = execute(resourceDayURL)
+                    .get(); //this link is temporary, it needs to be generalized
             for(int i = 0 ; i < jsonArray.length(); i++ ){
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -443,8 +451,45 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             System.out.println("JSON EXCEPTION ERROR HERE");
             e.printStackTrace();
         }
+
         return days;
     }
+
+
+
+    //for the Calendar activity tempor
+
+    public  ArrayList<Numb> getNumbs(String language, String dialect) {
+        //TODO implement this method
+
+        ArrayList<Numb> numbs = new ArrayList<Numb>();
+        String resourceNumbURL = URL+"/"+language+"/"+dialect+"/Numbers";
+        System.out.println("this is url : " +resourceNumbURL);
+
+
+        try {
+            JSONArray jsonArray = execute(resourceNumbURL)
+                    .get(); //this link is temporary, it needs to be generalized
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String numb= jsonObject.getString("word");
+                String pronounciationNumb = jsonObject.getString("word_in_language");
+                String numAudioUrl = jsonObject.getString("audio_url");
+
+                numbs.add(new Numb(numb, pronounciationNumb, numAudioUrl));
+
+            }
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR HERE");
+            e.printStackTrace();
+        }
+
+        return numbs;
+    }
+
+
 
     public static String getInstructions(String languageName, String dialect, String resource) {
         //TODO implement this method
@@ -571,13 +616,10 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     Search for Glossary class for data type
     there are two data (word, word_in_lang) 
      */
-    public ArrayList<Glossary> getGlossary(String language) {
-
+    public  ArrayList<Glossary> getGlossary(String language) {
         ArrayList<Glossary> glossary = new ArrayList<Glossary>();
         String glosaryURL = URL+"/"+language+"/glossaryList";
         System.out.println("this is url : " + glosaryURL);
-        Log.d("this is url : " ,glosaryURL);
-
 
         try {
             JSONArray jsonArray = execute(glosaryURL)
@@ -587,7 +629,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 String word= jsonObject.getString("word");
-                String word_in_language = jsonObject.getString("word_in_lang");
+                String word_in_language = jsonObject.getString("word_in_language");
 
                 glossary.add(new Glossary(word,word_in_language));
             }
@@ -595,37 +637,6 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             System.out.println("JSON EXCEPTION ERROR HERE");
             e.printStackTrace();
         }
-
         return glossary;
     }
-
-
-
 }
-
-
-
-
-/* THIS METHOD FOR SUBTOPIC API SAVING INTO DB
-    public void getSubtopicAPI(){
-
-        ArrayList<String> langList = apiLanguage();
-        ArrayList<String> levelList = new ArrayList<String>();
-        ArrayList<String> subtopicList = new ArrayList<String>();
-
-        //TODO: This method need to be improved. String 'level'
-        for(int a = 0 ; a < langList.size() ; a++) {
-            for (int b = 0; b < levelList.size(); b++) {
-                for (int c = 0; c < topicList.size(); c++) {
-                    String language = langList.get(a);
-                    String level = levelList.get(b);
-                    String topic = topicList.get(c);
-                    String subtopicListURL = "http://lang-it-up.herokuapp.com/polls/api"+"/"+language+"/"+level+"/"+topic+"/subtopicList";
-                    subtopicList.add(subtopicListURL);
-                    APIWrapper downloadSubtopic = new APIWrapper(database);
-                  //  downloadSubtopic.apiSubtopics(subtopicListURL,language,level,topic);
-                }
-            }
-        }
-    }
-*/

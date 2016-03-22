@@ -262,7 +262,6 @@ public class ExercisesActivity extends AppCompatActivity {
         gridLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         relativeLayout.addView(optionsLayout, gridLayoutParams);
 
-
         question.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -286,14 +285,14 @@ public class ExercisesActivity extends AppCompatActivity {
 
         ImageView[] images = new ImageView[answers.size()];
         for (int i = 0; i < answers.size(); i++) {
-                images[i] = new ImageView(this);
-                images[i].setTag(answers.get(i));
+            images[i] = new ImageView(this);
+            images[i].setTag(answers.get(i));
+            if (!answers.get(i).contains("null")) {
                 new DownloadImageTask(images[i]).execute(answers.get(i));
                 images[i].setOnDragListener(new View.OnDragListener() {
                     @Override
                     public boolean onDrag(View v, DragEvent event) {
-                        switch(event.getAction())
-                        {
+                        switch (event.getAction()) {
                             case DragEvent.ACTION_DRAG_STARTED:
                                 break;
                             case DragEvent.ACTION_DRAG_ENTERED:
@@ -305,16 +304,20 @@ public class ExercisesActivity extends AppCompatActivity {
                             case DragEvent.ACTION_DRAG_ENDED:
                                 break;
                             case DragEvent.ACTION_DROP:
-                                results(dragAndDrop,v);
+                                results(dragAndDrop, v);
                                 break;
-                            default: break;
-                        }return true;}
+                            default:
+                                break;
+                        }
+                        return true;
+                    }
                 });
 
                 images[i].setLayoutParams(new ViewGroup.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.MATCH_PARENT));
-                images[i].getLayoutParams().height=imageHeight;
-                images[i].getLayoutParams().width=imageWidth;
+                images[i].getLayoutParams().height = imageHeight;
+                images[i].getLayoutParams().width = imageWidth;
                 optionsLayout.addView(images[i]);
+            }
         }
 
     }
@@ -533,6 +536,7 @@ public class ExercisesActivity extends AppCompatActivity {
             try {
                 InputStream in = new java.net.URL(urldisplay).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
+                in.reset();
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
