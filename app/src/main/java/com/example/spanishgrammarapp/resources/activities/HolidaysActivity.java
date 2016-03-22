@@ -23,7 +23,9 @@ import com.example.spanishgrammarapp.ResourcesActivity;
 import com.example.spanishgrammarapp.resources.data.Holiday;
 import com.example.spanishgrammarapp.resources.data.Numb;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by janaldoustorres on 17/03/2016.
@@ -33,7 +35,8 @@ public class HolidaysActivity extends Activity {
     GridView gridView;
 
     APIWrapper apiWrapper = new APIWrapper(database);
-    ArrayList<Holiday> holidays = apiWrapper.getHolidays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+    //ArrayList<Holiday> holidays = apiWrapper.getHolidays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+    ArrayList<Holiday> holidays = new ArrayList<Holiday>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
