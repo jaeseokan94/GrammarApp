@@ -1,8 +1,10 @@
 package com.example.spanishgrammarapp.resources.activities;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
@@ -45,6 +47,7 @@ public class SeasonsAndMonthsActivity extends AppCompatActivity {
         TextView tvInstructions = (TextView) findViewById(R.id.tv_instructions);
         tvInstructions.setText(instructions);
 
+
         //Set up expandable list view
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
 
@@ -75,6 +78,7 @@ public class SeasonsAndMonthsActivity extends AppCompatActivity {
             String name = season.getSeason();
             listDataHeader.add(name);
             listDataChild.put(name, season.getMonths());
+
         }
     }
 
