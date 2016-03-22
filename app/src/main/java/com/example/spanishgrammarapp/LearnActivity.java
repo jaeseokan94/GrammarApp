@@ -32,7 +32,7 @@ public class LearnActivity extends Activity {
         topics = topicAPI.getTopicList();
         createGUI(Configuration.ORIENTATION_PORTRAIT);
         setDefaultImageButtonSizes(Configuration.ORIENTATION_PORTRAIT, buttons);
-        setContentView(mainLayout);
+        setContentView(mainLayout); //don't move this pls, it's initialise in createGUI()
     }
 
     private void createGUI(int orientation){
@@ -90,10 +90,10 @@ public class LearnActivity extends Activity {
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             System.out.println("ORIENTATION_LANDSCAPE");
-            createGUI(Configuration.ORIENTATION_LANDSCAPE);
+            createGUI(Configuration.ORIENTATION_PORTRAIT);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             System.out.println("ORIENTATION_PORTRAIT");
-            createGUI(Configuration.ORIENTATION_PORTRAIT);
+            createGUI(Configuration.ORIENTATION_LANDSCAPE);
         }
         setDefaultImageButtonSizes(newConfig.orientation, buttons);
     }
