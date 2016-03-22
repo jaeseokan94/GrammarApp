@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,8 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * This Activity creates a Glossary Page with a Search Button and clickable Alphabet buttons
@@ -32,9 +35,7 @@ public class GlossaryActivity extends AppCompatActivity implements View.OnClickL
 
     private SearchView searchBar; // search bar for the glossary
     private TextView resultsview; // the results are shown here
-    // This is just a sample data for testing
-    String[] strAry = {"Apple","Ball","Cat","Dog","Egg","Fat","Green","Horse","Ink","Joke","King","Lamp","Mum","Night","Oil","Puddle","Queen","Rabbit","Spoon","Tree","Umbrella","Van","Wet","X-ray","Yoga","Zebra"};
-    ArrayList<Glossary> glossData;
+    ArrayList<Glossary> glossData; // the glossary data
     private DatabaseHelper database;
 
     @Override
@@ -42,11 +43,10 @@ public class GlossaryActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_glossary);
 
-        //getting the data for the glossary
+        //getting the data for the glossary based on the current options
         database = new DatabaseHelper(this.getBaseContext());
         APIWrapper downloadAPI = new APIWrapper(database);
-        glossData = downloadAPI.getGlossary(LanguageActivity.CURRENT_LANGUAGE);
-//        resultsview.setText(""+glossData.get(0).getWord());
+        glossData = downloadAPI.getGlossary(MainActivity.currentLanguage);
 
         //sets up the search bar to facilitate the search on the glossary
         SearchManager sManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -64,13 +64,13 @@ public class GlossaryActivity extends AppCompatActivity implements View.OnClickL
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                updateSearch(query, 0);
+                updateSearch(query, 0);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                updateSearch(newText, 0);
+                updateSearch(newText, 0);
                 return false;
             }
         });
@@ -106,33 +106,43 @@ public class GlossaryActivity extends AppCompatActivity implements View.OnClickL
      */
     public void updateSearch(String input,Integer integer){
 
-        //Based on the input and how theThe actual data is given , i can sort the data
-
-        String str = "";
+        ArrayList<Glossary> currentList = new ArrayList<>();
 
         if (integer==0){
 
             for (int i =0; i < glossData.size();i++){
                 if(glossData.get(i).getWord().toLowerCase().contains(input.toLowerCase())){
-                 str += glossData.toString() + "\n";
+                 currentList.add(glossData.get(i));
                  }
             }
-
-        resultsview.setText(str);
-            str = "";
 
         } else if(integer==1){
 
             for (int i =0;i<glossData.size();i++){
                 if (glossData.get(i).getWord().toLowerCase().charAt(0)==input.toLowerCase().charAt(0)){
-                    str += glossData.toString() + "\n";
+                    currentList.add(glossData.get(i));
                 }
             }
+        }
 
-            resultsview.setText(str);
-            str = "";
+        //sorts the list of searched data alphabetically
+        Collections.sort(currentList, new Comparator<Glossary>() {
+            @Override
+            public int compare(Glossary line1, Glossary line2) {
+                return line1.toString().toLowerCase().compareTo(line2.toString().toLowerCase());
+            }
+        });
+
+        //adding the data to the TextView
+        String str = "";
+        for (int i = 0;i<currentList.size();i++){
+
+            str += currentList.get(i).toString() + "\n";
 
         }
+        resultsview.setText(str);
+        str = "";
+        currentList.clear();
 
     }
 
@@ -142,6 +152,6 @@ public class GlossaryActivity extends AppCompatActivity implements View.OnClickL
      */
     @Override
     public void onClick(View v) {
-//        updateSearch(v.getTag().toString(),1);
+        updateSearch(v.getTag().toString(),1);
     }
 }

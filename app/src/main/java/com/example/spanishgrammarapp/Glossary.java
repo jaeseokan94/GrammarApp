@@ -9,8 +9,8 @@ public class Glossary {
     private String word_in_lang;
 
     public Glossary (String word, String word_in_lang) {
-        word = word;
-        word_in_lang = word_in_lang;
+        this.word = word;
+        this.word_in_lang = word_in_lang;
     }
 
     public String getWord() {

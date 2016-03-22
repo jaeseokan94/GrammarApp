@@ -2,6 +2,7 @@ package com.example.spanishgrammarapp.Data;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.spanishgrammarapp.Exercise;
 import com.example.spanishgrammarapp.ExercisesActivity;
@@ -569,11 +570,12 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     Search for Glossary class for data type
     there are two data (word, word_in_lang) 
      */
-    public  ArrayList<Glossary> getGlossary(String language) {
+    public ArrayList<Glossary> getGlossary(String language) {
 
         ArrayList<Glossary> glossary = new ArrayList<Glossary>();
         String glosaryURL = URL+"/"+language+"/glossaryList";
-        System.out.println("this is url : " +glosaryURL);
+        System.out.println("this is url : " + glosaryURL);
+        Log.d("this is url : " ,glosaryURL);
 
 
         try {
@@ -584,7 +586,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 String word= jsonObject.getString("word");
-                String word_in_language = jsonObject.getString("word_in_language");
+                String word_in_language = jsonObject.getString("word_in_lang");
 
                 glossary.add(new Glossary(word,word_in_language));
             }
