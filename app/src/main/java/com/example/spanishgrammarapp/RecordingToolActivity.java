@@ -1,5 +1,7 @@
 package com.example.spanishgrammarapp;
 
+
+
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -34,7 +36,7 @@ public class RecordingToolActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_recording_tool);
         home = new File(this.getFilesDir().getPath());
         OUTPUT_FILE = home+"/currentRecording";
-                ((ListView) findViewById(R.id.listView1)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ((ListView) findViewById(R.id.listView1)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
@@ -52,9 +54,9 @@ public class RecordingToolActivity extends AppCompatActivity  {
 
         if (home.listFiles().length > 0 ) {
             File[] files = home.listFiles(new Mp3Filter());
-                for (File file1 : files) {
-                    recordings.add(file1.getName());
-                }
+            for (File file1 : files) {
+                recordings.add(file1.getName());
+            }
             ArrayAdapter<String> recordingList = new ArrayAdapter<>(this, R.layout.recording_item, recordings);
             ((ListView) findViewById(R.id.listView1)).setAdapter(recordingList);
         }
@@ -89,37 +91,11 @@ public class RecordingToolActivity extends AppCompatActivity  {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-            }
+        }
     }
 
 
-   private void saveLastRecordedAudio() throws IOException {
-//        String state;
-//        state = Environment.getExternalStorageState();
-//        ListView lv = new ListView(this);
-//
-//        if (Environment.MEDIA_MOUNTED.equals(state));
-//        {
-//            File root = Environment.getExternalStorageDirectory();
-//            File Dir = new File(root.getAbsolutePath()+"/MyAppFile");
-//            if(!Dir.exists())
-//            {
-//                Dir.mkdir();
-//            }
-//            File file = new File(Dir, "MyMessage.txt");
-//            String message = lv.toString();
-//            try {
-//                FileOutputStream fop = new FileOutputStream(file);
-//                fop.write(message.getBytes());
-//                fop.close();
-//            }
-//            catch (FileNotFoundException e){
-//                e.printStackTrace();
-//            }
-//            catch (IOException e ){
-//                e.printStackTrace();
-//            }
-
+    private void saveLastRecordedAudio() throws IOException {
 
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -137,7 +113,7 @@ public class RecordingToolActivity extends AppCompatActivity  {
             e.printStackTrace();
             System.out.println("ERROR: File not written");
 
-    }
+        }
     }
 
     private void beginRecording() throws IOException {
@@ -193,3 +169,4 @@ public class RecordingToolActivity extends AppCompatActivity  {
 
 
 }
+
