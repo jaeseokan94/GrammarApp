@@ -3,6 +3,7 @@ package com.example.spanishgrammarapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
@@ -38,25 +40,26 @@ public class SubtopicsActivity extends Activity implements View.OnClickListener 
         LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
         subtopicLayout.setOrientation(LinearLayout.VERTICAL);
         subtopicLayout.setGravity(Gravity.CENTER);
-
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
-        mainLayout.setBackgroundColor(Color.rgb(118, 178, 197));
+        subtopicLayout.setBackgroundColor(Color.rgb(118, 178, 197));
 
         APIWrapper subtopicAPI = new APIWrapper(db);
         //This will pass subtopicList from Database
         System.out.println(MainActivity.currentLanguage);
         ArrayList<String> subtopics = subtopicAPI.getSubtopicList(MainActivity.currentLanguage, MainActivity.currentLevel, topic);
+
         System.out.println("SUBTOPIC URL TEST ~~~~~~~~");
         System.out.println(subtopics);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         for (String subtopic: subtopics) {
+            Typeface font = Typeface.createFromAsset(getAssets(), "font2.ttf");
             Button button = new Button(this);
             button.setText(subtopic);
             button.setGravity(Gravity.CENTER);
             button.setTag(subtopic);
             button.setBackground(getDrawable(R.drawable.button));
             button.setOnClickListener(this);
+            button.setTypeface(font);
             subtopicLayout.addView(button, layoutParams);
         }
 

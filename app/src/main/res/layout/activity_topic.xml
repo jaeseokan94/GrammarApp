@@ -34,6 +34,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/subtitle_subtopics"
-        android:id="@+id/tv_subtopic_title" />
+        android:id="@+id/tv_subtopic_title"
+        android:gravity="center_horizontal"
+        />
 
 </LinearLayout>

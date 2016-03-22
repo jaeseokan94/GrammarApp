@@ -1,9 +1,11 @@
 package com.example.spanishgrammarapp;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.MediaController;
 import android.widget.ToggleButton;
@@ -52,6 +54,7 @@ public class SituationalVideoActivity extends Activity {
         video_player_view.setMediaController(vidControl);
 
         ToggleButton toggleButton_transcript = (ToggleButton) findViewById(R.id.toggleButton_with_transcript);
+
         toggleButton_transcript.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

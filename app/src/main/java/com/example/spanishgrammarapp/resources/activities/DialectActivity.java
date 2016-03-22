@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp.resources.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -30,6 +31,7 @@ public class DialectActivity extends AppCompatActivity implements View.OnClickLi
 
         //Set up
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.ll_dialect);
+        linearLayout.setBackgroundColor(Color.rgb(118, 178, 197));
         linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         LinearLayout.LayoutParams pp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         APIWrapper apiWrapper = new APIWrapper(database);

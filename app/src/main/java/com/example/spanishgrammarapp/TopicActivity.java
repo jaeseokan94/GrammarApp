@@ -3,8 +3,10 @@ package com.example.spanishgrammarapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -33,12 +35,26 @@ public class TopicActivity extends Activity implements OnClickListener {
         currentTopic = getIntent().getStringExtra("TOPIC");
 
         //Set up
+        Typeface font = Typeface.createFromAsset(getAssets(), "font2.ttf");
         TextView textView = (TextView) findViewById(R.id.tv_topic);
         textView.setText(currentTopic);
+        textView.setTypeface(font);
+        textView.setTextSize(35f);
+
+        TextView textView1 = ((TextView) findViewById(R.id.btn_situational_video));
+        textView1.setTypeface(font);
+
+        TextView textView2 = ((TextView) findViewById(R.id.tv_situational_video_title));
+        textView2.setTypeface(font);
+
+        TextView textView3 = ((TextView) findViewById(R.id.tv_subtopic_title));
+        textView3.setTypeface(font);
+
+
 
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_id);
-
         mainLayout.setBackgroundColor(Color.rgb(118, 178, 197));
+        mainLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         // Get language level topic from proper variable
         String language = "Spanish";
         String level = "b";

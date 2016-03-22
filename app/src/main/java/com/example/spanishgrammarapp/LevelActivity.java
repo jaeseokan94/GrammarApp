@@ -44,6 +44,7 @@ public class LevelActivity extends Activity implements OnClickListener {
         Typeface font = Typeface.createFromAsset(getAssets(), "font2.ttf");
         TextView textViewTitle = (TextView) findViewById(R.id.tv_level_title);
         textViewTitle.setTypeface(font);
+        textViewTitle.setTextSize(25f);
 
         ImageView imageView = new ImageView(this);
         imageView.setBackground(getDrawable(R.drawable.girl));
