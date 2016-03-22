@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bkg"
     android:columnCount="7"
     android:rowCount="6">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     <TextView
         android:layout_width="84dp"
         android:layout_height="wrap_content"
@@ -365,7 +371,7 @@
         android:id="@+id/button31"
         android:layout_row="5"
         android:layout_column="2" />
-
-
-</GridLayout>
+        </GridLayout>
+    </ScrollView>
+</LinearLayout>
 
