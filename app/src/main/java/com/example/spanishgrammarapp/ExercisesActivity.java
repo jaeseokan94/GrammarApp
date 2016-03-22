@@ -61,7 +61,6 @@ public class ExercisesActivity extends AppCompatActivity {
     private ArrayList<Question> exerciseQuestions; //accessed in multiple methods (4).
     private int currentQuestionIndex = 0;  //used in 3 different methods
     private Exercise exerciseReceived;
-    private Intent afterExerciseIntent;
 
     /**This String describes if the exercises is in-progress, completed or a new one (not previously started).
     * It saves a lot of redundant work once we have identified the category of the Exercise.*/
@@ -83,11 +82,12 @@ public class ExercisesActivity extends AppCompatActivity {
         * just a new reference to that object. If it did not exist in the file, then a new exercise is made.*/
         exerciseReceived = getOrMakeExercise(intent.getStringExtra(MainActivity.SUBTOPIC), intent.getStringExtra(MainActivity.TOPIC));
         exerciseQuestions = exerciseReceived.getQuestions();
-        String identifier = intent.getStringExtra(MainActivity.TOPIC)+"/"+intent.getStringExtra(MainActivity.SUBTOPIC)+"/"+getIntent().getStringExtra(MainActivity.EXERCISE_ID);
+        if(exerciseQuestions.size()==0){ //spares us a crash if there are no questions available for the selected exercise
+            returnToSelector(true);
+            return;
+        }
 
-        /*This intent is used for the functionality of the back button and also for leaving the exercise after it has been completed*/
-        afterExerciseIntent = new Intent(this, SubtopicsActivity.class);
-        afterExerciseIntent.putExtra(MainActivity.TOPIC, intent.getStringExtra(MainActivity.TOPIC));
+        String identifier = intent.getStringExtra(MainActivity.TOPIC)+"/"+intent.getStringExtra(MainActivity.SUBTOPIC)+"/"+getIntent().getStringExtra(MainActivity.EXERCISE_ID);
 
         /*There's one container used to hold all the questions of all types, and it is the relativeLayout variable.
         * This block of code initializes it, gives it layout parameters and adds it as the content view for the activity*/
@@ -120,11 +120,11 @@ public class ExercisesActivity extends AppCompatActivity {
     private Exercise getOrMakeExercise(String subtopic, String topic){
         String identifier = topic+"/"+subtopic+"/"+getIntent().getStringExtra(MainActivity.EXERCISE_ID); //define the identifier...
         Exercise exercise = getExerciseFromSaved(identifier); //initially use the getExerciseFromSaved method, this will return an existing exercise is there is one, otherwise null
-        if(exercise==null){ //if getExerciseFromSaved returned null, then create a new exercise
+        if(exercise==null) { //if getExerciseFromSaved returned null, then create a new exercise
             //CMSconnector connector = new CMSconnector(exercise, topic, this.getBaseContext()); //pass that empty Exercise to the CMSconnector
             //connector.getExercise( topic, subtopic); //the connector populates it with data from the DB
             APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this.getBaseContext()));
-            exercise = apiWrapper.apiQuestions(topic, subtopic, getIntent().getBooleanExtra(vocab, false), getIntent().getStringExtra(MainActivity.EXERCISE_ID), getIntent().getStringExtra(MainActivity.EXERCISE_NAME));
+                exercise = apiWrapper.apiQuestions(topic, subtopic, getIntent().getBooleanExtra(vocab, false), getIntent().getStringExtra(MainActivity.EXERCISE_ID), getIntent().getStringExtra(MainActivity.EXERCISE_NAME));
         }
         if(getIntent().getBooleanExtra(vocab, false)){
             exercise.setVocab(true);
@@ -477,7 +477,7 @@ public class ExercisesActivity extends AppCompatActivity {
                     if(exerciseState.equals("PROGRESS")){
                         restartExercise(identifier);
                     }else{
-                        startActivity(afterExerciseIntent);
+                        returnToSelector(false);
                     }
                 }
             });
@@ -560,6 +560,20 @@ public class ExercisesActivity extends AppCompatActivity {
         }
         Toast toast = Toast.makeText(this, instruction, Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    /*This method starts the ExerciseSelector activity*/
+    private void returnToSelector(boolean noQuestions){
+        Intent intent = new Intent(this, ExerciseSelector.class);
+        intent.putExtra(MainActivity.TOPIC, getIntent().getStringExtra(MainActivity.TOPIC));
+        intent.putExtra(MainActivity.SUBTOPIC, getIntent().getStringExtra(MainActivity.SUBTOPIC));
+        intent.putExtra(MainActivity.NO_QUESTIONS, noQuestions);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed(){
+        returnToSelector(false);
     }
 
     @Override

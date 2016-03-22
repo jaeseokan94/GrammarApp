@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
+
 import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 
@@ -31,11 +33,16 @@ public class ExerciseSelector extends Activity {
         ArrayList<Exercise> exerciseList = apiWrapper.getExercisesList(getIntent().getStringExtra(MainActivity.TOPIC), getIntent().getStringExtra(MainActivity.SUBTOPIC)); //will need to get this from CMS
 
         createGUI(exerciseList, relativeLayout);
+        if(getIntent().getBooleanExtra(MainActivity.NO_QUESTIONS, false)){
+            Toast toast = Toast.makeText(this, "No questions are available for this exercise at this moment", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     private void createGUI(ArrayList<Exercise> exerciseList, RelativeLayout relativeLayout){
         Button buttonV = new Button(this);
         buttonV.setText("Vocabulary");
+        buttonV.setTag(1);
         buttonV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

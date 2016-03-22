@@ -22,20 +22,15 @@ import com.facebook.appevents.AppEventsLogger;
 
 public class MainActivity extends Activity {
 
-    public final static String QUESTIONS = "QUESTIONS";
     public final static String TOPIC = "TOPIC";
     public final static String SUBTOPIC = "SUBTOPIC";
-    public final static String QUESTION_TYPE = "QUESTION_TYPE";
-    public final static String QUESTION_TEXT = "QUESTION";
-    public final static String ANSWERS = "ANSWERS";
-    public final static String CORRECT_ANSWER = "CORRECT_ANSWER";
     public final static String EXERCISE_NAME = "EXERCISE_NAME";
     public final static String EXERCISE_ID = "EXERCISE_ID";
+    public final static String NO_QUESTIONS = "NO_QUESTIONS";
 
     public static UserProgress userProgress;
     public static String currentLanguage ;
     public static String currentLevel;
-
 
     private DatabaseHelper database;
 
@@ -52,7 +47,6 @@ public class MainActivity extends Activity {
 
         // App will download API and save it into database when it is first open.
         database = new DatabaseHelper(this.getBaseContext());
-        APIWrapper downloadAPI = new APIWrapper(database);
         
         System.out.println(database.getAllKey());
         System.out.println("TESTING  " + database.getLevelList("Korean"));
@@ -106,10 +100,7 @@ public class MainActivity extends Activity {
             findViewById(R.id.button_glossary).getLayoutParams().height = ideaHeight2;
             findViewById(R.id.button_credits).getLayoutParams().width = ideaWidth2;
             findViewById(R.id.button_credits).getLayoutParams().height = ideaHeight2;
-
         }
-
-
     }
     protected void onResume() {
         super.onResume();
