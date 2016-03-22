@@ -53,7 +53,6 @@ public class LanguageActivity extends Activity implements OnClickListener {
         //mainLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         mainLayout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
 
-//        database.getLanguageList();
 
 
 

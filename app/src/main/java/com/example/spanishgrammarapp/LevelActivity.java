@@ -64,7 +64,7 @@ public class LevelActivity extends Activity implements OnClickListener {
 
         APIWrapper apiWrapper = new APIWrapper(database);
         //This will pass subtopicList from Database
-        List<LevelData> levels = apiWrapper.apiLevel(MainActivity.currentLanguage);
+        List<LevelData> levels = apiWrapper.apiLevel();
         System.out.println("LEVEL LIST : " + levels);
         int i = 200;
         findViewById(R.id.tv_level_title).setId(i);
