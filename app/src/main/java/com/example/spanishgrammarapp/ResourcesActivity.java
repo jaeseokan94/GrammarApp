@@ -12,7 +12,6 @@ import com.example.spanishgrammarapp.resources.activities.CalendarActivity;
 import com.example.spanishgrammarapp.resources.activities.DayActivity;
 import com.example.spanishgrammarapp.resources.activities.DialectActivity;
 import com.example.spanishgrammarapp.resources.activities.HolidaysActivity;
-import com.example.spanishgrammarapp.resources.activities.NumberActivity2;
 import com.example.spanishgrammarapp.resources.activities.SeasonsAndMonthsActivity;
 
 public class ResourcesActivity extends Activity {

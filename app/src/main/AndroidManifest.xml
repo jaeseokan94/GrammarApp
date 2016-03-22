@@ -72,7 +72,6 @@
             android:name=".SituationalVideoActivity"
             android:label="@string/title_activity_situational_video" />
         <activity android:name=".resources.activities.AlphabetActivity" />
-        <activity android:name=".resources.activities.NumberActivity" />
         <activity android:name=".resources.activities.CalendarActivity" />
         <activity android:name=".resources.activities.HolidaysActivity" />
         <activity android:name=".resources.activities.HolidayInstanceActivity" />
@@ -89,10 +88,6 @@
         <activity
             android:name=".ExerciseSelector"
             android:label="@string/title_activity_exercise_selector"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".resources.activities.NumberActivity2"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
