@@ -50,19 +50,19 @@ public class AlphabetActivity extends AppCompatActivity {
         letters = apiWrapper.getLetters(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
 
 
-            Button button1 = (Button) findViewById(R.id.button1);
-            button1.setText(letters.get(0).getLetter() + "\n" + letters.get(0).getPronunciation());
-            System.out.print(letters.get(0).getLetter() + "\n" + letters.get(0).getPronunciation());
-            button1.setTag(letters.get(0).getAudioURL());
+        Button button1 = (Button) findViewById(R.id.button1);
+        button1.setText(letters.get(0).getLetter() + "\n" + letters.get(0).getPronunciation());
+        System.out.print(letters.get(0).getLetter() + "\n" + letters.get(0).getPronunciation());
+        button1.setTag(letters.get(0).getAudioURL());
 //
-//            Button button2 = (Button) findViewById(R.id.button2);
-//            button2.setText(letters.get(1).getLetter() + "\n" + letters.get(1).getPronunciation());
-//            button2.setTag(letters.get(1).getAudioURL());
+//        Button button2 = (Button) findViewById(R.id.button2);
+//        button2.setText(letters.get(1).getLetter() + "\n" + letters.get(1).getPronunciation());
+//        button2.setTag(letters.get(1).getAudioURL());
 //
-//            Button button3 = (Button) findViewById(R.id.button3);
-//            button3.setText(letters.get(2).getLetter() + "\n" + letters.get(2).getPronunciation());
-//            button3.setTag(letters.get(2).getAudioURL());
-
+//        Button button3 = (Button) findViewById(R.id.button3);
+//        button3.setText(letters.get(2).getLetter() + "\n" + letters.get(2).getPronunciation());
+//        button3.setTag(letters.get(2).getAudioURL());
+//
 //        Button button4 = (Button) findViewById(R.id.button4);
 //        button4.setText(letters.get(3).getLetter() + "\n" + letters.get(3).getPronunciation());
 //        button4.setTag(letters.get(3).getAudioURL());
@@ -166,7 +166,8 @@ public class AlphabetActivity extends AppCompatActivity {
 //        Button button29 = (Button) findViewById(R.id.button29);
 //        button29.setText(letters.get(28).getLetter() + "\n" + letters.get(28).getPronunciation());
 //        button29.setTag(letters.get(28).getAudioURL());
-//
+    }
+
 //        }else if(resource.equals(("Days"))){;
 //            setContentView(R.layout.activity_day);
 //            ArrayList<Day> days = apiWrapper.getDays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
@@ -183,7 +184,7 @@ public class AlphabetActivity extends AppCompatActivity {
 //            Button button3 = (Button) findViewById(R.id.button3);
 //            button3.setText(days.get(2).getDay() + "\n" + days.get(2).getPronunciation());
 //            button3.setTag(days.get(2).getAudioURL());
-
+//
 //        Button button4 = (Button) findViewById(R.id.button4);
 //        button4.setText(letters.get(3).getLetter() + "\n" + letters.get(3).getPronunciation());
 //        button4.setTag(letters.get(3).getAudioURL());
@@ -203,15 +204,15 @@ public class AlphabetActivity extends AppCompatActivity {
 //            setContentView(R.layout.activity_ca);
 //
 //
-
-
-
-
-
-
-
-
-    }
+//
+//
+//
+//
+//
+//
+//
+//
+//    }
 
 
     /**

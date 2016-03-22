@@ -293,25 +293,5 @@
         android:layout_row="4"
         android:layout_column="0" />
 
-    <Button
-        android:onClick="playSound"
-        style="?android:attr/buttonStyleSmall"
-
-        android:layout_width="84dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/button30"
-        android:layout_row="4"
-        android:layout_column="1" />
-
-    <Button
-        android:onClick="playSound"
-        style="?android:attr/buttonStyleSmall"
-
-        android:layout_width="84dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/button31"
-        android:layout_row="4"
-        android:layout_column="2" />
-
 
 </GridLayout>

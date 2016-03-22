@@ -72,6 +72,7 @@
             android:name=".SituationalVideoActivity"
             android:label="@string/title_activity_situational_video" />
         <activity android:name=".resources.activities.AlphabetActivity" />
+        <activity android:name=".resources.activities.NumberActivity" />
         <activity android:name=".resources.activities.CalendarActivity" />
         <activity android:name=".resources.activities.HolidaysActivity" />
         <activity android:name=".resources.activities.HolidayInstanceActivity" />

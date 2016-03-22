@@ -488,6 +488,12 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             e.printStackTrace();
         }
 
+        //this code is for testing
+//        ArrayList<Numb> fake = new ArrayList<>();
+//        fake.add(new Numb("fake1", "fake2", "fake3"));
+//        return fake;
+
+
         return numbs;
     }
 
