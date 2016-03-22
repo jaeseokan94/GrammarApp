@@ -76,6 +76,7 @@
         <activity android:name=".resources.activities.HolidaysActivity" />
         <activity android:name=".resources.activities.HolidayInstanceActivity" />
         <activity android:name=".resources.activities.SeasonsAndMonthsActivity" />
+        <activity android:name=".resources.activities.NumberActivity" />
         <activity android:name=".resources.activities.DialectActivity" />
         <activity
             android:name=".GrammarVideoActivity"
