@@ -1,21 +1,19 @@
 package com.example.spanishgrammarapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-public class ExerciseReview extends AppCompatActivity {
+public class ExerciseReview extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

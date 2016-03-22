@@ -13,6 +13,12 @@ public class LevelData {
         public LevelData()
         {
         }
+    public LevelData(String level)
+    {
+        this.language = language;
+        this.level=level;
+
+    }
 
         public LevelData(String language, String level)
         {

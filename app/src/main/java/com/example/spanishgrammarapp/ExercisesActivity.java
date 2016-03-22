@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
@@ -49,11 +50,10 @@ public class ExercisesActivity extends AppCompatActivity {
     // Member variables for question types, to prevent bugs due to typos.
     public static final String multipleChoice = "mc";
     public static final String trueFalse = "tf";
-    public static final String dragAndDrop = "dnd";
-    public static final String typing = "t";
+    public static final String dragAndDrop = "dd";
+    public static final String typing = "ty";
     public static final String vocab = "VOCAB";
     public static final String IDENTIFIER = "IDENTIFIER";
-
     private RelativeLayout relativeLayout; //accessed multiple times throughout the code in various methods.
     private String cAnswer; //removing this would mean it features in 4 new places.
     private ArrayList<String> answers; //accessed in multiple places (10 in the class)
@@ -61,7 +61,6 @@ public class ExercisesActivity extends AppCompatActivity {
     private ArrayList<Question> exerciseQuestions; //accessed in multiple methods (4).
     private int currentQuestionIndex = 0;  //used in 3 different methods
     private Exercise exerciseReceived;
-    private Intent afterExerciseIntent;
 
     /**This String describes if the exercises is in-progress, completed or a new one (not previously started).
     * It saves a lot of redundant work once we have identified the category of the Exercise.*/
@@ -83,14 +82,17 @@ public class ExercisesActivity extends AppCompatActivity {
         * just a new reference to that object. If it did not exist in the file, then a new exercise is made.*/
         exerciseReceived = getOrMakeExercise(intent.getStringExtra(MainActivity.SUBTOPIC), intent.getStringExtra(MainActivity.TOPIC));
         exerciseQuestions = exerciseReceived.getQuestions();
+        if(exerciseQuestions.size()==0){ //spares us a crash if there are no questions available for the selected exercise
+            returnToSelector(true);
+            return;
+        }
 
-        /*This intent is used for the functionality of the back button and also for leaving the exercise after it has been completed*/
-        afterExerciseIntent = new Intent(this, SubtopicsActivity.class);
-        afterExerciseIntent.putExtra(MainActivity.TOPIC, intent.getStringExtra(MainActivity.TOPIC));
+        String identifier = intent.getStringExtra(MainActivity.TOPIC)+"/"+intent.getStringExtra(MainActivity.SUBTOPIC)+"/"+getIntent().getStringExtra(MainActivity.EXERCISE_ID);
 
         /*There's one container used to hold all the questions of all types, and it is the relativeLayout variable.
         * This block of code initializes it, gives it layout parameters and adds it as the content view for the activity*/
         relativeLayout = new RelativeLayout(this);
+        relativeLayout.setFocusableInTouchMode(true);
         RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         addContentView(relativeLayout, relativeParams);
         /*Regardless of question type, all have a TextView. This block of code initializes the said TextView but does not assign
@@ -103,9 +105,9 @@ public class ExercisesActivity extends AppCompatActivity {
         * for this exercise, in which case this method does nothing. If it has been started, the user can resume, if it has been
         * completed the user can choose to restart the exercise.*/
         if(intent.getStringExtra("RESET")!=null) { //for the purpose of revise section
-            restartExercise(intent.getStringExtra(MainActivity.TOPIC)+"/"+intent.getStringExtra(MainActivity.SUBTOPIC));
+            restartExercise(identifier);
         }else {
-            resumeUserProgress(intent.getStringExtra(MainActivity.TOPIC) + "/" + intent.getStringExtra(MainActivity.SUBTOPIC));
+            resumeUserProgress(identifier);
         }
 
         reconstructGUI();
@@ -117,13 +119,13 @@ public class ExercisesActivity extends AppCompatActivity {
     * @param topic The topic of the exercise
     * @return Exercise for this configuration of topic/subtopic*/
     private Exercise getOrMakeExercise(String subtopic, String topic){
-        String identifier = topic+"/"+subtopic; //define the identifier...
+        String identifier = topic+"/"+subtopic+"/"+getIntent().getStringExtra(MainActivity.EXERCISE_ID); //define the identifier...
         Exercise exercise = getExerciseFromSaved(identifier); //initially use the getExerciseFromSaved method, this will return an existing exercise is there is one, otherwise null
-        if(exercise==null){ //if getExerciseFromSaved returned null, then create a new exercise
+        if(exercise==null) { //if getExerciseFromSaved returned null, then create a new exercise
             //CMSconnector connector = new CMSconnector(exercise, topic, this.getBaseContext()); //pass that empty Exercise to the CMSconnector
             //connector.getExercise( topic, subtopic); //the connector populates it with data from the DB
             APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this.getBaseContext()));
-            exercise = apiWrapper.apiQuestions(topic, subtopic, getIntent().getBooleanExtra(vocab, false), getIntent().getStringExtra(MainActivity.EXERCISE_ID), getIntent().getStringExtra(MainActivity.EXERCISE_NAME));
+                exercise = apiWrapper.apiQuestions(topic, subtopic, getIntent().getBooleanExtra(vocab, false), getIntent().getStringExtra(MainActivity.EXERCISE_ID), getIntent().getStringExtra(MainActivity.EXERCISE_NAME));
         }
         if(getIntent().getBooleanExtra(vocab, false)){
             exercise.setVocab(true);
@@ -177,7 +179,7 @@ public class ExercisesActivity extends AppCompatActivity {
                 constructDragAndDrop();
                 break;
             case typing:
-                constructTypingActivity();
+                constructTypingActivity(relativeLayout);
         }
     }
 
@@ -318,18 +320,20 @@ public class ExercisesActivity extends AppCompatActivity {
     }
 
     /**This method constructs the GUI of Typing type questions*/
-    private void constructTypingActivity(){
+    private void constructTypingActivity(final RelativeLayout relativeLayout){
         final EditText userInput = new EditText(this);
         userInput.setId(10100);
         userInput.setInputType(InputType.TYPE_CLASS_TEXT);
         userInput.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                System.out.println("keyCode is:   " + keyCode);
                 if (event.getAction() == KeyEvent.ACTION_DOWN && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     results(typing, userInput);
+                }else if(keyCode == KeyEvent.KEYCODE_BACK){
+                    System.out.println("TEST12345678910");
+                    relativeLayout.requestFocus();
                 }
                 return true;
             }
@@ -399,15 +403,16 @@ public class ExercisesActivity extends AppCompatActivity {
         UserProgress.completedExercises.add(exerciseReceived);
         UserProgress.exercisesInProgress.remove(exerciseReceived); //we've completed the exercise, it's no longer in progress
         MainActivity.userProgress.saveProgress();
-        ratingDialog(exerciseReceived.getCorrectnessRating());
+        ratingDialog(exerciseReceived);
     }
 
     /** This method displays the rating for the exercises with the appropriate pictures*/
-    private void ratingDialog(double correctnessRating){
+    private void ratingDialog(final Exercise exercise){
         Dialog dialog = new Dialog(this);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams((int) (getScreenWidth()*0.6), (int) (getScreenWidth()*0.18));
         ImageView rating = new ImageView(getBaseContext());
+        Double correctnessRating= exerciseReceived.getCorrectnessRating();
         if(correctnessRating<0.4) {
             rating.setBackground(getDrawable(R.drawable.star0));
         }else if(correctnessRating<0.6){
@@ -423,7 +428,7 @@ public class ExercisesActivity extends AppCompatActivity {
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                reviewExercise();
+                reviewExercise(exercise);
             }
         });
         dialog.show();
@@ -475,7 +480,7 @@ public class ExercisesActivity extends AppCompatActivity {
                     if(exerciseState.equals("PROGRESS")){
                         restartExercise(identifier);
                     }else{
-                        startActivity(afterExerciseIntent);
+                        returnToSelector(false);
                     }
                 }
             });
@@ -504,11 +509,11 @@ public class ExercisesActivity extends AppCompatActivity {
         }
     }
 
-    private void reviewExercise(){
+    private void reviewExercise(Exercise exercise){
         currentQuestionIndex = 0;
         //placeholder for now
         Intent intent = new Intent(this, ExerciseReview.class);
-        intent.putExtra(IDENTIFIER ,getIntent().getStringExtra(MainActivity.TOPIC) + "/" + getIntent().getStringExtra(MainActivity.SUBTOPIC));
+        intent.putExtra(IDENTIFIER ,getIntent().getStringExtra(MainActivity.TOPIC) + "/" + getIntent().getStringExtra(MainActivity.SUBTOPIC)+"/"+exercise.getId());
         intent.putExtra(MainActivity.TOPIC, getIntent().getStringExtra(MainActivity.TOPIC));
         intent.putExtra(MainActivity.SUBTOPIC, getIntent().getStringExtra(MainActivity.SUBTOPIC));
         startActivity(intent);
@@ -540,6 +545,40 @@ public class ExercisesActivity extends AppCompatActivity {
         }
     }
 
+    public void instructions(){
+        String instruction = "";
+        switch (exerciseReceived.getQuestions().get(currentQuestionIndex).getQuestionType()){
+            case multipleChoice:
+                instruction = "Press the button with the correct answer to proceed. You only choose once.";
+                break;
+            case typing:
+                instruction = "Tap the screen and a keyboard will appear. Type your answer and submit.";
+                break;
+            case trueFalse:
+                instruction = "Choose whether or not the statement is true or false using the buttons.";
+                break;
+            case dragAndDrop:
+                instruction = "Drag the word onto the picture that it matches and drop it there.";
+                break;
+        }
+        Toast toast = Toast.makeText(this, instruction, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    /*This method starts the ExerciseSelector activity*/
+    private void returnToSelector(boolean noQuestions){
+        Intent intent = new Intent(this, ExerciseSelector.class);
+        intent.putExtra(MainActivity.TOPIC, getIntent().getStringExtra(MainActivity.TOPIC));
+        intent.putExtra(MainActivity.SUBTOPIC, getIntent().getStringExtra(MainActivity.SUBTOPIC));
+        intent.putExtra(MainActivity.NO_QUESTIONS, noQuestions);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed(){
+        returnToSelector(false);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -555,7 +594,8 @@ public class ExercisesActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_instructions) {
+            instructions();
             return true;
         }
 
