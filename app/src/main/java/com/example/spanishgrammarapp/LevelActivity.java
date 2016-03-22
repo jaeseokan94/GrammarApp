@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.Data.LevelData;
 
@@ -51,13 +52,13 @@ public class LevelActivity extends Activity implements OnClickListener {
         mainLayout.addView(imageView, rlp);
         mainLayout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
 
-        database = new DatabaseHelper(this.getBaseContext());
-        database.getLevelList(currentLanguage);
+
 
         mainLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
+        APIWrapper apiWrapper = new APIWrapper(database);
         //This will pass subtopicList from Database
-        List<LevelData> levels = CMSconnector.getLevels(getBaseContext(),database, MainActivity.currentLanguage);
+        List<LevelData> levels = apiWrapper.apiLevel(MainActivity.currentLanguage);
         System.out.println("LEVEL LIST : " + levels);
         int i = 200;
         findViewById(R.id.tv_situational_video_title).setId(i);

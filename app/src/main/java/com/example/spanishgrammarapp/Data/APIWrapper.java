@@ -8,7 +8,6 @@ import com.example.spanishgrammarapp.Glossary;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.Question;
 import com.example.spanishgrammarapp.resources.data.Day;
-import com.example.spanishgrammarapp.resources.data.Numb;
 import com.example.spanishgrammarapp.resources.data.Holiday;
 import com.example.spanishgrammarapp.resources.data.Letter;
 import com.example.spanishgrammarapp.resources.data.Season;
@@ -27,7 +26,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.regex.Pattern;
 
 public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
@@ -92,9 +90,9 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     protected void onPostExecute(JSONArray s) {
         super.onPostExecute(s);
     }
-
+/*
     public void getLangLevelAPI(){
-        ArrayList<String> langList = apiLanguage();
+        List<LanguageData> langList = apiLanguage();
         ArrayList<String> levelList = new ArrayList<String>();
 
         for(int a = 0 ; a < langList.size(); a++){
@@ -106,13 +104,13 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             downloadAPI2.apiLevel(levelListURL,language);
         }
     }
-
+*/
     /**
      * @return ArrayList of language list
      */
-    public ArrayList<String> apiLanguage() {
-        ArrayList<String> languageList = new ArrayList<String>();
+    public ArrayList<LanguageData> apiLanguage() {
 
+        ArrayList<LanguageData> languageList = new ArrayList<LanguageData>() {};
         try {
             JSONArray jsonArray = execute(
                     "https://lang-it-up.herokuapp.com/polls/api/languageList/")
@@ -120,24 +118,23 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             for(int i = 0 ; i < jsonArray.length(); i++ ){
                 System.out.println(jsonArray.length());
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                 String language_name= jsonObject.getString("name");
-                database.addLanguage(language_name);
-                languageList.add(language_name);
+                languageList.add(new LanguageData((language_name)));
             }
         } catch (Exception e) {
             System.out.println("JSON EXCEPTION ERROR HERE");
             e.printStackTrace();
         }
-        System.out.print("1111111");
         return languageList;
     }
 
     /**
      * @return LevelList
      */
-    public ArrayList<String> apiLevel(String levelListURL, String langauge ) {
-        ArrayList<String> levelList = new ArrayList<String>();
+    public ArrayList<LevelData> apiLevel(String language ) {
+        ArrayList<LevelData> levelList = new ArrayList<LevelData>();
+
+        String levelListURL = "http://lang-it-up.herokuapp.com/polls/api"+"/"+language+"/levelList";
 
         try {
             JSONArray jsonArray = execute(
@@ -146,8 +143,8 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             for(int i = 0 ; i < jsonArray.length(); i++ ){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String level_name= jsonObject.getString("level");
-                database.addLevel(langauge, level_name);
-                levelList.add(level_name);
+                //database.addLevel(langauge, level_name);
+                levelList.add(new LevelData(level_name));
 
             }
         } catch (Exception e) {
