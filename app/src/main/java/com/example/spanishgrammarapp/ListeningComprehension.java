@@ -1,10 +1,12 @@
 package com.example.spanishgrammarapp;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
-
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,28 +23,29 @@ import java.util.concurrent.TimeUnit;
 /**
  * Sets up a Listening Comprehension Activity
  */
-public class ListeningComprehension extends Activity implements View.OnClickListener{
+public class ListeningComprehension extends AppCompatActivity implements View.OnClickListener{
 
-    private String url;
-    private ArrayList<String> answers;
-    private ArrayList<String> cAnswers;
-    private LinearLayout optionsView;
-    private Button play;
-    private Button stop;
-    private Button checkButton;
-    private MediaPlayer player;
-    private String status;
-    private SeekBar seekBar;
+    private String url;//url of the audio
+    private ArrayList<String> answers;//all the answers
+    private ArrayList<String> cAnswers;// the correct answers
+    private LinearLayout optionsView;//the layout for showing all the answers
+    private Button play;// to play and pause the audio
+    private Button stop;//to stop the audio
+    private Button checkButton;// to check if the answers are correct
+    private MediaPlayer player;// used to ready the audio to execute
+    private String status;// the status of the audio (PLAYED,PAUSED OR STOPPED)
+    private SeekBar seekBar;// controls the current position of the audio
     private final Handler handler = new Handler();
-    private ArrayList<CheckBox> checkBoxes;
-    private TextView endTime;
-    private TextView currentTime;
+    private ArrayList<CheckBox> checkBoxes;// the checkboxes containing all the answers
+    private TextView endTime;// shows total duration of audio
+    private TextView currentTime;//shows current time position of the audio
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listening_comprehension);
 
+        //intent to get the url and the answers
         url = getIntent().getStringExtra("url");
         answers = getIntent().getStringArrayListExtra("answers");
         cAnswers = getIntent().getStringArrayListExtra("cAnswers");
@@ -51,18 +54,23 @@ public class ListeningComprehension extends Activity implements View.OnClickList
 
         RelativeLayout topView = (RelativeLayout) findViewById(R.id.questionView);
 
-        playSound();
+        // makes the audio ready to be played
+        readyAudio();
 
+        //sets up the play/pause button
         play = (Button) findViewById(R.id.playPauseBtn);
         play.setText("Play/Pause");
         play.setOnClickListener(this);
 
+        //sets up the stop button
         stop = (Button) findViewById(R.id.stopBtn);
         stop.setText("Stop");
         stop.setOnClickListener(this);
 
+        //sets up the seekbar
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setMax(player.getDuration());
+        //enables the seekbar to give the current progress of the audio
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -79,6 +87,8 @@ public class ListeningComprehension extends Activity implements View.OnClickList
 
             }
         });
+
+        //sets the audio to seek when the seekbar is moved
         seekBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -87,16 +97,17 @@ public class ListeningComprehension extends Activity implements View.OnClickList
             }
         });
 
+        //sets up the current time of teh audio
         currentTime = (TextView) findViewById(R.id.currentTime);
         currentTime.setText("0:00");
 
-
-
+        //sets up the total time of the audio
         endTime = (TextView) findViewById(R.id.endTime);
         endTime.setText(convertTime(player.getDuration()));
 
         optionsView = (LinearLayout) findViewById(R.id.optionsView);
 
+        //sets up the checkboxes containing all the answers
         checkBoxes = new ArrayList<>();
         for (int i =0;i<answers.size();i++){
 
@@ -108,6 +119,7 @@ public class ListeningComprehension extends Activity implements View.OnClickList
 
         RelativeLayout bottomView = (RelativeLayout) findViewById(R.id.questionView);
 
+        //sets up the check button
         checkButton = (Button) findViewById(R.id.checkBtn);
         checkButton.setText("Check!");
         checkButton.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +141,7 @@ public class ListeningComprehension extends Activity implements View.OnClickList
         if (view == play){
 
             if(status=="stopped"){
-                playSound();
+                readyAudio();
                 player.start();
                 seekBarUpdater();
                 status = "played";
@@ -154,7 +166,7 @@ public class ListeningComprehension extends Activity implements View.OnClickList
     /**
      * This class loads the audio file from url and makes it ready to play
      */
-    public void playSound(){
+    public void readyAudio(){
 
         try {
             player = new MediaPlayer();
@@ -231,29 +243,39 @@ public class ListeningComprehension extends Activity implements View.OnClickList
                 }
             }}
 
-//        AlertDialog alert = new AlertDialog.Builder(ListeningComprehension.this).create();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         if (list.isEmpty()&&listSize==cAnswers.size()) {
 
             //do something when correct
 
-//            alert.setTitle("Well Done");
-//            alert.setMessage("This is the Correct Answer!");
-//            alert.setButton("OK", new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int which) {
-//                }
-//            });
+            dialogBuilder.setTitle("Well Done");
+            dialogBuilder.setMessage("This is the Correct Answer!");
+            dialogBuilder.setPositiveButton("Next Question", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //do something
+                }
+            });
         } else {
 
             //do something when incorrect
 
-//            alert.setTitle("Try Again");
-//            alert.setMessage("Incorrect Answer!");
-//            alert.setButton("TryAgain", new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int which) {
-//                }
-//            });
+            dialogBuilder.setTitle("Try Again");
+            dialogBuilder.setMessage("Incorrect Answer!");
+            dialogBuilder.setPositiveButton("TryAgain", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //do something
+                }
+            });
+            dialogBuilder.setNegativeButton("End Quiz", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //do something
+                }
+            });
         }
-//        alert.show();
+        dialogBuilder.show();
 
     }
 
