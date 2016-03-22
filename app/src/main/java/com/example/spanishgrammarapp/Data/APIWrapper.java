@@ -2,6 +2,7 @@ package com.example.spanishgrammarapp.Data;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.spanishgrammarapp.Exercise;
 import com.example.spanishgrammarapp.Glossary;
@@ -570,10 +571,13 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     Search for Glossary class for data type
     there are two data (word, word_in_lang) 
      */
-    public  ArrayList<Glossary> getGlossary(String language) {
+    public ArrayList<Glossary> getGlossary(String language) {
+
         ArrayList<Glossary> glossary = new ArrayList<Glossary>();
         String glosaryURL = URL+"/"+language+"/glossaryList";
         System.out.println("this is url : " + glosaryURL);
+        Log.d("this is url : " ,glosaryURL);
+
 
         try {
             JSONArray jsonArray = execute(glosaryURL)
@@ -583,7 +587,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 String word= jsonObject.getString("word");
-                String word_in_language = jsonObject.getString("word_in_language");
+                String word_in_language = jsonObject.getString("word_in_lang");
 
                 glossary.add(new Glossary(word,word_in_language));
             }
@@ -591,6 +595,37 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             System.out.println("JSON EXCEPTION ERROR HERE");
             e.printStackTrace();
         }
+
         return glossary;
     }
+
+
+
 }
+
+
+
+
+/* THIS METHOD FOR SUBTOPIC API SAVING INTO DB
+    public void getSubtopicAPI(){
+
+        ArrayList<String> langList = apiLanguage();
+        ArrayList<String> levelList = new ArrayList<String>();
+        ArrayList<String> subtopicList = new ArrayList<String>();
+
+        //TODO: This method need to be improved. String 'level'
+        for(int a = 0 ; a < langList.size() ; a++) {
+            for (int b = 0; b < levelList.size(); b++) {
+                for (int c = 0; c < topicList.size(); c++) {
+                    String language = langList.get(a);
+                    String level = levelList.get(b);
+                    String topic = topicList.get(c);
+                    String subtopicListURL = "http://lang-it-up.herokuapp.com/polls/api"+"/"+language+"/"+level+"/"+topic+"/subtopicList";
+                    subtopicList.add(subtopicListURL);
+                    APIWrapper downloadSubtopic = new APIWrapper(database);
+                  //  downloadSubtopic.apiSubtopics(subtopicListURL,language,level,topic);
+                }
+            }
+        }
+    }
+*/
