@@ -254,18 +254,18 @@ public class ExercisesActivity extends AppCompatActivity {
     private void constructDragAndDrop(){
 
         GridLayout optionsLayout = new GridLayout(this);
-        optionsLayout.setOrientation(GridLayout.VERTICAL);
+        optionsLayout.setOrientation(GridLayout.HORIZONTAL);
         optionsLayout.setId(1001);
 
         Integer xValue = (int) Math.round(Math.sqrt(answers.size()));
-        Integer yValue = (answers.size() - xValue) + 1;
+        Integer yValue = answers.size() - xValue;
 
         optionsLayout.setRowCount(yValue);
         optionsLayout.setColumnCount(xValue);
 
         RelativeLayout.LayoutParams gridLayoutParams =
-                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        gridLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        gridLayoutParams.addRule(RelativeLayout.BELOW, question.getId());
         relativeLayout.addView(optionsLayout, gridLayoutParams);
 
         question.setOnTouchListener(new View.OnTouchListener() {
@@ -294,7 +294,7 @@ public class ExercisesActivity extends AppCompatActivity {
             images[i] = new ImageView(this);
             images[i].setTag(answers.get(i));
             if (!answers.get(i).contains("null")) {
-                new DownloadImageTask(images[i]).execute(answers.get(i));
+                new DownloadImage(images[i]).execute(answers.get(i));
                 images[i].setOnDragListener(new View.OnDragListener() {
                     @Override
                     public boolean onDrag(View v, DragEvent event) {
@@ -340,7 +340,7 @@ public class ExercisesActivity extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     results(typing, userInput);
-                }else if(keyCode == KeyEvent.KEYCODE_BACK){
+                } else if (keyCode == KeyEvent.KEYCODE_BACK) {
                     System.out.println("TEST12345678910");
                     relativeLayout.requestFocus();
                 }
@@ -369,6 +369,13 @@ public class ExercisesActivity extends AppCompatActivity {
             correct=true; //we have proved the user has answered the question correctly
             exerciseReceived.getQuestions().get(currentQuestionIndex).setCompleted(true);
             exerciseReceived.incrementCorrectlyAnswered(); //increment the number of correctly answered questions for the Exercise object
+        }
+        if(qType.equals(dragAndDrop)){
+            if(answers.indexOf(view.getTag())==Integer.parseInt(cAnswer)){
+                correct =true;
+            }else{
+                correct=false;
+            }
         }
         exerciseQuestions.get(currentQuestionIndex).userGivenAnswer = userAnswer; //record the user answer in the Exercise object
         exerciseQuestions.get(currentQuestionIndex).addAttempt(); //the user has attempted the exercise
@@ -529,29 +536,26 @@ public class ExercisesActivity extends AppCompatActivity {
     }
 
     //This private class is used to set an Image to an ImageView from the given URL
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
+    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+        ImageView image;
 
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
+        public DownloadImage(ImageView image) {
+            this.image = image;
         }
 
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
+            Bitmap icon = null;
             try {
                 InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-                in.reset();
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
+                icon = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {e.printStackTrace();}
+
+            return icon;
         }
 
         protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+            image.setImageBitmap(result);
         }
     }
 
