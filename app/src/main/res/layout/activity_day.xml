@@ -1,82 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/bkg"
-    android:columnCount="7"
-    android:rowCount="10">
+    android:id="@+id/gridView1"
+    android:numColumns="3"
+    android:gravity="center"
+    android:columnWidth="50dp"
+    android:stretchMode="columnWidth"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-
-    <Button
-        android:onClick="playSound"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="84dp"
-        android:layout_height="132dp"
-        android:id="@+id/button1"
-        android:layout_gravity="center"
-        android:layout_row="3"
-        android:layout_column="0" />
-
-    <Button
-        android:onClick="playSound"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="84dp"
-        android:layout_height="129dp"
-        android:id="@+id/button2"
-        android:layout_gravity="center"
-        android:layout_row="3"
-        android:layout_column="1" />
-
-    <Button
-        android:onClick="playSound"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="84dp"
-        android:layout_height="129dp"
-        android:id="@+id/button3"
-        android:layout_gravity="center"
-        android:layout_row="3"
-        android:layout_column="2" />
-
-    <Button
-        android:onClick="playSound"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="84dp"
-        android:layout_height="129dp"
-        android:id="@+id/button4"
-        android:layout_gravity="center"
-        android:layout_row="3"
-        android:layout_column="3" />
-
-    <Button
-        android:onClick="playSound"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="84dp"
-        android:layout_height="129dp"
-        android:id="@+id/button5"
-        android:layout_gravity="center"
-        android:layout_row="3"
-        android:layout_column="4" />
-
-    <Button
-        android:onClick="playSound"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="84dp"
-        android:layout_height="129dp"
-        android:layout_gravity="center"
-        android:id="@+id/button6"
-        android:layout_row="3"
-        android:layout_column="5" />
-
-    <Button
-        android:onClick="playSound"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="84dp"
-        android:layout_height="129dp"
-        android:layout_gravity="center"
-        android:id="@+id/button7"
-        android:layout_row="3"
-        android:layout_column="6" />
-
-
-</GridLayout>
+</GridView>

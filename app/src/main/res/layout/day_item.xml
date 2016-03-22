@@ -7,7 +7,7 @@
     android:padding="5dp" >
 
     <TextView
-        android:id="@+id/grid_item_word"
+        android:id="@+id/grid_item_day"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
