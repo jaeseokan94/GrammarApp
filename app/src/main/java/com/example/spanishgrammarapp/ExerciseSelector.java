@@ -39,28 +39,23 @@ public class ExerciseSelector extends Activity {
         }
     }
 
+    /**
+     * @param exerciseList the collection of Exercise objects that we want to create buttons for.
+     * @param relativeLayout the layout that we want to add these buttons to*/
     private void createGUI(ArrayList<Exercise> exerciseList, RelativeLayout relativeLayout){
-        Button buttonV = new Button(this);
-        buttonV.setText("Vocabulary");
-        buttonV.setTag(1);
-        buttonV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToExercise(v);
-            }
-        });
-        relativeLayout.addView(buttonV, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         int buttonID = 10;
-        buttonV.setId(buttonID);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.addRule(RelativeLayout.BELOW, buttonID); //first time adds button below the vocab button
         for (Exercise s : exerciseList){
             Button button = new Button(this);
             button.setText(s.getName());
             button.setTag(s.getId());
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.addRule(RelativeLayout.BELOW, buttonID); //first time adds button below the vocab button
-            relativeLayout.addView(button, layoutParams);
-            ++buttonID; //after adding below the id, we increase it
-            button.setId(buttonID); //and set the id of current button to new value
+            if(buttonID==10){
+                relativeLayout.addView(button, layoutParams);
+            }else{
+                relativeLayout.addView(button); //the first button does not go below anything
+            }
+            button.setId(buttonID++); //and set the id of current button to new value
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -72,16 +67,18 @@ public class ExerciseSelector extends Activity {
 
     /*This method starts exercises activity and relays the intent data from previous activity*/
     private void goToExercise(View view){
-        boolean isVocab = false;
-        if(((Button) view).getText().equals("Vocabulary")){
-            isVocab = true;
-        }
         Intent intent = new Intent(this, ExercisesActivity.class);
-        intent.putExtra(ExercisesActivity.vocab, isVocab);
         intent.putExtra(MainActivity.TOPIC, getIntent().getStringExtra(MainActivity.TOPIC)); //forward the topic string
         intent.putExtra(MainActivity.SUBTOPIC, getIntent().getStringExtra(MainActivity.SUBTOPIC)); //forward the subtopic string
         intent.putExtra(MainActivity.EXERCISE_NAME, ((Button) view).getText());
         intent.putExtra(MainActivity.EXERCISE_ID, view.getTag().toString());
+        startActivity(intent);
+    }
+    /**This method ensures the correct behaviour of the app when the back button is pressed.*/
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, SubtopicsActivity.class);
+        intent.putExtra(MainActivity.TOPIC ,getIntent().getStringExtra(MainActivity.TOPIC));
         startActivity(intent);
     }
 

@@ -156,6 +156,11 @@ public class MainActivity extends Activity {
         creditsDialog.show();
     }
 
+    /**This method ensures the correct behaviour of the app when the back button is pressed.*/
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, LevelActivity.class));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -215,7 +215,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      *  This method is to test Database and build API according to
      *  language, topicName, subtopicName
      */
-    public Exercise apiQuestions(String topic, String subtopic, boolean isVocabuary, String exerciseId , String exerciseName) {
+    public Exercise apiQuestions(String topic, String subtopic, String exerciseId , String exerciseName) {
 
 
 

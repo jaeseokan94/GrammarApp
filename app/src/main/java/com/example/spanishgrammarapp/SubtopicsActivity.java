@@ -24,18 +24,13 @@ import java.util.ArrayList;
 public class SubtopicsActivity extends Activity implements View.OnClickListener {
 
     private String topic;
-    private String SUBTOPIC;
-    private String level;
-    private String language;
     DatabaseHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subtopics);
 
-//        This is how we tell what topic we've entered.
-        topic = getIntent().getStringExtra("TOPIC");
-
+        topic = getIntent().getStringExtra("TOPIC"); //This is how we tell what topic we've entered.
 
         LinearLayout subtopicLayout = (LinearLayout) findViewById(R.id.main_layout_subtopic_id);
         subtopicLayout.setOrientation(LinearLayout.VERTICAL);
@@ -62,8 +57,28 @@ public class SubtopicsActivity extends Activity implements View.OnClickListener 
             button.setTypeface(font);
             subtopicLayout.addView(button, layoutParams);
         }
+    }
 
+    @Override
+    public void onClick(View v) {
+        if(((Button) v).getText().equals("Vocabulary")){
+            goToExercise(v);
+            return;
+        }
+        Intent intent = new Intent(this, ExerciseSelector.class); //create a new intent
+        intent.putExtra(MainActivity.TOPIC, topic);
+        intent.putExtra(MainActivity.SUBTOPIC, v.getTag().toString());
+        startActivity(intent); //start the activity
+    }
 
+    /*This method starts exercises activity and relays the intent data from previous activity*/
+    private void goToExercise(View view){
+        Intent intent = new Intent(this, ExercisesActivity.class);
+        intent.putExtra(ExercisesActivity.vocab, true);
+        intent.putExtra(MainActivity.TOPIC, getIntent().getStringExtra(MainActivity.TOPIC)); //forward the topic string
+        intent.putExtra(MainActivity.SUBTOPIC, "Vocabulary"); //special case for Vocabulary exercise
+        intent.putExtra(MainActivity.EXERCISE_NAME, ((Button) view).getText());
+        startActivity(intent);
     }
 
     /**This method ensures the correct behaviour of the app when the back button is pressed.*/
@@ -71,14 +86,6 @@ public class SubtopicsActivity extends Activity implements View.OnClickListener 
     public void onBackPressed() {
         Intent intent = new Intent(this, PracticeActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    public void onClick(View v) {
-            Intent intent = new Intent(this, ExerciseSelector.class); //create a new intent
-            intent.putExtra(MainActivity.TOPIC, topic);
-            intent.putExtra(MainActivity.SUBTOPIC, v.getTag().toString());
-            startActivity(intent); //start the activity
     }
 
     @Override
