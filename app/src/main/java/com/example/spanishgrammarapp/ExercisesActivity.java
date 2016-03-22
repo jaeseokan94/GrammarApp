@@ -257,6 +257,12 @@ public class ExercisesActivity extends AppCompatActivity {
         optionsLayout.setOrientation(GridLayout.VERTICAL);
         optionsLayout.setId(1001);
 
+        Integer xValue = (int) Math.round(Math.sqrt(answers.size()));
+        Integer yValue = (answers.size() - xValue) + 1;
+
+        optionsLayout.setRowCount(yValue);
+        optionsLayout.setColumnCount(xValue);
+
         RelativeLayout.LayoutParams gridLayoutParams =
                 new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         gridLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -280,8 +286,8 @@ public class ExercisesActivity extends AppCompatActivity {
         Display screen = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         screen.getSize(size);
-        int imageWidth = size.x / answers.size();
-        int imageHeight = size.y / answers.size();
+        int imageWidth = size.x / xValue;
+        int imageHeight = size.y / yValue;
 
         ImageView[] images = new ImageView[answers.size()];
         for (int i = 0; i < answers.size(); i++) {
