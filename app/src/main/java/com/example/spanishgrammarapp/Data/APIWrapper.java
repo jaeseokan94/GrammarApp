@@ -703,13 +703,27 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      * @param dialect
      * @return ArrayList of Times
      */
-    public static ArrayList<Time> getTimeData(String languageName, String dialect) {
-        ArrayList<Time> times = new ArrayList<>();
-        //TODO get actual data
-        Time t1 = new Time("12:05", "Son las doce y cinco", "url");
+    public ArrayList<Time> getTimeData(String languageName, String dialect) {
+        String url = URL+"/"+languageName+"/"+dialect+"/Time";
 
-        for (int i = 0; i < 5; i++) {
-            times.add(t1);
+        ArrayList<Time> times = new ArrayList<>();
+
+        try {
+            JSONArray jsonArray = execute(url)
+                    .get(); //this link is temporary, it needs to be generalized
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String time = jsonObject.getString("phrase");
+                String timeInLanguage = jsonObject.getString("phrase_in_language");
+                String audioUrl = jsonObject.getString("audio_url");
+
+                times.add((new Time(time, timeInLanguage, audioUrl)));
+            }
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR HERE");
+            e.printStackTrace();
         }
         return times;
     }
