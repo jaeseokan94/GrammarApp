@@ -33,7 +33,7 @@ class Mp3Filter implements FilenameFilter {
                 for (File file : home.listFiles(new Mp3Filter())) {
                     songs.add(file.getName());
                 }
-                ArrayAdapter<String> songlist = new ArrayAdapter<String>(this, R.layout.content_recording_tool, songs);
+                ArrayAdapter<String> songlist = new ArrayAdapter<String>(this, R.layout.activity_recording, songs);
                 setListAdapter(songlist);
             }
         }
