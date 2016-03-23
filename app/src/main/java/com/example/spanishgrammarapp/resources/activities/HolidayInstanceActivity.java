@@ -1,9 +1,10 @@
 package com.example.spanishgrammarapp.resources.activities;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.widget.TextView;
 
@@ -12,7 +13,7 @@ import com.example.spanishgrammarapp.R;
 /**
  * Created by janaldoustorres on 17/03/2016.
  */
-public class HolidayInstanceActivity extends AppCompatActivity {
+public class HolidayInstanceActivity extends Activity {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {

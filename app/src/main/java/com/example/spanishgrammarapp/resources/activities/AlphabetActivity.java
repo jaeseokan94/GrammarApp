@@ -1,9 +1,10 @@
 package com.example.spanishgrammarapp.resources.activities;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
  * Alphabet of chosen language, or Numbers or Days is created and shown here depending on the String
  * Extra. Letters are dynamically created and can be clicked to listen to the pronunciation.
  */
-public class AlphabetActivity extends AppCompatActivity {
+public class AlphabetActivity extends Activity {
     private MediaPlayer player;
     private String resource;
     DatabaseHelper database;

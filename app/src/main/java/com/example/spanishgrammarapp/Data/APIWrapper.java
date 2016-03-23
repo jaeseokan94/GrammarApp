@@ -201,6 +201,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                 String subtopic_name= jsonObject.getString("subtopic_name");
                 System.out.print("SUBTOPIC JSON PARSER");
                 subtopicsList.add(subtopic_name);
+                System.out.print("subtopic error"+subtopic_name+ "URL "+ subtopicURL);
             }
 
         } catch (Exception e) {
@@ -238,12 +239,12 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
                     String questionText = jsonObject.getString("question_text"); // get question_text from API
                     String questionType = "dd";
-                    answers.add(imageURL+jsonObject.getString("choice_1"));
-                    answers.add(imageURL+jsonObject.getString("choice_2"));
-                    answers.add(imageURL+jsonObject.getString("choice_3"));
-                    answers.add(imageURL+jsonObject.getString("choice_4"));
-                    answers.add(imageURL+jsonObject.getString("choice_5"));
-                    answers.add(imageURL+jsonObject.getString("choice_6"));
+                    answers.add(jsonObject.getString("choice_1"));
+                    answers.add(jsonObject.getString("choice_2"));
+                    answers.add(jsonObject.getString("choice_3"));
+                    answers.add(jsonObject.getString("choice_4"));
+                    answers.add(jsonObject.getString("choice_5"));
+                    answers.add(jsonObject.getString("choice_6"));
                     //answers.add(jsonObject.getString("correct_answer"));
                     String correct_answer = jsonObject.getString("correct_answer");
                     Question question = new Question(questionType, questionText, correct_answer, answers);

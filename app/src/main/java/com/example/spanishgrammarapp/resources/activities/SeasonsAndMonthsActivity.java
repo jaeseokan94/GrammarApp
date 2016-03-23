@@ -1,5 +1,6 @@
 package com.example.spanishgrammarapp.resources.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ExpandableListView;
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * Created by janaldoustorres on 18/03/2016.
  */
-public class SeasonsAndMonthsActivity extends AppCompatActivity {
+public class SeasonsAndMonthsActivity extends Activity {
     private String resource;
     private ArrayList<String> listDataHeader;
     private HashMap<String, List<String>> listDataChild;

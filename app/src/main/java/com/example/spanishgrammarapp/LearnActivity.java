@@ -90,10 +90,6 @@ public class LearnActivity extends Activity {
         setDefaultImageButtonSizes(orientation);
     }
 
-    public void startRecordingActivity(){
-
-    }
-
     public void enterTopic(View view){
         Intent intent = new Intent(this, TopicActivity.class);
         String message = (String) view.getTag();

@@ -1,8 +1,9 @@
 package com.example.spanishgrammarapp.resources.activities;
 
+import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 /**
  *
  */
-public class CalendarActivity extends AppCompatActivity {
+public class CalendarActivity extends Activity {
     private String resource;
     private MediaPlayer player;
     DatabaseHelper database;
