@@ -44,8 +44,8 @@ public class LetterAdapter extends BaseAdapter {
 
             // set value into Another word
             TextView textView2 = (TextView) gridView
-                    .findViewById(R.id.grid_item_letter);
-            textView.setText(mobileValues.get(position).getPronunciation());
+                    .findViewById(R.id.grid_item_another_word);
+            textView2.setText(mobileValues.get(position).getPronunciation());
 
         } else {
             gridView = (View) convertView;

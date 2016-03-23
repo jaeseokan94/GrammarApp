@@ -51,7 +51,7 @@ public class CalendarActivity extends Activity {
 
         APIWrapper apiWrapper = new APIWrapper(database);
         ArrayList<Numb> CalendarDay = new ArrayList<>();
-        CalendarDay = apiWrapper.getNumbs(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        CalendarDay = apiWrapper.getNumbs(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
         gridView = (GridView) findViewById(R.id.gridview);
 
         gridView.setAdapter(new WordAdapter(this, CalendarDay));

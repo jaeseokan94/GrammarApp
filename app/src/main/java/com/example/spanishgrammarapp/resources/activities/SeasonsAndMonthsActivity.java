@@ -116,7 +116,7 @@ public class SeasonsAndMonthsActivity extends Activity {
 
         APIWrapper apiWrapper = new APIWrapper(database);
         // Adding header data
-        ArrayList<Season> seasons = apiWrapper.getSeasonsAndMonthsData(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        ArrayList<Season> seasons = apiWrapper.getSeasonsAndMonthsData(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
 
         // Adding child data
         for(Season season: seasons) {
@@ -131,7 +131,7 @@ public class SeasonsAndMonthsActivity extends Activity {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding header data
-        ArrayList<Time> times = APIWrapper.getTimeData(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        ArrayList<Time> times = APIWrapper.getTimeData(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
 
         // Adding child data
         for(Time time: times) {
