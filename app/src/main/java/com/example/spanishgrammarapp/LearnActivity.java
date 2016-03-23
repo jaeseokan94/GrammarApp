@@ -77,9 +77,22 @@ public class LearnActivity extends Activity {
                 button.setTypeface(font);
             }
         }
+        Button recordingButton = new Button(this);
+        recordingButton.setBackground(getDrawable(R.drawable.recording));
+        recordingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RecordingToolActivity.class));
+            }
+        });
+        buttons.add(recordingButton);
+        mainLayout.addView(recordingButton);
         setDefaultImageButtonSizes(orientation);
     }
 
+    public void startRecordingActivity(){
+
+    }
 
     public void enterTopic(View view){
         Intent intent = new Intent(this, TopicActivity.class);

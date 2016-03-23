@@ -37,6 +37,9 @@
             android:name=".Login"
             android:label="@string/title_activity_login" />
         <activity
+            android:name=".RecordingToolActivity"
+            android:label="Recording" />
+        <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_learn" />

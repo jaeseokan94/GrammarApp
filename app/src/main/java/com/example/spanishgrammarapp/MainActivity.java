@@ -144,11 +144,6 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    public void recordingActivity(View view){
-        Intent intent = new Intent(this, RecordingToolActivity.class);
-        startActivity(intent);
-    }
-
     public void credits(View view){
         Dialog creditsDialog = new Dialog(this);
         creditsDialog.setTitle("Credits");
