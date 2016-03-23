@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 
 public class LearnActivity extends Activity {
     private final static String EXTRA_MESSAGE = "TOPIC";
-    private ArrayList<ImageButton> buttons;
+    private ArrayList<Button> buttons;
     private GridLayout mainLayout; //this layout is accesses in several places
     private ArrayList<String> topics; //this was a parameter for createGUI() but the method is called in too many places
 
@@ -46,7 +48,7 @@ public class LearnActivity extends Activity {
         }
         buttons = new ArrayList<>(9); //create and populate this ArrayList because there are 2 ways these buttons can appear, this makes the code more efficient.
         for (String s : topics) {
-            ImageButton button = new ImageButton(this);
+            Button button = new Button(this);
             button.setTag(s); //set the tag to the topic name because our image buttons can't have text. We can add text from tag for the other buttons.
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -57,7 +59,7 @@ public class LearnActivity extends Activity {
             buttons.add(button);
             mainLayout.addView(button);
         }
-        if(MainActivity.currentLevel.toLowerCase().contains("b")) {
+        if(MainActivity.currentLevel.toLowerCase().contains("beginner")) {
             buttons.get(0).setBackground(getDrawable(R.drawable.greetings));
             buttons.get(1).setBackground(getDrawable(R.drawable.checkin));
             buttons.get(2).setBackground(getDrawable(R.drawable.sight));
@@ -65,12 +67,14 @@ public class LearnActivity extends Activity {
             buttons.get(4).setBackground(getDrawable(R.drawable.eating));
             buttons.get(5).setBackground(getDrawable(R.drawable.likes));
             buttons.get(6).setBackground(getDrawable(R.drawable.planning));
-//            buttons.get(7).setBackground(getDrawable(R.drawable.shopping));
-//            buttons.get(8).setBackground(getDrawable(R.drawable.dating));
+            buttons.get(7).setBackground(getDrawable(R.drawable.shopping));
+            buttons.get(8).setBackground(getDrawable(R.drawable.dating));
         }else {
-            for (ImageButton button : buttons){
+            Typeface font = Typeface.createFromAsset(getAssets(), "font2.ttf");
+            for (Button button : buttons){
                 button.setBackground(getDrawable(R.drawable.button2));
-
+                button.setText(button.getTag().toString()); //get the tag and make it the button's text
+                button.setTypeface(font);
             }
         }
         setDefaultImageButtonSizes(orientation);
@@ -114,9 +118,9 @@ public class LearnActivity extends Activity {
 
         int idealSize = (screenWidth / 3);
 
-        for(ImageButton imageButton : buttons){
-            imageButton.getLayoutParams().width = idealSize;
-            imageButton.getLayoutParams().height = idealSize;
+        for(Button button : buttons){
+            button.getLayoutParams().width = idealSize;
+            button.getLayoutParams().height = idealSize;
         }
     }
 

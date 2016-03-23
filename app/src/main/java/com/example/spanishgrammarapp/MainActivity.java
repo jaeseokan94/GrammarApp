@@ -151,6 +151,10 @@ public class MainActivity extends Activity {
         creditsDialog.show();
     }
 
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, LevelActivity.class));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

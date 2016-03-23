@@ -29,7 +29,7 @@ public class LevelActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_level);
 
         //Get current Language from intent
-        currentLanguage = getIntent().getStringExtra("CURRENT_LANGUAGE");
+        currentLanguage = MainActivity.currentLanguage;
 
         //Set up
         TextView textView = (TextView) findViewById(R.id.tv_level);
@@ -73,6 +73,10 @@ public class LevelActivity extends Activity implements OnClickListener {
         }
     }
 
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, LanguageActivity.class));
+    }
 
     @Override
     public void onClick(View view) {

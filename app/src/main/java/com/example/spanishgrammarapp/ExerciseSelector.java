@@ -3,6 +3,7 @@ package com.example.spanishgrammarapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,13 +50,15 @@ public class ExerciseSelector extends Activity {
                 goToExercise(v);
             }
         });
-        relativeLayout.addView(buttonV, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        relativeLayout.addView(buttonV, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        relativeLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         int buttonID = 10;
         buttonV.setId(buttonID);
         for (Exercise s : exerciseList){
             Button button = new Button(this);
             button.setText(s.getName());
             button.setTag(s.getId());
+            button.setBackground(getDrawable(R.drawable.button));
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.addRule(RelativeLayout.BELOW, buttonID); //first time adds button below the vocab button
             relativeLayout.addView(button, layoutParams);

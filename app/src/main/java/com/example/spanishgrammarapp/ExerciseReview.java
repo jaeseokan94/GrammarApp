@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 public class ExerciseReview extends Activity {
 
-    private Exercise exe; // TEST CODE
     private Typeface font;
 
     @Override
@@ -44,29 +43,6 @@ public class ExerciseReview extends Activity {
         scrollView.addView(relativeLayout, layoutParams);
 
         setContentView(scrollView);
-        /*START OF TEST CODE*/
-        exe = new Exercise("test", "1", "Some exercise");
-        ArrayList<String> answers = new ArrayList<>();
-        answers.add("TU8200DX");
-        answers.add("HD800");
-        answers.add("Burson SS V5");
-        answers.add("AQ Golden Gate");
-        Question q1 = new Question("mc", "Question text test 12345 long text", "no correct answer", answers);
-        q1.setCompleted(true);
-        Question q2 = new Question("mc", "Different text", "no correct answer", answers);
-        q2.setCompleted(true);
-        Question q3 = new Question("mc", "REEEP", "no correct answer", answers);
-        q3.setCompleted(true);
-        Question q4 = new Question("mc", "HD800", "no correct answer", answers);
-        q4.setCompleted(false);
-        Question q5 = new Question("mc", "Rockin', Rockin' and Rollin' - but the seagulls poke at my head :<", "no correct answer", answers);
-        q5.setCompleted(true);
-        exe.addQuestion(q1);
-        exe.addQuestion(q2);
-        exe.addQuestion(q3);
-        exe.addQuestion(q4);
-        exe.addQuestion(q5);
-        /*END OF TEST CODE*/
         createGUI(relativeLayout);
     }
 
@@ -107,7 +83,7 @@ public class ExerciseReview extends Activity {
         header3.setTypeface(font);
         tableRow.addView(header3);
         tableLayout.addView(tableRow);
-        for(Question q : exe.getQuestions()){
+        for(Question q : getExercise().getQuestions()){
             TableRow tableRowQ = new TableRow(this);
             tableRowQ.setLayoutParams(rowParams);
 
