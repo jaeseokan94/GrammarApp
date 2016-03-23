@@ -23,11 +23,9 @@ android:orientation="vertical"
 
     android:layout_height="0dp"
 
-    android:background="@color/com_facebook_blue"
-
     android:layout_width="match_parent"
 
-    android:numColumns="7"
+    android:numColumns="3"
 
 
 

@@ -476,7 +476,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                String numb= jsonObject.getString("word");
+                String numb = jsonObject.getString("word");
                 String pronounciationNumb = jsonObject.getString("word_in_language");
                 String numAudioUrl = jsonObject.getString("audio_url");
 
