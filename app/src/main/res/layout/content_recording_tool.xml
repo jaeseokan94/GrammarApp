@@ -8,69 +8,55 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_recording_tool"
-    tools:context="com.example.spanishgrammarapp.RecordingToolActivity">
+    tools:context="com.example.spanishgrammarapp.RecordingToolActivity"
+    android:background="@drawable/bkg"
+    >
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/startBtn"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="buttonTapped" />
+        android:onClick="buttonTapped"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/stopBtn"
+        android:layout_marginStart="49dp" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/finish"
-        android:id="@+id/finishBtn"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="buttonTapped" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/playback"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/playBtn"
-        android:layout_below="@+id/startBtn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="54dp"
-        android:onClick="buttonTapped" />
+        android:background="@drawable/replay"
+        android:onClick="buttonTapped"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/startBtn"
+        android:layout_marginStart="49dp" />
 
     <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stop"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/stop"
+        android:onClick="buttonTapped"
         android:id="@+id/stopBtn"
-        android:layout_alignTop="@+id/playBtn"
-        android:layout_alignRight="@+id/finishBtn"
-        android:layout_alignEnd="@+id/finishBtn"
-        android:onClick="buttonTapped" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+    />
 
     <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/saveBtn"
-        android:layout_below="@+id/stopBtn"
-        android:layout_toLeftOf="@+id/finishBtn"
-        android:layout_toStartOf="@+id/finishBtn"
-        android:layout_marginTop="44dp"
-        android:onClick="buttonTapped" />
+        android:background="@drawable/save"
+        android:onClick="buttonTapped"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/saveBtn"
-        android:layout_alignParentLeft="true"
+        android:id="@+id/listView1"
+        android:choiceMode="singleChoice"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="99dp" />
+        android:layout_above="@+id/startBtn" />
 
 </RelativeLayout>
