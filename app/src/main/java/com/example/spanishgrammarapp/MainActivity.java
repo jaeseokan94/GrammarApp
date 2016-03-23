@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +16,6 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.spanishgrammarapp.Data.APIWrapper;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.resources.activities.DialectActivity;
 import com.facebook.appevents.AppEventsLogger;
@@ -143,6 +141,11 @@ public class MainActivity extends Activity {
 
     public void glossaryActivity(View view){
         Intent intent = new Intent(this, GlossaryActivity.class);
+        startActivity(intent);
+    }
+
+    public void recordingActivity(View view){
+        Intent intent = new Intent(this, RecordingToolActivity.class);
         startActivity(intent);
     }
 

@@ -1,32 +1,65 @@
 package com.example.spanishgrammarapp;
 
-import android.app.Activity;
-import android.content.Context;
+
+
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
-
-public class RecordingToolActivity extends Activity {
+public class RecordingToolActivity extends AppCompatActivity  {
 
     // called when the activity is first created
     private MediaPlayer mediaPlayer;
     private MediaRecorder recorder;
     private String OUTPUT_FILE;
+    File home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.content_recording_tool);
+        home = new File(this.getFilesDir().getPath());
+        OUTPUT_FILE = home+"/currentRecording";
+        ((ListView) findViewById(R.id.listView1)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    playRecording(home + "/" + ((TextView) view).getText().toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        updatePlaylist();
+    }
+
+    public void updatePlaylist() {
+        List<String> recordings = new ArrayList<>();
+
+        if (home.listFiles().length > 0 ) {
+            File[] files = home.listFiles(new Mp3Filter());
+            for (File file1 : files) {
+                recordings.add(file1.getName());
+            }
+            ArrayAdapter<String> recordingList = new ArrayAdapter<>(this, R.layout.recording_item, recordings);
+            ((ListView) findViewById(R.id.listView1)).setAdapter(recordingList);
+        }
     }
 
     public void buttonTapped(View view){
@@ -38,16 +71,9 @@ public class RecordingToolActivity extends Activity {
                     e.printStackTrace();
                 }
                 break;
-            case R.id.finishBtn:
-                try{
-                    stopRecording();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-                break;
             case R.id.playBtn:
                 try{
-                    playRecording();
+                    playRecording(OUTPUT_FILE);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -66,37 +92,29 @@ public class RecordingToolActivity extends Activity {
                     e.printStackTrace();
                 }
         }
-
     }
+
 
     private void saveLastRecordedAudio() throws IOException {
-        String filename = "myfile";
-        String string = "Save1";
-        FileOutputStream outputStream;
 
         try {
-            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write(string.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            String timeStamp = dateFormat.format(new Date());
+            FileOutputStream fos = new FileOutputStream(new File(this.getBaseContext().getFilesDir(),timeStamp+".mp3"));
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            fos.close();
+            oos.close();
+            System.out.println("Progress saved");
+
+
+        } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("ERROR: File not written");
+
         }
-
-        fileList();
-        ListView lv = new ListView(this);
-        lv.setClickable(true);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    playRecording();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
-    
 
     private void beginRecording() throws IOException {
         ditchMediaRecorder();
@@ -107,31 +125,26 @@ public class RecordingToolActivity extends Activity {
 
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         recorder.setOutputFile(OUTPUT_FILE);
         recorder.prepare();
         recorder.start();
-
     }
-
 
     private void stopPlayback() {
         if(mediaPlayer != null)
             mediaPlayer.stop();
 
-    }
-
-
-    private void stopRecording() {
         if(recorder != null)
             recorder.stop();
+
     }
 
-    private void playRecording() throws IOException {
+    private void playRecording(String filename) throws IOException {
         ditchMediaPlayer();
         mediaPlayer=new MediaPlayer();
-        mediaPlayer.setDataSource(OUTPUT_FILE);
+        mediaPlayer.setDataSource(filename);
         mediaPlayer.prepare();
         mediaPlayer.start();
 
@@ -147,13 +160,15 @@ public class RecordingToolActivity extends Activity {
         }
     }
 
-
-
     //If the media recorder is already in use
     private void ditchMediaRecorder(){
         if(recorder != null)
             recorder.release();
     }
 
+
+
 }
+
+
 
