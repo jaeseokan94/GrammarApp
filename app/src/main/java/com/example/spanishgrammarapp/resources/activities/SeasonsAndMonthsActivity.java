@@ -99,10 +99,10 @@ public class SeasonsAndMonthsActivity extends Activity {
                 imageView.setBackground(getDrawable(R.drawable.spring));
                 break;
             case "summer":
-                imageView.setBackground(getDrawable(R.drawable.spring));
+                imageView.setBackground(getDrawable(R.drawable.summer));
                 break;
             case "autumn":
-                imageView.setBackground(getDrawable(R.drawable.spring));
+                imageView.setBackground(getDrawable(R.drawable.autumn));
                 break;
             case "winter":
                 imageView.setBackground(getDrawable(R.drawable.winter));
