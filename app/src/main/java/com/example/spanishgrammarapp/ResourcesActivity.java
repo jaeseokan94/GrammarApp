@@ -4,16 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-
 import android.view.Menu;
 import android.view.View;
 
-import com.example.spanishgrammarapp.resources.activities.CalendarActivity;
 import com.example.spanishgrammarapp.resources.activities.AlphabetActivity;
+import com.example.spanishgrammarapp.resources.activities.CalendarActivity;
 import com.example.spanishgrammarapp.resources.activities.DayActivity;
 import com.example.spanishgrammarapp.resources.activities.DialectActivity;
 import com.example.spanishgrammarapp.resources.activities.HolidaysActivity;
-import com.example.spanishgrammarapp.resources.activities.NumberActivity;
+import com.example.spanishgrammarapp.resources.activities.NumberActivity2;
 import com.example.spanishgrammarapp.resources.activities.SeasonsAndMonthsActivity;
 
 public class ResourcesActivity extends Activity {
@@ -43,7 +42,7 @@ public class ResourcesActivity extends Activity {
     }
 
     public void showNumbersActivity(View v){
-        Intent intent = new Intent(this, NumberActivity.class);
+        Intent intent = new Intent(this, NumberActivity2.class);
         intent.putExtra(RESOURCE_NAME, NUMBERS);
         startActivity(intent);
     }
