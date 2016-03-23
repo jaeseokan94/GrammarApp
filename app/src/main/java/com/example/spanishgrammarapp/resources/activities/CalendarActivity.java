@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
@@ -63,9 +61,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 
 
-        TextView text1 = (TextView)findViewById(R.id.textView1);
-        text1.setText(days.get(0).getDay());
-        text1.setTag(days.get(0).getAudioURL());
+
 /*
         TextView text2 = (TextView)findViewById(R.id.textView2);
         text2.setText(days.get(1).getDay());
@@ -95,9 +91,6 @@ public class CalendarActivity extends AppCompatActivity {
         text7.setTag(days.get(6).getAudioURL());
 */
 
-        Button button1 = (Button) findViewById(R.id.button1);
-            button1.setText(numbs.get(0).getNumber()+"\n"+numbs.get(0).getPronunciation());
-            button1.setTag(numbs.get(0).getAudioURL());
 
 //            Button button2 = (Button) findViewById(R.id.button2);
 //            button2.setText(numbs.get(1).getNumber()+"\n"+numbs.get(1).getPronunciation());

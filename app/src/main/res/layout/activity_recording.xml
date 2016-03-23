@@ -9,14 +9,14 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_recording_tool"
     tools:context="com.example.spanishgrammarapp.RecordingToolActivity"
-    android:background="@drawable/bkg"
-    >
+android:background="@drawable/bkg2">
 
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/startBtn"
         android:onClick="buttonTapped"
+        android:background="@drawable/redcircle"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/stopBtn"
         android:layout_marginStart="49dp" />
@@ -48,15 +48,16 @@
         android:background="@drawable/save"
         android:onClick="buttonTapped"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentEnd="true" />
 
     <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="320dp"
+        android:layout_height="200dp"
         android:id="@+id/listView1"
         android:choiceMode="singleChoice"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/startBtn" />
+        android:layout_alignParentEnd="true"
+        android:nestedScrollingEnabled="false"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

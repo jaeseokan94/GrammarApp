@@ -47,7 +47,7 @@ public class ResourcesActivity extends Activity {
     }
 
     public void showDaysActivity(View v){
-        Intent intent = new Intent(this, AlphabetActivity.class);
+        Intent intent = new Intent(this, CalendarActivity.class);
         intent.putExtra(RESOURCE_NAME, DAYS);
         startActivity(intent);
     }

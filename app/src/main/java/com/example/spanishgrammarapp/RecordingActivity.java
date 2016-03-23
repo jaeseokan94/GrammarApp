@@ -1,10 +1,10 @@
 package com.example.spanishgrammarapp;
 
 
-
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class RecordingToolActivity extends AppCompatActivity  {
+public class RecordingActivity extends AppCompatActivity  {
 
     // called when the activity is first created
     private MediaPlayer mediaPlayer;
@@ -34,13 +34,19 @@ public class RecordingToolActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recording);
-        home = new File(this.getFilesDir().getPath());
-        OUTPUT_FILE = home+"/currentRecording";
+        home = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+
+        System.out.println("OUTPUT_FILE: "+OUTPUT_FILE);
         ((ListView) findViewById(R.id.listView1)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                    playRecording(home + "/" + ((TextView) view).getText().toString());
+                    System.out.println("playRecording parameter: " + Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + ((TextView) view).getText().toString());
+//                    playRecording(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + ((TextView) view).getText().toString());
+                    OUTPUT_FILE = home+"/"+((TextView) view).getText().toString();
+                    playRecording();
+                    System.out.println("Playing saved recording");
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -59,6 +65,7 @@ public class RecordingToolActivity extends AppCompatActivity  {
             }
             ArrayAdapter<String> recordingList = new ArrayAdapter<>(this, R.layout.recording_item, recordings);
             ((ListView) findViewById(R.id.listView1)).setAdapter(recordingList);
+
         }
     }
 
@@ -71,9 +78,10 @@ public class RecordingToolActivity extends AppCompatActivity  {
                     e.printStackTrace();
                 }
                 break;
+
             case R.id.playBtn:
                 try{
-                    playRecording(OUTPUT_FILE);
+                    playRecording();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -96,17 +104,17 @@ public class RecordingToolActivity extends AppCompatActivity  {
 
 
     private void saveLastRecordedAudio() throws IOException {
-
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
             String timeStamp = dateFormat.format(new Date());
-            FileOutputStream fos = new FileOutputStream(new File(this.getBaseContext().getFilesDir(),"/"+timeStamp+".mp3"));
+//          FileOutputStream fos = new FileOutputStream(new File(this.getBaseContext().getFilesDir(),timeStamp+".mp3"));
+            FileOutputStream fos = new FileOutputStream(new File(this.getBaseContext().getFilesDir()+ "/" + timeStamp +".mp3"));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
             fos.close();
             oos.close();
             System.out.println("Progress saved");
-
+            System.out.println(new File(this.getBaseContext().getFilesDir(),"test1.mp3"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -117,19 +125,25 @@ public class RecordingToolActivity extends AppCompatActivity  {
 
     private void beginRecording() throws IOException {
         ditchMediaRecorder();
-        File outFile = new File(OUTPUT_FILE);
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        String timeStamp = dateFormat.format(new Date());
+        OUTPUT_FILE = home+"/"+timeStamp+".mp3";
+
+        File outFile = new File(OUTPUT_FILE);
+        System.out.println("beginRecording:   "+OUTPUT_FILE);
         if(outFile.exists())
             outFile.delete();
 
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         recorder.setOutputFile(OUTPUT_FILE);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         recorder.prepare();
         recorder.start();
     }
+
 
     private void stopPlayback() {
         if(mediaPlayer != null)
@@ -137,13 +151,14 @@ public class RecordingToolActivity extends AppCompatActivity  {
 
         if(recorder != null)
             recorder.stop();
-
     }
 
-    private void playRecording(String filename) throws IOException {
+
+    private void playRecording() throws IOException {
         ditchMediaPlayer();
         mediaPlayer=new MediaPlayer();
-        mediaPlayer.setDataSource(filename);
+//        System.out.println("filename: "+filename);
+        mediaPlayer.setDataSource(OUTPUT_FILE);
         mediaPlayer.prepare();
         mediaPlayer.start();
 
@@ -164,9 +179,6 @@ public class RecordingToolActivity extends AppCompatActivity  {
         if(recorder != null)
             recorder.release();
     }
-
-
-
 }
 
 
