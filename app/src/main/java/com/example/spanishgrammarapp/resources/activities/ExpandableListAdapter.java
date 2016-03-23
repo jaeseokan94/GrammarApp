@@ -10,8 +10,13 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.spanishgrammarapp.Data.APIWrapper;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
+import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
+import com.example.spanishgrammarapp.resources.data.Season;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,6 +61,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.lblListItem);
+
+//        APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(null));
+//        ArrayList<Season> seasonArrayList = apiWrapper.getSeasonsAndMonthsData(MainActivity.currentLanguage, MainActivity.DIALECT);
 
         txtListChild.setText(childText);
         return convertView;

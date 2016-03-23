@@ -30,11 +30,10 @@ import java.util.List;
  * Created by janaldoustorres on 18/03/2016.
  */
 public class SeasonsAndMonthsActivity extends Activity {
-    private String resource;
     private ArrayList<String> listDataHeader;
     private HashMap<String, List<String>> listDataChild;
-    DatabaseHelper database;
-    ImageView imageView;
+    private DatabaseHelper database;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class SeasonsAndMonthsActivity extends Activity {
         setContentView(R.layout.activity_seasons_and_months);
 
         //Get resource name
-        resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
+        String resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
 
         //Get instructions from API
         String instructions = APIWrapper.getInstructions(MainActivity.currentLanguage,
@@ -63,24 +62,32 @@ public class SeasonsAndMonthsActivity extends Activity {
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                String season= "spring";
-                switch(groupPosition){
-                    case 0:season="spring";
-                        break;
-                    case 1:season="summer";
-                        break;
-                    case 2:season="autumn";
-                        break;
-                    case 3:season="winter";
-                        break;
+                if (getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME).equals(ResourcesActivity.SEASONS_MONTHS)) {
+                    String season = "spring";
+                    switch (groupPosition) {
+                        case 0:
+                            season = "spring";
+                            break;
+                        case 1:
+                            season = "summer";
+                            break;
+                        case 2:
+                            season = "autumn";
+                            break;
+                        case 3:
+                            season = "winter";
+                            break;
+                    }
+                    setImageBackground(season);
+                }else{
+                    setClockBackground();
                 }
-                setImageBackground(season);
                 return false;
             }
         });
 
 
-        // preparing list data
+    // preparing list data
         if (resource.equals(ResourcesActivity.SEASONS_MONTHS)) {
             prepareSeasonsListData();
         } else {
@@ -93,19 +100,23 @@ public class SeasonsAndMonthsActivity extends Activity {
         expandableListView.setAdapter(listAdapter);
     }
 
+    private void setClockBackground(){
+        imageView.setBackground(getDrawable(R.drawable.clock1));
+    }
+
     private void setImageBackground(String season){
         switch (season){
             case "spring":
                 imageView.setBackground(getDrawable(R.drawable.spring));
                 break;
             case "summer":
-                imageView.setBackground(getDrawable(R.drawable.summer));
+                imageView.setBackground(getDrawable(R.drawable.spring));
                 break;
             case "autumn":
-                imageView.setBackground(getDrawable(R.drawable.autumn));
+                imageView.setBackground(getDrawable(R.drawable.spring));
                 break;
             case "winter":
-                imageView.setBackground(getDrawable(R.drawable.winter));
+                imageView.setBackground(getDrawable(R.drawable.spring));
                 break;
         }
     }

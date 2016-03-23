@@ -634,28 +634,62 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     public ArrayList<Season> getSeasonsAndMonthsData(String language, String dialect) {
         ArrayList<Season> seasons = new ArrayList<Season>();
 
-        String resourceMonthsURL = URL+"/"+language+"/"+dialect+"/Alphabet";
-        /*
-        Season spring = new Season("Primavera", "Marso", "Avril", "Mayo");
-        Season summer = new Season("Verano", "Junio", "Julio", "Agosto");
-        Season autumn = new Season("Otoño", "Septiembre", "Octubre", "Noviembre");
-        Season winter = new Season("Invierno", "Diciembre", "Enero", "Febrero");
+        String resourceMonthsURL = URL+"/"+language+"/"+dialect+"/Months";
 
-        seasons.add(spring);
-        seasons.add(summer);
-        seasons.add(autumn);
-        seasons.add(winter);*/
+        Season spring;
+        Season summer;
+        Season autumn;
+        Season winter;
+
         try {
             JSONArray jsonArray = execute(resourceMonthsURL)
                     .get(); //this link is temporary, it needs to be generalized
-            for(int i = 0 ; i < jsonArray.length(); i++ ){
+            //Spring
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            String season = jsonObject.getString("Spring");
+            String month1 = jsonObject.getString("Month1");
+            String month2 = jsonObject.getString("Month2");
+            String month3 = jsonObject.getString("Month3");
+            spring = new Season(season);
+            spring.setMonth1(month1);
+            spring.setMonth1(month2);
+            spring.setMonth1(month3);
+            //Summer
+            jsonObject = jsonArray.getJSONObject(1);
+            season = jsonObject.getString("Summer");
+            month1 = jsonObject.getString("Month1");
+            month2 = jsonObject.getString("Month2");
+            month3 = jsonObject.getString("Month3");
+            summer = new Season(season);
+            summer.setMonth1(month1);
+            summer.setMonth1(month2);
+            summer.setMonth1(month3);
+            //Autumn
+            jsonObject = jsonArray.getJSONObject(2);
+            season = jsonObject.getString("Autumn");
+            month1 = jsonObject.getString("Month1");
+            month2 = jsonObject.getString("Month2");
+            month3 = jsonObject.getString("Month3");
+            autumn = new Season(season);
+            autumn.setMonth1(month1);
+            autumn.setMonth1(month2);
+            autumn.setMonth1(month3);
+            //Winter
+            jsonObject = jsonArray.getJSONObject(3);
+            season = jsonObject.getString("Winter");
+            month1 = jsonObject.getString("Month1");
+            month2 = jsonObject.getString("Month2");
+            month3 = jsonObject.getString("Month3");
+            winter = new Season(season);
+            winter.setMonth1(month1);
+            winter.setMonth1(month2);
+            winter.setMonth1(month3);
 
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
+            seasons.add(spring);
+            seasons.add(summer);
+            seasons.add(autumn);
+            seasons.add(winter);
 
-                String months= jsonObject.getString("word");
-                seasons.add(new Season(months));
-
-            }
         } catch (Exception e) {
             System.out.println("JSON EXCEPTION ERROR HERE");
             e.printStackTrace();
