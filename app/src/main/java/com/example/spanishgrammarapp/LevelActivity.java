@@ -20,12 +20,8 @@ import com.example.spanishgrammarapp.Data.LevelData;
 import java.util.List;
 
 public class LevelActivity extends Activity implements OnClickListener {
-    public final static String CURRENT_LEVEL = "CURRENT_LEVEL";
-    public final static String CURRENT_LANGUAGE = "CURRENT_LANGUAGE";
     private String currentLanguage;
     private DatabaseHelper database;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

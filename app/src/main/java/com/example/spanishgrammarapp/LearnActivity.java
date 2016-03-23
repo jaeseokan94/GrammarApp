@@ -30,13 +30,12 @@ public class LearnActivity extends Activity {
         super.onCreate(savedInstanceState);
         APIWrapper topicAPI = new APIWrapper(new DatabaseHelper(this));
         topics = topicAPI.getTopicList();
+        mainLayout =  new GridLayout(this);
         createGUI(Configuration.ORIENTATION_PORTRAIT);
-        setDefaultImageButtonSizes(Configuration.ORIENTATION_PORTRAIT, buttons);
         setContentView(mainLayout); //don't move this pls, it's initialise in createGUI()
     }
 
     private void createGUI(int orientation){
-        mainLayout = new GridLayout(this);
         mainLayout.setBackground(getDrawable(R.drawable.bkg));
         if(orientation==Configuration.ORIENTATION_PORTRAIT){
             mainLayout.setRowCount(3);
@@ -71,8 +70,10 @@ public class LearnActivity extends Activity {
         }else {
             for (ImageButton button : buttons){
                 button.setBackground(getDrawable(R.drawable.button2));
+
             }
         }
+        setDefaultImageButtonSizes(orientation);
     }
 
 
@@ -86,19 +87,20 @@ public class LearnActivity extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        mainLayout =  new GridLayout(this);
         setContentView(mainLayout);
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             System.out.println("ORIENTATION_LANDSCAPE");
-            createGUI(Configuration.ORIENTATION_PORTRAIT);
+            createGUI(Configuration.ORIENTATION_LANDSCAPE);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             System.out.println("ORIENTATION_PORTRAIT");
-            createGUI(Configuration.ORIENTATION_LANDSCAPE);
+            createGUI(Configuration.ORIENTATION_PORTRAIT);
         }
-        setDefaultImageButtonSizes(newConfig.orientation, buttons);
+        setDefaultImageButtonSizes(newConfig.orientation);
     }
 
-    private void setDefaultImageButtonSizes(int orientation, ArrayList<ImageButton> buttons) {
+    private void setDefaultImageButtonSizes(int orientation) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE); // the results will be higher than using the activity context object or the getWindowManager() shortcut
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
@@ -117,6 +119,12 @@ public class LearnActivity extends Activity {
             imageButton.getLayoutParams().height = idealSize;
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
