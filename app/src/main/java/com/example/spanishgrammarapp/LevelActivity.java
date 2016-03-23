@@ -53,9 +53,6 @@ public class LevelActivity extends Activity implements OnClickListener {
 
         mainLayout.addView(imageView, rlp);
         mainLayout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
-
-
-
         mainLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
         APIWrapper apiWrapper = new APIWrapper(database);
@@ -64,9 +61,9 @@ public class LevelActivity extends Activity implements OnClickListener {
         System.out.println("LEVEL LIST : " + levels);
         int i = 200;
         findViewById(R.id.tv_level_title).setId(i);
-        for (LevelData Levels: levels) {
+        for (LevelData level: levels) {
             Button button = new Button(this);
-            button.setText(Levels.toString());
+            button.setText(level.toString());
             button.setOnClickListener(this);
             button.setTypeface(font);
             button.setBackground(getDrawable(R.drawable.button));
@@ -89,7 +86,8 @@ public class LevelActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
-        MainActivity.currentLevel = ((TextView) view).getText().toString();
+        MainActivity.currentLevel = ((Button) view).getText().toString();
+        System.out.println("CURRENT LEVEL: "+MainActivity.currentLevel);
         startActivity(intent);
     }
 }
