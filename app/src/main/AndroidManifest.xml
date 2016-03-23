@@ -19,7 +19,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".RecordingActivity"
+            android:name=".LanguageActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name">
             <intent-filter>
@@ -37,7 +37,7 @@
             android:name=".Login"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".RecordingToolActivity"
+            android:name=".RecordingActivity"
             android:label="Recording" />
         <activity
             android:name=".MainActivity"
