@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp.resources.activities;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 /**
  * Created by janaldoustorres on 17/03/2016.
  */
-public class HolidaysActivity extends AppCompatActivity implements View.OnClickListener{
+public class HolidaysActivity extends Activity implements View.OnClickListener{
     public static String HOLIDAY_IMG = "holidayImg";
     public static String DATE = "date";
     public static String NAME_IN_LANGUAGE = "nameInLanguage";
