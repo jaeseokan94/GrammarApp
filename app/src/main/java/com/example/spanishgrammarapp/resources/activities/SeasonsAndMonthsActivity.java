@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -113,10 +114,10 @@ public class SeasonsAndMonthsActivity extends Activity {
                 imageView.setBackground(getDrawable(R.drawable.spring));
                 break;
             case "autumn":
-                imageView.setBackground(getDrawable(R.drawable.spring));
+                imageView.setBackground(getDrawable(R.drawable.autumn));
                 break;
             case "winter":
-                imageView.setBackground(getDrawable(R.drawable.spring));
+                imageView.setBackground(getDrawable(R.drawable.winter));
                 break;
         }
     }
@@ -125,7 +126,7 @@ public class SeasonsAndMonthsActivity extends Activity {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<String, List<String>>();
 
-        APIWrapper apiWrapper = new APIWrapper(database);
+        APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this.getBaseContext()));
         // Adding header data
         ArrayList<Season> seasons = apiWrapper.getSeasonsAndMonthsData(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
 
@@ -134,6 +135,7 @@ public class SeasonsAndMonthsActivity extends Activity {
             String name = season.getSeason();
             listDataHeader.add(name);
             listDataChild.put(name, season.getMonths());
+//            Log.d("season", season.getSeason());
         }
     }
 

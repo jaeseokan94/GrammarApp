@@ -652,8 +652,10 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             String month3 = jsonObject.getString("Month3");
             spring = new Season(season);
             spring.setMonth1(month1);
-            spring.setMonth1(month2);
-            spring.setMonth1(month3);
+            spring.setMonth2(month2);
+            spring.setMonth3(month3);
+
+            seasons.add(spring);
             //Summer
             jsonObject = jsonArray.getJSONObject(1);
             season = jsonObject.getString("Summer");
@@ -662,8 +664,9 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             month3 = jsonObject.getString("Month3");
             summer = new Season(season);
             summer.setMonth1(month1);
-            summer.setMonth1(month2);
-            summer.setMonth1(month3);
+            summer.setMonth2(month2);
+            summer.setMonth3(month3);
+            seasons.add(summer);
             //Autumn
             jsonObject = jsonArray.getJSONObject(2);
             season = jsonObject.getString("Autumn");
@@ -672,8 +675,9 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             month3 = jsonObject.getString("Month3");
             autumn = new Season(season);
             autumn.setMonth1(month1);
-            autumn.setMonth1(month2);
-            autumn.setMonth1(month3);
+            autumn.setMonth2(month2);
+            autumn.setMonth3(month3);
+            seasons.add(autumn);
             //Winter
             jsonObject = jsonArray.getJSONObject(3);
             season = jsonObject.getString("Winter");
@@ -682,12 +686,8 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             month3 = jsonObject.getString("Month3");
             winter = new Season(season);
             winter.setMonth1(month1);
-            winter.setMonth1(month2);
-            winter.setMonth1(month3);
-
-            seasons.add(spring);
-            seasons.add(summer);
-            seasons.add(autumn);
+            winter.setMonth2(month2);
+            winter.setMonth3(month3);
             seasons.add(winter);
 
         } catch (Exception e) {
