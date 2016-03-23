@@ -13,7 +13,7 @@ import com.example.spanishgrammarapp.resources.data.Numb;
 import java.util.ArrayList;
 
 /**
- * Created by janaldoustorres on 23/03/2016.
+ * Created by http://www.mkyong.com/android/android-gridview-example/
  */
 public class ImageAdapter extends BaseAdapter {
     private Context context;

@@ -18,7 +18,7 @@ import com.example.spanishgrammarapp.resources.data.Numb;
 import java.util.ArrayList;
 
 /**
- * Created by janaldoustorres on 23/03/2016.
+ * Created by http://www.mkyong.com/android/android-gridview-example/
  */
 public class NumberActivity2 extends Activity {
     private DatabaseHelper database;
