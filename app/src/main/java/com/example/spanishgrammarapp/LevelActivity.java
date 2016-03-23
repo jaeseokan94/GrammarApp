@@ -23,12 +23,8 @@ import com.example.spanishgrammarapp.Data.LevelData;
 import java.util.List;
 
 public class LevelActivity extends Activity implements OnClickListener {
-    public final static String CURRENT_LEVEL = "CURRENT_LEVEL";
-    public final static String CURRENT_LANGUAGE = "CURRENT_LANGUAGE";
     private String currentLanguage;
     private DatabaseHelper database;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +32,7 @@ public class LevelActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_level);
 
         //Get current Language from intent
-        currentLanguage = getIntent().getStringExtra("CURRENT_LANGUAGE");
+        currentLanguage = MainActivity.currentLanguage;
 
         //Set up
         //TextView textView = (TextView) findViewById(R.id.tv_level);
@@ -85,6 +81,10 @@ public class LevelActivity extends Activity implements OnClickListener {
         }
     }
 
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, LanguageActivity.class));
+    }
 
     @Override
     public void onClick(View view) {

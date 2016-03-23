@@ -160,8 +160,8 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     TOPICLIST PARAMETER ONLY LEVEL
     IT WILL RETURN ARRAYLIST OF TOPICS
      */
-    public ArrayList getTopicList(String level){
-        String topicURL=URL+"/"+level+"/topicList";
+    public ArrayList<String> getTopicList(){
+        String topicURL=URL+"/"+MainActivity.currentLevel+"/topicList";
         ArrayList<String> topicList = new ArrayList<String>();
 
         try {

@@ -2,23 +2,39 @@ package com.example.spanishgrammarapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class ExerciseReview extends Activity {
+
+    private Typeface font;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        font = Typeface.createFromAsset(getAssets(), "font2.ttf");
         ScrollView scrollView = new ScrollView(this);
+        scrollView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setContentView(scrollView);
         scrollView.setBackground(getDrawable(R.drawable.bkg));
         RelativeLayout relativeLayout = new RelativeLayout(this);
@@ -34,57 +50,77 @@ public class ExerciseReview extends Activity {
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
         int screenWidth = size.x;
-        int screenHeight = size.y;
 
-        GridLayout gridLayout = new GridLayout(this);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        relativeLayout.addView(gridLayout, layoutParams);
-        gridLayout.setColumnCount(3);
         TableLayout tableLayout = new TableLayout(this);
-        TableLayout.LayoutParams layoutParams1 =  new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//        GridLayout.Spec columnSpec1 = GridLayout.spec(0, 1.0f);
-//        GridLayout.Spec rowSpec1 = GridLayout.spec(GridLayout.UNDEFINED);
-//        GridLayout.LayoutParams gridParams1 = new GridLayout.LayoutParams(rowSpec1, columnSpec1);
-//        gridParams1.width = screenWidth/8;
-//
-//        GridLayout.Spec columnSpec2 = GridLayout.spec(1, 5.0f);
-//        GridLayout.Spec rowSpec2 = GridLayout.spec(GridLayout.UNDEFINED);
-//        GridLayout.LayoutParams gridParams2 = new GridLayout.LayoutParams(rowSpec2, columnSpec2);
-//        gridParams2.width = 6*(screenWidth/8);
-//
-//        GridLayout.Spec columnSpec3 = GridLayout.spec(2, 1.0f);
-//        GridLayout.Spec rowSpec3 = GridLayout.spec(GridLayout.UNDEFINED);
-//        GridLayout.LayoutParams gridParams3 = new GridLayout.LayoutParams(rowSpec3, columnSpec3);
-//        gridParams3.width = screenWidth/8;
+        TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+        tableLayout.setLayoutParams(tableParams);
+
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        relativeLayout.addView(tableLayout, layoutParams);
+
+        TableRow tableRow = new TableRow(this);
+        TableLayout.LayoutParams rowParams =
+                new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+        rowParams.width=screenWidth;
+        tableRow.setLayoutParams(rowParams);
 
         int questionNumber = 1;
         TextView header1 = new TextView(this); //1st header
-        header1.setText("# | ");
+        header1.setText("#");
+        header1.setBackgroundColor(Color.parseColor("#739DA5A8"));
         header1.setTextSize(20);
-        gridLayout.addView(header1);
+        header1.setTypeface(font);
+        tableRow.addView(header1);
         TextView header2 = new TextView(this); //2nd header
-        header2.setText("Question |");
+        header2.setText("Question");
+        header2.setBackgroundColor(Color.parseColor("#73DAE6EB"));
         header2.setTextSize(20);
-        gridLayout.addView(header2);
+        header2.setTypeface(font);
+        tableRow.addView(header2);
         TextView header3 = new TextView(this); //3rd header
         header3.setText("Correct");
         header3.setTextSize(20);
-        gridLayout.addView(header3);
+        header3.setTypeface(font);
+        tableRow.addView(header3);
+        tableLayout.addView(tableRow);
         for(Question q : getExercise().getQuestions()){
+            TableRow tableRowQ = new TableRow(this);
+            tableRowQ.setLayoutParams(rowParams);
+
             TextView number = new TextView(this);
-            number.setText(questionNumber + "");
+            number.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+            number.setText(questionNumber + ")");
             number.setTextSize(20);
-            gridLayout.addView(number);
+            number.setTypeface(font);
+            tableRowQ.addView(number);
 
             TextView question = new TextView(this);
+            if(questionNumber%2==0){ //alternate colours for rows
+                question.setBackgroundColor(Color.parseColor("#73DAE6EB"));
+            }else{
+                question.setBackgroundColor(Color.parseColor("#739DA5A8"));
+            }
+            question.setLayoutParams(new TableRow.LayoutParams((int) (screenWidth * 0.65), TableRow.LayoutParams.WRAP_CONTENT));
             question.setTextSize(20);
+            question.setTypeface(font);
             question.setText(q.getQuestion());
-            gridLayout.addView(question);
+            tableRowQ.addView(question);
 
-            TextView textView = new TextView(this);
-            textView.setText(q.isCompleted() + "");
-            textView.setTextSize(20);
-            gridLayout.addView(textView);
+            LinearLayout linearLayout = new LinearLayout(this);
+            linearLayout.setGravity(Gravity.CENTER);
+            ImageView imageView = new ImageView(this);
+            TableRow.LayoutParams imageParams = new TableRow.LayoutParams(70,70);
+            imageView.setLayoutParams(imageParams);
+            if(q.isCompleted()){
+                imageView.setBackground(getDrawable(R.drawable.check));
+            }else{
+                imageView.setBackground(getDrawable(R.drawable.cross));
+            }
+            linearLayout.addView(imageView);
+            tableRowQ.addView(linearLayout);
+
+            tableLayout.addView(tableRowQ);
+            ++questionNumber;
         }
     }
 

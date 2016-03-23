@@ -10,6 +10,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,8 +66,6 @@ public class TopicActivity extends Activity implements OnClickListener {
         //This will pass subtopicList from Database
         ArrayList<String> subtopics = subtopicAPI.getSubtopicList(language, level, topic);
 
-
-
         for (String subtopicTitle: subtopics) {
             Button button = new Button(this);
             button.setText(subtopicTitle);
@@ -87,7 +87,6 @@ public class TopicActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         String subtopicTitle = ((TextView) v).getText().toString();
-
         Intent intent = new Intent(this, GrammarVideoActivity.class);
         intent.putExtra(CURRENT_TOPIC, currentTopic);
         intent.putExtra(SUBTOPIC, subtopicTitle);
