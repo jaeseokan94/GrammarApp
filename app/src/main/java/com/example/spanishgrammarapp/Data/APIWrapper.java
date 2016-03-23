@@ -601,7 +601,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
     public ArrayList<Holiday> getHolidays(String language, String dialect) {
         //TODO implement this method
         String resourceHolidayURL = URL+"/"+language+"/"+dialect+"/Holidays";
-
+        System.out.print("URL     HOLIDAY URL " + resourceHolidayURL);
         ArrayList<Holiday> holidays = new ArrayList<Holiday>();
 
         try {
@@ -611,12 +611,13 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                String name_english= jsonObject.getString("word");
-                String name_language = jsonObject.getString("pronounciation_guide_or_date");
-                String date = jsonObject.getString("audio_url");
-                String imgURL = jsonObject.getString("audio_url");
+                String name_english= jsonObject.getString("phrase");
+                String name_language = jsonObject.getString("phrase_in_language"); //
+                String pictureUrl = jsonObject.getString("picture_url"); //image url
+                String audioUrl = jsonObject.getString("audio_url");
 
-                holidays.add(new Holiday(name_english, name_language, date, imgURL));
+                holidays.add(new Holiday(name_english, name_language, audioUrl, pictureUrl));
+                System.out.println(" HOLIDAY DEBUG " + holidays);
             }
         } catch (Exception e) {
             System.out.println("JSON EXCEPTION ERROR HERE");

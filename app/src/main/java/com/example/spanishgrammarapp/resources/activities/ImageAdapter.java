@@ -51,8 +51,9 @@ public class ImageAdapter extends BaseAdapter {
                     .findViewById(R.id.grid_holiday_image);
 
             String url = holidays.get(position).getImageURL();
-
+            System.out.println("IMAGE URL "+url);
             Uri uri = Uri.parse(url);
+            System.out.println("URI :"+uri);
             imageView.setImageURI(uri);
 
         } else {

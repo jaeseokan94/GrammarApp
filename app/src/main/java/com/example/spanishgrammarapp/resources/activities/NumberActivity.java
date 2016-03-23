@@ -31,7 +31,7 @@ public class NumberActivity extends Activity {
 
         APIWrapper apiWrapper = new APIWrapper(database);
         ArrayList<Numb> numbs = new ArrayList<>();
-        numbs = apiWrapper.getNumbs(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        numbs = apiWrapper.getNumbs(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
 
         gridView = (GridView) findViewById(R.id.gridView1);
 

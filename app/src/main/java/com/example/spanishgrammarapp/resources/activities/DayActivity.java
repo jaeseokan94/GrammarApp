@@ -37,7 +37,7 @@ public class DayActivity extends AppCompatActivity {
 
         APIWrapper apiWrapper = new APIWrapper(database);
         ArrayList<Day> days = new ArrayList<>();
-        days = apiWrapper.getDays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        days = apiWrapper.getDays(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
 
 
         gridView = (GridView) findViewById(R.id.gridView1);
