@@ -13,9 +13,7 @@ import com.example.spanishgrammarapp.resources.data.Letter;
 
 import java.util.ArrayList;
 
-/**
- * Created by http://www.mkyong.com/android/android-gridview-example/
- */
+
 public class DayAdapter extends BaseAdapter {
     private Context context;
     private final ArrayList<Day> mobileValues;

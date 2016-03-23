@@ -12,9 +12,7 @@ import com.example.spanishgrammarapp.resources.data.Numb;
 
 import java.util.ArrayList;
 
-/**
- * Created by http://www.mkyong.com/android/android-gridview-example/
- */
+
 public class WordAdapter extends BaseAdapter {
     private Context context;
     private final ArrayList<Numb> mobileValues;
