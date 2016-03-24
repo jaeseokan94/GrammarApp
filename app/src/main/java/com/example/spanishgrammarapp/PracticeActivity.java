@@ -68,14 +68,14 @@ public class PracticeActivity extends Activity {
             buttons.add(button);
             mainLayout.addView(button);
         }
-        if(MainActivity.currentLevel.toLowerCase().contains("beginner")) {
-            buttons.get(0).setBackground(getDrawable(R.drawable.greetings));
-            buttons.get(1).setBackground(getDrawable(R.drawable.checkin));
-            buttons.get(2).setBackground(getDrawable(R.drawable.sight));
+        if(MainActivity.currentLevel.toLowerCase().equals("beginner")) {
+            buttons.get(0).setBackground(getDrawable(R.drawable.planning));
+            buttons.get(1).setBackground(getDrawable(R.drawable.likes));
+            buttons.get(2).setBackground(getDrawable(R.drawable.eating));
             buttons.get(3).setBackground(getDrawable(R.drawable.directions));
-            buttons.get(4).setBackground(getDrawable(R.drawable.eating));
-            buttons.get(5).setBackground(getDrawable(R.drawable.likes));
-            buttons.get(6).setBackground(getDrawable(R.drawable.planning));
+            buttons.get(4).setBackground(getDrawable(R.drawable.sight));
+            buttons.get(5).setBackground(getDrawable(R.drawable.greetings));
+            buttons.get(6).setBackground(getDrawable(R.drawable.checkin));
             buttons.get(7).setBackground(getDrawable(R.drawable.shopping));
             buttons.get(8).setBackground(getDrawable(R.drawable.dating));
         }else {
