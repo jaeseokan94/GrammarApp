@@ -89,8 +89,9 @@ public class TopicActivity extends Activity implements OnClickListener {
             Intent intent = new Intent(this,ListeningComprehensionActivity.class);
 
             APIWrapper api = new APIWrapper(new DatabaseHelper(this));
-            //ArrayList<String> sitVid = api.apiSituationalVideoURLs(getIntent().getStringExtra(MainActivity.TOPIC));
+
             ListeningComprehension listeningComprehension = api.apiListeningComprhension(getIntent().getStringExtra(MainActivity.TOPIC));
+            System.out.println("listening comprehension appear?");
             String url = listeningComprehension.getUrl();
             ArrayList<Integer> cAnswers = listeningComprehension.getAnswers();
             ArrayList<String> answers = listeningComprehension.getChoices();
