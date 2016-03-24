@@ -499,6 +499,8 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
                 letters.add(new Letter(letter, pronounciation, audioUrl));
                 System.out.println("Letter " + letters.toString() + "letter one" + letter.toString());
+
+
             }
         } catch (Exception e) {
             System.out.println("JSON EXCEPTION ERROR HERE");
@@ -544,7 +546,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
     //for the Calendar activity tempor
 
-    public  ArrayList<Numb> getNumbs(String language, String dialect) {
+    public ArrayList<Numb> getNumbs(String language, String dialect) {
         //TODO implement this method
 
         ArrayList<Numb> numbs = new ArrayList<Numb>();
@@ -559,7 +561,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                String numb= jsonObject.getString("word");
+                String numb = jsonObject.getString("word");
                 String pronounciationNumb = jsonObject.getString("word_in_language");
                 String numAudioUrl = jsonObject.getString("audio_url");
 
@@ -570,6 +572,12 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             System.out.println("JSON EXCEPTION ERROR HERE");
             e.printStackTrace();
         }
+
+        //this code is for testing
+//        ArrayList<Numb> fake = new ArrayList<>();
+//        fake.add(new Numb("fake1", "fake2", "fake3"));
+//        return fake;
+
 
         return numbs;
     }

@@ -22,10 +22,10 @@ public class HolidayInstanceActivity extends Activity {
         setContentView(R.layout.activity_holiday_instance);
 
         //Get intents
-        String imgURL = getIntent().getStringExtra(HolidaysActivity.HOLIDAY_IMG);
-        String date = getIntent().getStringExtra(HolidaysActivity.DATE);
-        String nameInLanguage = getIntent().getStringExtra(HolidaysActivity.NAME_IN_LANGUAGE);
-        String nameInEnglish = getIntent().getStringExtra(HolidaysActivity.NAME_IN_ENGLISH);
+//        String imgURL = getIntent().getStringExtra(HolidaysActivity.HOLIDAY_IMG);
+//        String date = getIntent().getStringExtra(HolidaysActivity.DATE);
+//        String nameInLanguage = getIntent().getStringExtra(HolidaysActivity.NAME_IN_LANGUAGE);
+//        String nameInEnglish = getIntent().getStringExtra(HolidaysActivity.NAME_IN_ENGLISH);
 
         //Set references to xml views
         //ImageView ivImg = (ImageView) findViewById(R.id.iv_holiday_image);
@@ -38,8 +38,8 @@ public class HolidayInstanceActivity extends Activity {
         //Set values to views
         //TODO make drawable into actual image
         //ivImg.setImageDrawable(getDrawable(R.drawable.b));
-        tvDate.setText(date);
-        tvNameInLanguage.setText(nameInLanguage);
-        tvNameInEnglish.setText(nameInEnglish);
+//        tvDate.setText(date);
+//        tvNameInLanguage.setText(nameInLanguage);
+//        tvNameInEnglish.setText(nameInEnglish);
     }
 }

@@ -1,17 +1,10 @@
 package com.example.spanishgrammarapp.resources.activities;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,44 +13,41 @@ import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.R;
 import com.example.spanishgrammarapp.ResourcesActivity;
-import com.example.spanishgrammarapp.resources.data.Holiday;
 import com.example.spanishgrammarapp.resources.data.Numb;
 
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-/**
- * Created by janaldoustorres on 17/03/2016.
- */
-public class HolidaysActivity extends Activity {
+
+public class NumberActivity extends Activity {
     private DatabaseHelper database;
-    GridView gridView;
+    private GridView gridView;
 
-    APIWrapper apiWrapper = new APIWrapper(database);
-    //ArrayList<Holiday> holidays = apiWrapper.getHolidays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
-    ArrayList<Holiday> holidays = new ArrayList<Holiday>();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.holiday_layout);
+        setContentView(R.layout.activity_number);
 
-        gridView = (GridView) findViewById(R.id.gridView_holiday);
+        APIWrapper apiWrapper = new APIWrapper(database);
+        ArrayList<Numb> numbs = new ArrayList<>();
+        numbs = apiWrapper.getNumbs(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
 
-        gridView.setAdapter(new ImageAdapter(this, holidays));
-        System.out.print(holidays);
+        gridView = (GridView) findViewById(R.id.gridView1);
+
+        gridView.setAdapter(new WordAdapter(this, numbs));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 Toast.makeText(
                         getApplicationContext(),
-                        ((TextView) v.findViewById(R.id.grid_holiday_label))
+                        ((TextView) v.findViewById(R.id.grid_item_another_word))
                                 .getText(), Toast.LENGTH_SHORT).show();
 
             }
         });
+
     }
+
 }
