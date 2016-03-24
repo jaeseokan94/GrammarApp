@@ -34,12 +34,13 @@ public class HolidaysActivity extends Activity {
     private DatabaseHelper database;
     GridView gridView;
 
-    APIWrapper apiWrapper = new APIWrapper(database);
-    //ArrayList<Holiday> holidays = apiWrapper.getHolidays(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
-    ArrayList<Holiday> holidays = new ArrayList<Holiday>();
+//    ArrayList<Holiday> holidays = new ArrayList<Holiday>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        APIWrapper apiWrapper = new APIWrapper(database);
+
+        ArrayList<Holiday> holidays = apiWrapper.getHolidays(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.holiday_layout);

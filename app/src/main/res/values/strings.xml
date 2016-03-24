@@ -10,6 +10,8 @@
     <string name="credits">Credits</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_learn">LearnActivity</string>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_practice">PracticeActivity</string>

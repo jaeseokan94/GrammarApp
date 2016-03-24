@@ -7,8 +7,10 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -41,6 +43,10 @@ public class SeasonsAndMonthsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seasons_and_months);
 
+        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_END);
+
+//        findViewById(R.id.seasons_months_layout).setLayoutParams(rlp);
         //Get resource name
         resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
 
@@ -50,7 +56,7 @@ public class SeasonsAndMonthsActivity extends Activity {
 
         //Set up
         TextView tvTitle = (TextView) findViewById(R.id.tv_title);
-        tvTitle.setText(resource + " - " + getIntent().getStringExtra(MainActivity.DIALECT) + " accent");
+        tvTitle.setText(resource + " - " + getIntent().getStringExtra(MainActivity.DIALECT) + " accent.");
 
         TextView tvInstructions = (TextView) findViewById(R.id.tv_instructions);
         tvInstructions.setText(instructions);
@@ -59,6 +65,7 @@ public class SeasonsAndMonthsActivity extends Activity {
 
         //Set up expandable list view
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+//        expandableListView.setLayoutParams(rlp);
 
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -99,10 +106,10 @@ public class SeasonsAndMonthsActivity extends Activity {
                 imageView.setBackground(getDrawable(R.drawable.spring));
                 break;
             case "summer":
-                imageView.setBackground(getDrawable(R.drawable.spring));
+                imageView.setBackground(getDrawable(R.drawable.summer));
                 break;
             case "autumn":
-                imageView.setBackground(getDrawable(R.drawable.spring));
+                imageView.setBackground(getDrawable(R.drawable.autumn));
                 break;
             case "winter":
                 imageView.setBackground(getDrawable(R.drawable.winter));
@@ -117,6 +124,7 @@ public class SeasonsAndMonthsActivity extends Activity {
         APIWrapper apiWrapper = new APIWrapper(database);
         // Adding header data
         ArrayList<Season> seasons = apiWrapper.getSeasonsAndMonthsData(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        System.out.print(seasons);
 
         // Adding child data
         for(Season season: seasons) {
@@ -132,6 +140,7 @@ public class SeasonsAndMonthsActivity extends Activity {
 
         // Adding header data
         ArrayList<Time> times = APIWrapper.getTimeData(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        System.out.print(times);
 
         // Adding child data
         for(Time time: times) {
