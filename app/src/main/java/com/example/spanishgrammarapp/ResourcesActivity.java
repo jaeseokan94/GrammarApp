@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
-import com.example.spanishgrammarapp.resources.activities.CalendarActivity;
 import com.example.spanishgrammarapp.resources.activities.AlphabetActivity;
+import com.example.spanishgrammarapp.resources.activities.CalendarActivity;
+import com.example.spanishgrammarapp.resources.activities.DayActivity;
 import com.example.spanishgrammarapp.resources.activities.DialectActivity;
 import com.example.spanishgrammarapp.resources.activities.HolidaysActivity;
+import com.example.spanishgrammarapp.resources.activities.NumberActivity;
 import com.example.spanishgrammarapp.resources.activities.SeasonsAndMonthsActivity;
 
 public class ResourcesActivity extends Activity {
@@ -40,14 +42,14 @@ public class ResourcesActivity extends Activity {
     }
 
     public void showNumbersActivity(View v){
-        Intent intent = new Intent(this, AlphabetActivity.class);
+        Intent intent = new Intent(this, NumberActivity.class);
         intent.putExtra(RESOURCE_NAME, NUMBERS);
         intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(DialectActivity.DIALECT));
         startActivity(intent);
     }
 
     public void showDaysActivity(View v){
-        Intent intent = new Intent(this, CalendarActivity.class);
+        Intent intent = new Intent(this, DayActivity.class);
         intent.putExtra(RESOURCE_NAME, DAYS);
         intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(DialectActivity.DIALECT));
         startActivity(intent);

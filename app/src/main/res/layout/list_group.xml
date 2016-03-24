@@ -15,4 +15,10 @@
         android:textSize="17dp"
         android:textColor="#f9f93d" />
 
+    <ImageView
+        android:id="@+id/clockView"
+        android:layout_gravity="center"
+        android:layout_width="160dp"
+        android:layout_height="30dp" />
+
 </LinearLayout>

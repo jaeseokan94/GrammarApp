@@ -2,9 +2,14 @@ package com.example.spanishgrammarapp.resources.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
@@ -15,6 +20,8 @@ import com.example.spanishgrammarapp.ResourcesActivity;
 import com.example.spanishgrammarapp.resources.data.Season;
 import com.example.spanishgrammarapp.resources.data.Time;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +34,7 @@ public class SeasonsAndMonthsActivity extends Activity {
     private ArrayList<String> listDataHeader;
     private HashMap<String, List<String>> listDataChild;
     DatabaseHelper database;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +55,29 @@ public class SeasonsAndMonthsActivity extends Activity {
         TextView tvInstructions = (TextView) findViewById(R.id.tv_instructions);
         tvInstructions.setText(instructions);
 
+        imageView = (ImageView) findViewById(R.id.iv_seasons_months);
+
         //Set up expandable list view
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                String season= "spring";
+                switch(groupPosition){
+                    case 0:season="spring";
+                        break;
+                    case 1:season="summer";
+                        break;
+                    case 2:season="autumn";
+                        break;
+                    case 3:season="winter";
+                        break;
+                }
+                setImageBackground(season);
+                return false;
+            }
+        });
 
 
         // preparing list data
@@ -62,6 +91,23 @@ public class SeasonsAndMonthsActivity extends Activity {
 
         // setting list adapter
         expandableListView.setAdapter(listAdapter);
+    }
+
+    private void setImageBackground(String season){
+        switch (season){
+            case "spring":
+                imageView.setBackground(getDrawable(R.drawable.spring));
+                break;
+            case "summer":
+                imageView.setBackground(getDrawable(R.drawable.spring));
+                break;
+            case "autumn":
+                imageView.setBackground(getDrawable(R.drawable.spring));
+                break;
+            case "winter":
+                imageView.setBackground(getDrawable(R.drawable.winter));
+                break;
+        }
     }
 
     private void prepareSeasonsListData() {
@@ -94,6 +140,16 @@ public class SeasonsAndMonthsActivity extends Activity {
             List<String> item = new ArrayList<String>();
             item.add(time.getTime_language());
             listDataChild.put(time_digital, item);
+        }
+    }
+
+    public static Drawable loadImageFromURL(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            return null;
         }
     }
     @Override
