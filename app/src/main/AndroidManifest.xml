@@ -73,7 +73,7 @@
         <activity
             android:name=".GrammarVideoActivity"
             android:label="@string/title_activity_grammar_video" />
-        <activity android:name=".ListeningComprehension" />
+        <activity android:name=".ListeningComprehensionActivity" />
         <activity
             android:name=".ExerciseReview"
             android:label="@string/title_activity_exercise_review"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +22,7 @@ public class TopicActivity extends Activity implements OnClickListener {
     public final static String CURRENT_TOPIC = "CURRENT_TOPIC";
     public final static String SUBTOPIC = "SUBTOPIC";
     private String currentTopic;
+    private Button listenComp;
 
 
     @Override
@@ -59,8 +61,16 @@ public class TopicActivity extends Activity implements OnClickListener {
             Button button = new Button(this);
             button.setText(subtopicTitle);
             button.setOnClickListener(this);
+            button.setBackground(getDrawable(R.drawable.button));
             mainLayout.addView(button);
         }
+
+        listenComp = new Button(this);
+        listenComp.setTag(901);
+        listenComp.setText("Listening Comprehension");
+        listenComp.setOnClickListener(this);
+        listenComp.setBackground(getDrawable(R.drawable.button));
+        mainLayout.addView(listenComp);
     }
 
     /**
@@ -75,10 +85,26 @@ public class TopicActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (v.getTag()==listenComp.getTag()){
+            Intent intent = new Intent(this,ListeningComprehensionActivity.class);
+
+            APIWrapper api = new APIWrapper(new DatabaseHelper(this));
+            //ArrayList<String> sitVid = api.apiSituationalVideoURLs(getIntent().getStringExtra(MainActivity.TOPIC));
+            ListeningComprehension listeningComprehension = api.apiListeningComprhension(getIntent().getStringExtra(MainActivity.TOPIC));
+            String url = listeningComprehension.getUrl();
+            ArrayList<Integer> cAnswers = listeningComprehension.getAnswers();
+            ArrayList<String> answers = listeningComprehension.getChoices();
+
+            intent.putExtra("answers",answers);
+            intent.putExtra("cAnswers",cAnswers);
+            intent.putExtra("url",url);
+            startActivity(intent);
+
+        }else{
         String subtopicTitle = ((TextView) v).getText().toString();
         Intent intent = new Intent(this, GrammarVideoActivity.class);
         intent.putExtra(CURRENT_TOPIC, currentTopic);
         intent.putExtra(SUBTOPIC, subtopicTitle);
-        startActivity(intent);
+        startActivity(intent);}
     }
 }

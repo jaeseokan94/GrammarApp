@@ -1,9 +1,11 @@
 package com.example.spanishgrammarapp.Data;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.spanishgrammarapp.Exercise;
 import com.example.spanishgrammarapp.Glossary;
+import com.example.spanishgrammarapp.ListeningComprehension;
 import com.example.spanishgrammarapp.MainActivity;
 import com.example.spanishgrammarapp.Question;
 import com.example.spanishgrammarapp.resources.data.Day;
@@ -416,15 +418,15 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 String situation_description =jsonObject.getString("situation_description"); // get question_text from API
-                String video_with_transcript =  URLMEDIA+jsonObject.getString("video_with_transcript");
-                String video_without_transcript=  URLMEDIA+jsonObject.getString("video_without_transcript");
+                String video_with_transcript =  jsonObject.getString("video_with_transcript");
+                String video_without_transcript=  jsonObject.getString("video_without_transcript");
 
                 urlList.add(situation_description);
                 urlList.add(video_with_transcript);
                 urlList.add(video_without_transcript);
 
                 System.out.println("JSON PASSED TO DATABASE");
-                System.out.println("url info  "+urlList.get(1));
+                System.out.println("url info  " + urlList.get(1));
             }
         } catch (Exception e) {
             System.out.println("JSON EXCEPTION ERROR");
@@ -433,6 +435,65 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
 
     return urlList;
+    }
+
+
+    /**
+     * returns urls of situational video transcript and without transcript
+     * @param topicName
+     * @return urls[0] of situational video with transcript;
+     *          urls[1] situational video without transcript
+     */
+    public ListeningComprehension apiListeningComprhension(String topicName) {
+        String situationalVideoURL = URL+"/"+MainActivity.currentLanguage+"/"+MainActivity.currentLevel+"/"+topicName+"/listeningComprehension" +
+                "/";
+
+
+        ListeningComprehension listeningComprehension = null;
+
+        try {
+            JSONArray jsonArray = execute(
+                    situationalVideoURL)
+                    .get(); //this link is temporary, it needs to be generalized
+
+            // [{"language_topic":2,"situation_description":"Situational Description","video_with_transcript":"/media/U01-01-Gra-Pronombres_qpIFGPh.mp4",
+            // "video_without_transcript":"/media/U01-02-Gra-llamarse.mp4"}]
+
+            System.out.println("URL FOR SITUATIONAL VIDEO - LISTEING COMP  " + situationalVideoURL);
+
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String url =  jsonObject.getString("audio_url");
+                String choice1 =  jsonObject.getString("choice_1");
+                String choice2 =  jsonObject.getString("choice_2");
+                String choice3 =  jsonObject.getString("choice_3");
+                String choice4 =  jsonObject.getString("choice_4");
+                String choice5 =  jsonObject.getString("choice_5");
+                String choice6 =  jsonObject.getString("choice_6");
+
+                ArrayList<String> choices = new ArrayList<>();
+                choices.add(choice1);
+                choices.add(choice2);
+                choices.add(choice3);
+                choices.add(choice4);
+                choices.add(choice5);
+                choices.add(choice6);
+
+                String cAnswers = jsonObject.getString("correct_answers");
+
+                listeningComprehension = new ListeningComprehension(url, choices, cAnswers);
+
+                System.out.println("JSON PASSED TO DATABASE");
+                System.out.println("url info  "+listeningComprehension.getUrl());
+            }
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR");
+            e.printStackTrace();
+        }
+
+        return listeningComprehension;
+
     }
 
     /**
