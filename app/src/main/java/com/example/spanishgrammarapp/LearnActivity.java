@@ -91,7 +91,7 @@ public class LearnActivity extends Activity {
     public void enterTopic(View view){
         Intent intent = new Intent(this, TopicActivity.class);
         String message = (String) view.getTag();
-        intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(MainActivity.TOPIC, message);
         startActivity(intent);
     }
 
@@ -143,7 +143,6 @@ public class LearnActivity extends Activity {
         return true;
     }
 
-    //get video code from Shubham
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

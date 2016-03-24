@@ -32,6 +32,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
     private final DatabaseHelper database;
 
+    private  final static String URLMEDIA = "http://lang-it-up.herokuapp.com/";
     private final static String URL = "http://lang-it-up.herokuapp.com/polls/api";
 
     private final ArrayList<String> topicList = new ArrayList<String>(Arrays.asList("Greeting", "Checking in",
@@ -201,7 +202,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                 String subtopic_name= jsonObject.getString("subtopic_name");
                 System.out.print("SUBTOPIC JSON PARSER");
                 subtopicsList.add(subtopic_name);
-                System.out.print("subtopic error"+subtopic_name+ "URL "+ subtopicURL);
+                System.out.print("subtopic error" + subtopic_name + "URL " + subtopicURL);
             }
 
         } catch (Exception e) {
@@ -239,12 +240,12 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
                     String questionText = jsonObject.getString("question_text"); // get question_text from API
                     String questionType = "dd";
-                    answers.add(jsonObject.getString("choice_1"));
-                    answers.add(jsonObject.getString("choice_2"));
-                    answers.add(jsonObject.getString("choice_3"));
-                    answers.add(jsonObject.getString("choice_4"));
-                    answers.add(jsonObject.getString("choice_5"));
-                    answers.add(jsonObject.getString("choice_6"));
+                    answers.add(URLMEDIA+jsonObject.getString("choice_1"));
+                    answers.add(URLMEDIA+jsonObject.getString("choice_2"));
+                    answers.add(URLMEDIA+jsonObject.getString("choice_3"));
+                    answers.add(URLMEDIA+jsonObject.getString("choice_4"));
+                    answers.add(URLMEDIA+jsonObject.getString("choice_5"));
+                    answers.add(URLMEDIA+jsonObject.getString("choice_6"));
                     //answers.add(jsonObject.getString("correct_answer"));
                     String correct_answer = jsonObject.getString("correct_answer");
                     Question question = new Question(questionType, questionText, correct_answer, answers);
@@ -335,21 +336,65 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
          * @return urls[0] of situational video with transcript;
          *          urls[1] situational video without transcript
          */
-    public Uri apiSituationalVideoURLs(String topicName) {
+    public ArrayList<String> apiSituationalVideoURLs(String topicName) {
         //TODO code here for getting url for situational video
-        String SituationalVideoURL = URL+"/"+topicName+"/situationalVideo/";
+        String SituationalVideoURL = URL+"/"+MainActivity.currentLanguage+"/"+MainActivity.currentLevel+"/"+topicName+"/situationalVideo/";
 
         //String url is temporary
-        Uri[] urls = new Uri[2];
+     //   Uri[] urls = new Uri[2];
         //without transcript
-        urls[0] = Uri.parse("https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3");
+     //   urls[0] = Uri.parse("https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3");
         //with transcript
-        urls[1] = Uri.parse("https://lang-it-up.herokuapp.com/media/U01-01.mp4");
+     //   urls[1] = Uri.parse("https://lang-it-up.herokuapp.com/media/U01-01.mp4");
 
+        ArrayList<String> urlList = new ArrayList<>(3);
         try {
             JSONArray jsonArray = execute(
-                    "https://lang-it-up.herokuapp.com/polls/api/Spanish/b/Greeting/situationalVideo/")
+            SituationalVideoURL)
                     .get(); //this link is temporary, it needs to be generalized
+
+            // [{"language_topic":2,"situation_description":"Situational Description","video_with_transcript":"/media/U01-01-Gra-Pronombres_qpIFGPh.mp4",
+            // "video_without_transcript":"/media/U01-02-Gra-llamarse.mp4"}]
+
+            System.out.println("URL FOR SITUATIONAL VIDEO  " + SituationalVideoURL);
+
+            for(int i = 0 ; i < jsonArray.length(); i++ ){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String situation_description =jsonObject.getString("situation_description"); // get question_text from API
+                String video_with_transcript =  URLMEDIA+jsonObject.getString("video_with_transcript");
+                String video_without_transcript=  URLMEDIA+jsonObject.getString("video_without_transcript");
+
+                urlList.add(situation_description);
+                urlList.add(video_with_transcript);
+                urlList.add(video_without_transcript);
+
+                System.out.println("JSON PASSED TO DATABASE");
+                System.out.println("url info  "+urlList.get(1));
+            }
+        } catch (Exception e) {
+            System.out.println("JSON EXCEPTION ERROR");
+            e.printStackTrace();
+        }
+
+
+    return urlList;
+    }
+
+    /**
+     * return grammar video url of a subtopic
+     * @param topicName
+     * @param subtopicName
+     * @return grammar video url
+     */
+    public  Uri apiGrammarVideoUri(String topicName, String subtopicName) {
+        //TODO implement this method
+        String uri = "https://lang-it-up.herokuapp.com/media/U01-01.mp4";
+
+        String grammarVideoURL = URL+"/"+topicName+"/"+subtopicName+"/"+"grammarVideo";
+
+        try {
+            JSONArray jsonArray = execute(grammarVideoURL).get(); //this link is temporary, it needs to be generalized
 
             // [{"language_topic":2,"situation_description":"Situational Description","video_with_transcript":"/media/U01-01-Gra-Pronombres_qpIFGPh.mp4",
             // "video_without_transcript":"/media/U01-02-Gra-llamarse.mp4"}]
@@ -369,21 +414,6 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             e.printStackTrace();
         }
 
-
-    return null;
-    }
-
-    /**
-     * return grammar video url of a subtopic
-     * @param topicName
-     * @param subtopicName
-     * @return grammar video url
-     */
-    public static Uri apiGrammarVideoUri(String topicName, String subtopicName) {
-        //TODO implement this method
-        String uri = "https://lang-it-up.herokuapp.com/media/U01-01.mp4";
-
-        String url = URL+"/"+topicName+"/"+subtopicName+"/"+"grammarVideo";
         return Uri.parse(uri);
     }
 

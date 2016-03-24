@@ -5,15 +5,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.APIWrapper;
@@ -34,7 +30,7 @@ public class TopicActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_topic);
 
         //Get current topic from intent
-        currentTopic = getIntent().getStringExtra("TOPIC");
+        currentTopic = getIntent().getStringExtra(MainActivity.TOPIC);
 
         //Set up
         Typeface font = Typeface.createFromAsset(getAssets(), "font2.ttf");
@@ -57,14 +53,11 @@ public class TopicActivity extends Activity implements OnClickListener {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_id);
         mainLayout.setBackgroundColor(Color.rgb(118, 178, 197));
         mainLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-        // Get language level topic from proper variable
-        String language = "Spanish";
-        String level = "b";
-        String topic = "Greeting";
+
 
         APIWrapper subtopicAPI = new APIWrapper(db);
         //This will pass subtopicList from Database
-        ArrayList<String> subtopics = subtopicAPI.getSubtopicList(language, level, topic);
+        ArrayList<String> subtopics = subtopicAPI.getSubtopicList(MainActivity.currentLanguage, MainActivity.currentLevel, currentTopic);
 
         for (String subtopicTitle: subtopics) {
             Button button = new Button(this);

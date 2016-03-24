@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.DragEvent;
 import android.view.KeyEvent;
@@ -371,7 +370,7 @@ public class ExercisesActivity extends AppCompatActivity {
             exerciseReceived.incrementCorrectlyAnswered(); //increment the number of correctly answered questions for the Exercise object
         }
         if(qType.equals(dragAndDrop)){
-            if(answers.indexOf(view.getTag())==Integer.parseInt(cAnswer)){
+            if(answers.indexOf(view.getTag())==Integer.parseInt(cAnswer)-1){
                 correct =true;
             }else{
                 correct=false;
@@ -532,6 +531,7 @@ public class ExercisesActivity extends AppCompatActivity {
         intent.putExtra(IDENTIFIER ,getIntent().getStringExtra(MainActivity.TOPIC) + "/" + getIntent().getStringExtra(MainActivity.SUBTOPIC)+"/"+exercise.getId());
         intent.putExtra(MainActivity.TOPIC, getIntent().getStringExtra(MainActivity.TOPIC));
         intent.putExtra(MainActivity.SUBTOPIC, getIntent().getStringExtra(MainActivity.SUBTOPIC));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
