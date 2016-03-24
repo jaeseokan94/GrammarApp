@@ -46,11 +46,11 @@ public class SeasonsAndMonthsActivity extends Activity {
 
         //Get instructions from API
         String instructions = APIWrapper.getInstructions(MainActivity.currentLanguage,
-                ResourcesActivity.DIALECT, resource);
+                getIntent().getStringExtra(MainActivity.DIALECT), resource);
 
         //Set up
         TextView tvTitle = (TextView) findViewById(R.id.tv_title);
-        tvTitle.setText(resource + " - " + ResourcesActivity.DIALECT + " accent");
+        tvTitle.setText(resource + " - " + getIntent().getStringExtra(MainActivity.DIALECT) + " accent");
 
         TextView tvInstructions = (TextView) findViewById(R.id.tv_instructions);
         tvInstructions.setText(instructions);
@@ -143,15 +143,6 @@ public class SeasonsAndMonthsActivity extends Activity {
         }
     }
 
-    public static Drawable loadImageFromURL(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "src name");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
-    }
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(this, ResourcesActivity.class);

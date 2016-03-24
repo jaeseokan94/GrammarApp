@@ -58,6 +58,7 @@ public class AlphabetActivity extends Activity {
 
             }
         });
+    }
 
     /**
      * Plays audio recording of letter being pronounced
