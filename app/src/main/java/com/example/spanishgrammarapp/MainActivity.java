@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.resources.activities.DialectActivity;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity{
 
     public final static String TOPIC = "TOPIC";
     public final static String SUBTOPIC = "SUBTOPIC";
@@ -130,13 +130,31 @@ public class MainActivity extends Activity {
     }
 
     public void credits(View view){
+        String creditsString ="ANDROID PROJECT :"+"\n"+"\n"+
+                "Gun Park - CMS Front End and Android Resources Section"+"\n"+
+                "Jae An - CMS Back End and Integration with the app"+"\n"+
+                "Jan Aldous (Jat) Torres - CMS Back End and Front End"+"\n"+
+                "Nitin Kapoor - Recording Tool and CMS Instructions Manual"+"\n"+
+                "Oskar Slyk - Android Back End and Connecting CMS with Android"+
+                "Shubham Goel - Video Streaming Code and CMS "+"\n"+
+                "Tharshan Srikaran - Android Back End" +"\n"+
+                "Yun (Tracy) Zeng - Android Front End and Images"+"\n"+"\n"+"\n"+
+                "ORIGINAL ONLINE APP:"+"\n"+"\n"+
+                "Project Board -"+"\n"+
+                "Initial Stage: Dominique Borel and Catherine Brossard"+"\n"+
+                "Final Stage: Dr. Ana Maria Sousa Aguiar de Medeiros and Anette Schroeder Rossell"+"\n"+"\n"+
+                "Project Manager - Cecilia Trevino"+"\n"+"\n"+
+                "Instructional Design - Cecilia Trevino";
+
         Dialog creditsDialog = new Dialog(this);
         creditsDialog.setTitle("Credits");
         TextView credits = new TextView(this);
-        credits.setText(R.string.creditsDialog);
+        credits.setText(creditsString);
         creditsDialog.addContentView(credits,
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         creditsDialog.show();
+
+
     }
 
     /**This method ensures the correct behaviour of the app when the back button is pressed.*/

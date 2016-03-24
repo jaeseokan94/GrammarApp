@@ -55,14 +55,13 @@ public class RecordingActivity extends AppCompatActivity  {
     public void updatePlaylist() {
         List<String> recordings = new ArrayList<>();
 
-        if (home.listFiles().length > 0 ) {
+        if (home.listFiles()!=null && home.listFiles().length > 0 ) {
             File[] files = home.listFiles(new Mp3Filter());
             for (File file1 : files) {
                 recordings.add(file1.getName());
             }
             ArrayAdapter<String> recordingList = new ArrayAdapter<>(this, R.layout.recording_item, recordings);
             ((ListView) findViewById(R.id.listView1)).setAdapter(recordingList);
-
         }
     }
 
