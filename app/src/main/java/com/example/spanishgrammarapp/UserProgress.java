@@ -14,7 +14,8 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 /**
- * This app is meant to hold the user's progress with the completion of questions.
+ * This app is meant to hold the user's progress with the completion of questions, and this class
+ * allows it to do that.
  */
 public class UserProgress implements java.io.Serializable {
 

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-
 import android.view.Menu;
 import android.view.View;
 
@@ -25,7 +24,6 @@ public class ResourcesActivity extends Activity {
     public static String SEASONS_MONTHS = "Seasons and Months";
     public static String TIME = "Time";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,42 +35,49 @@ public class ResourcesActivity extends Activity {
     public void showAlphabetActivity(View v){
         Intent intent = new Intent(this, AlphabetActivity.class);
         intent.putExtra(RESOURCE_NAME, ALPHABET);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(DialectActivity.DIALECT));
         startActivity(intent);
     }
 
     public void showNumbersActivity(View v){
         Intent intent = new Intent(this, AlphabetActivity.class);
         intent.putExtra(RESOURCE_NAME, NUMBERS);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(DialectActivity.DIALECT));
         startActivity(intent);
     }
 
     public void showDaysActivity(View v){
         Intent intent = new Intent(this, CalendarActivity.class);
         intent.putExtra(RESOURCE_NAME, DAYS);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(DialectActivity.DIALECT));
         startActivity(intent);
     }
 
     public void showCalendarActivity(View v){
         Intent intent = new Intent(this, CalendarActivity.class);
         intent.putExtra(RESOURCE_NAME, CALENDAR);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(DialectActivity.DIALECT));
         startActivity(intent);
     }
 
     public void showHolidaysActivity(View v){
         Intent intent = new Intent(this, HolidaysActivity.class);
         intent.putExtra(RESOURCE_NAME, HOLIDAYS);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(DialectActivity.DIALECT));
         startActivity(intent);
     }
 
     public void showSeasonsAndMonthsActivity(View v) {
         Intent intent = new Intent(this, SeasonsAndMonthsActivity.class);
         intent.putExtra(RESOURCE_NAME, SEASONS_MONTHS);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(DialectActivity.DIALECT));
         startActivity(intent);
     }
 
     public void showTimeActivity(View v) {
         Intent intent = new Intent(this, SeasonsAndMonthsActivity.class);
         intent.putExtra(RESOURCE_NAME, TIME);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(DialectActivity.DIALECT));
         startActivity(intent);
     }
 
@@ -91,5 +96,10 @@ public class ResourcesActivity extends Activity {
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             System.out.println("ORIENTATION_PORTRAIT");
         }
+    }
+    /**This method ensures the correct behaviour of the app when the back button is pressed.*/
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

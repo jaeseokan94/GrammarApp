@@ -1,6 +1,8 @@
 package com.example.spanishgrammarapp.resources.activities;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -27,12 +29,12 @@ public class CalendarActivity extends Activity {
     private MediaPlayer player;
     DatabaseHelper database;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //TODO implement layout
         setContentView(R.layout.activity_calendar);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         //Get resource name
         resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
@@ -41,12 +43,8 @@ public class CalendarActivity extends Activity {
         String instructions = APIWrapper.getInstructions(MainActivity.currentLanguage,
                 ResourcesActivity.DIALECT, resource);
 
-
         ArrayList<Numb> numbs = new ArrayList<>();
         ArrayList<Day>  days = new ArrayList<>();
-
-
-
 
         for(int i = 0 ; i < 2 ; i ++ ){
             APIWrapper apiWrapper = new APIWrapper(database);
@@ -59,39 +57,6 @@ public class CalendarActivity extends Activity {
             }
 
         }
-
-
-
-
-/*
-        TextView text2 = (TextView)findViewById(R.id.textView2);
-        text2.setText(days.get(1).getDay());
-        text2.setTag(days.get(1).getAudioURL());
-
-        TextView text3 = (TextView)findViewById(R.id.textView3);
-        text3.setText(days.get(2).getDay());
-        text3.setTag(days.get(2).getAudioURL());
-
-        TextView text4 = (TextView)findViewById(R.id.textView4);
-        text4.setText(days.get(3).getDay());
-        text4.setTag(days.get(3).getAudioURL());
-
-
-        TextView text5 = (TextView)findViewById(R.id.textView5);
-        text1.setText(days.get(4).getDay());
-        text1.setTag(days.get(4).getAudioURL());
-
-
-        TextView text6 = (TextView)findViewById(R.id.textView6);
-        text6.setText(days.get(5).getDay());
-        text6.setTag(days.get(5).getAudioURL());
-
-
-        TextView text7 = (TextView)findViewById(R.id.textView7);
-        text7.setText(days.get(6).getDay());
-        text7.setTag(days.get(6).getAudioURL());
-*/
-
 
 //            Button button2 = (Button) findViewById(R.id.button2);
 //            button2.setText(numbs.get(1).getNumber()+"\n"+numbs.get(1).getPronunciation());
@@ -217,7 +182,7 @@ public class CalendarActivity extends Activity {
 
     public void playSound(View view){
 
-            Log.d("MainActivity", "resource sound played" + (String) view.getTag());
+            Log.d("MainActivity", "resource sound played" + view.getTag());
             try {
                 player = new MediaPlayer();
                 player.setDataSource((String)view.getTag());
@@ -227,5 +192,11 @@ public class CalendarActivity extends Activity {
                 e.printStackTrace();
             }
             Toast.makeText(getApplicationContext(), "Start the Source", Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ResourcesActivity.class);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(MainActivity.DIALECT));
+        startActivity(intent);
     }
 }

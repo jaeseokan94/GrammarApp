@@ -45,13 +45,6 @@ public class SituationalVideoActivity extends Activity {
         apiWrapper=new APIWrapper(new DatabaseHelper(this));
         videoURL = apiWrapper.apiSituationalVideoURLs(current_topic);
 
-
-
-        //get situational video url
-       // Uri uri[] = APIWrapper.getSituationalVideoURLs(current_topic);
-        //uri_without_transcript = uri[0];
-        //uri_with_transcript = uri[1];
-
         //View dynamic setup
         final VideoView video_player_view = (VideoView) findViewById(R.id.vv_situational_video);
 

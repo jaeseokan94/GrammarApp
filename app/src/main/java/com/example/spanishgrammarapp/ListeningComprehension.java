@@ -1,12 +1,11 @@
 package com.example.spanishgrammarapp;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,21 +22,17 @@ import java.util.concurrent.TimeUnit;
 /**
  * Sets up a Listening Comprehension Activity
  */
-public class ListeningComprehension extends AppCompatActivity implements View.OnClickListener{
+public class ListeningComprehension extends Activity implements View.OnClickListener{
 
     private String url;//url of the audio
-    private ArrayList<String> answers;//all the answers
     private ArrayList<String> cAnswers;// the correct answers
-    private LinearLayout optionsView;//the layout for showing all the answers
     private Button play;// to play and pause the audio
     private Button stop;//to stop the audio
-    private Button checkButton;// to check if the answers are correct
     private MediaPlayer player;// used to ready the audio to execute
     private String status;// the status of the audio (PLAYED,PAUSED OR STOPPED)
     private SeekBar seekBar;// controls the current position of the audio
     private final Handler handler = new Handler();
     private ArrayList<CheckBox> checkBoxes;// the checkboxes containing all the answers
-    private TextView endTime;// shows total duration of audio
     private TextView currentTime;//shows current time position of the audio
 
     @Override
@@ -47,7 +42,7 @@ public class ListeningComprehension extends AppCompatActivity implements View.On
 
         //intent to get the url and the answers
         url = getIntent().getStringExtra("url");
-        answers = getIntent().getStringArrayListExtra("answers");
+        ArrayList<String> answers = getIntent().getStringArrayListExtra("answers");
         cAnswers = getIntent().getStringArrayListExtra("cAnswers");
 
         RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
@@ -102,14 +97,14 @@ public class ListeningComprehension extends AppCompatActivity implements View.On
         currentTime.setText("0:00");
 
         //sets up the total time of the audio
-        endTime = (TextView) findViewById(R.id.endTime);
+        TextView endTime = (TextView) findViewById(R.id.endTime);
         endTime.setText(convertTime(player.getDuration()));
 
-        optionsView = (LinearLayout) findViewById(R.id.optionsView);
+        LinearLayout optionsView = (LinearLayout) findViewById(R.id.optionsView);
 
         //sets up the checkboxes containing all the answers
         checkBoxes = new ArrayList<>();
-        for (int i =0;i<answers.size();i++){
+        for (int i =0;i< answers.size();i++){
 
             checkBoxes.add(new CheckBox(this));
             checkBoxes.get(i).setText(answers.get(i));
@@ -120,7 +115,7 @@ public class ListeningComprehension extends AppCompatActivity implements View.On
         RelativeLayout bottomView = (RelativeLayout) findViewById(R.id.questionView);
 
         //sets up the check button
-        checkButton = (Button) findViewById(R.id.checkBtn);
+        Button checkButton = (Button) findViewById(R.id.checkBtn);
         checkButton.setText("Check!");
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -68,12 +68,11 @@ public class Exercise implements Serializable {
         return numCorrectlyAnswered/ (double) questions.size();
     }
 
+    /**
+     * @param vocab the boolean to set vocab to, indicating that whether or not this is a vocabulary type exercise
+     * */
     public void setVocab(boolean vocab){
         isVocab = vocab;
-    }
-
-    public boolean getVocab(){
-        return isVocab;
     }
 
     /**
@@ -86,16 +85,26 @@ public class Exercise implements Serializable {
         return order[0]+" - "+order[1]+" - "+getCorrectnessRating();
     }
 
+    /**
+     * @param name the name to be set for the exercise*/
     public void setName(String name){
         this.name = name;
     }
+
+    /**
+     * @param id the id to be set for the exercise*/
     public void setId(String id){
         this.id = id;
     }
 
+    /**
+     *@return the name of the exercise*/
     public String getName(){
         return name;
     }
+
+    /**
+     * @return the id of the exercise (not the same as identifier!)*/
     public String getId(){
         return id;
     }

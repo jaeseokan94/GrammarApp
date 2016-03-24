@@ -67,4 +67,11 @@ public class DialectActivity extends Activity implements View.OnClickListener{
         intent.putExtra(DIALECT, v.getTag().toString());
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ResourcesActivity.class);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(MainActivity.DIALECT));
+        startActivity(intent);
+    }
 }

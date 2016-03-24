@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp.resources.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ExpandableListView;
@@ -94,5 +95,11 @@ public class SeasonsAndMonthsActivity extends Activity {
             item.add(time.getTime_language());
             listDataChild.put(time_digital, item);
         }
+    }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ResourcesActivity.class);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(MainActivity.DIALECT));
+        startActivity(intent);
     }
 }

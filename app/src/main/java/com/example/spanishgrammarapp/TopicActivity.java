@@ -21,7 +21,6 @@ public class TopicActivity extends Activity implements OnClickListener {
     public final static String CURRENT_TOPIC = "CURRENT_TOPIC";
     public final static String SUBTOPIC = "SUBTOPIC";
     private String currentTopic;
-    DatabaseHelper db;
 
 
     @Override
@@ -48,14 +47,11 @@ public class TopicActivity extends Activity implements OnClickListener {
         TextView textView3 = ((TextView) findViewById(R.id.tv_subtopic_title));
         textView3.setTypeface(font);
 
-
-
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout_id);
         mainLayout.setBackgroundColor(Color.rgb(118, 178, 197));
         mainLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
-
-        APIWrapper subtopicAPI = new APIWrapper(db);
+        APIWrapper subtopicAPI = new APIWrapper(new DatabaseHelper(this));
         //This will pass subtopicList from Database
         ArrayList<String> subtopics = subtopicAPI.getSubtopicList(MainActivity.currentLanguage, MainActivity.currentLevel, currentTopic);
 

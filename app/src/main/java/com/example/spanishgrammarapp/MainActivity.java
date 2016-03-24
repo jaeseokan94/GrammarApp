@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.example.spanishgrammarapp.Data.DatabaseHelper;
 import com.example.spanishgrammarapp.resources.activities.DialectActivity;
-import com.facebook.appevents.AppEventsLogger;
 
 public class MainActivity extends Activity {
 
@@ -27,12 +26,11 @@ public class MainActivity extends Activity {
     public final static String EXERCISE_NAME = "EXERCISE_NAME";
     public final static String EXERCISE_ID = "EXERCISE_ID";
     public final static String NO_QUESTIONS = "NO_QUESTIONS";
+    public final static String DIALECT = "DIALECT";
 
     public static UserProgress userProgress;
     public static String currentLanguage ;
     public static String currentLevel;
-
-    private DatabaseHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +47,12 @@ public class MainActivity extends Activity {
         System.out.println("CURRENT LEVEL TEST " + currentLevel + " Current Lang "+ currentLanguage);
 
         // App will download API and save it into database when it is first open.
-        database = new DatabaseHelper(this.getBaseContext());
+        DatabaseHelper database = new DatabaseHelper(this.getBaseContext());
         
         System.out.println(database.getAllKey());
         System.out.println("TESTING  " + database.getLevelList("Korean"));
         System.out.println("TESTING  " + database.getLevelList("Spanish"));
-        System.out.println("TESTING REAL "+database.getSubTopicList("Spanish","b","Greeting"));
+        System.out.println("TESTING REAL "+ database.getSubTopicList("Spanish", "b", "Greeting"));
     }
 
     @Override
@@ -104,19 +102,6 @@ public class MainActivity extends Activity {
             findViewById(R.id.button_credits).getLayoutParams().width = ideaWidth2;
             findViewById(R.id.button_credits).getLayoutParams().height = ideaHeight2;
         }
-    }
-    protected void onResume() {
-        super.onResume();
-
-        // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
-    }
-
-    protected void onPause() {
-        super.onPause();
-
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
     }
 
     public void learnActivity(View view){

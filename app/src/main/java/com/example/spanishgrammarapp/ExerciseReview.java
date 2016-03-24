@@ -19,6 +19,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+/**
+ * This class is responsible for giving the user a review of their performance for the exercise they've
+ * just completed.*/
 public class ExerciseReview extends Activity {
 
     private Typeface font;
@@ -41,6 +44,8 @@ public class ExerciseReview extends Activity {
         createGUI(relativeLayout);
     }
 
+    /**
+     * Creates the GUI elements for this activity*/
     private void createGUI(RelativeLayout relativeLayout){
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
@@ -119,6 +124,8 @@ public class ExerciseReview extends Activity {
         }
     }
 
+    /**
+     * Finds the exercise the user has just completed*/
     private Exercise getExercise(){
         for (Exercise e : UserProgress.completedExercises) {
             if (e.getIdentifier().equals(getIntent().getStringExtra(ExercisesActivity.IDENTIFIER))) {

@@ -3,6 +3,7 @@ package com.example.spanishgrammarapp;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 
 import android.os.Bundle;
@@ -36,7 +37,7 @@ public class GlossaryActivity extends Activity implements View.OnClickListener {
 
     private SearchView searchBar; // search bar for the glossary
     private TextView resultsview; // the results are shown here
-    ArrayList<Glossary> glossData; // the glossary data
+    private ArrayList<Glossary> glossData; // the glossary data
     private DatabaseHelper database;
 
     @Override
@@ -156,6 +157,12 @@ public class GlossaryActivity extends Activity implements View.OnClickListener {
      */
     @Override
     public void onClick(View v) {
-        updateSearch(v.getTag().toString(),1);
+        updateSearch(v.getTag().toString(), 1);
+    }
+
+    /**This method ensures the correct behaviour of the app when the back button is pressed.*/
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

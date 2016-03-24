@@ -32,7 +32,6 @@ public class GrammarVideoActivity extends Activity {
 
         VideoView video_player_view = (VideoView) findViewById(R.id.vv_grammar_video);
 
-//        video_player_view.setVideoURI(uri_grammar_video);
         video_player_view.requestFocus();
         video_player_view.start();
 

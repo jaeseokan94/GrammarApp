@@ -1,6 +1,5 @@
 package com.example.spanishgrammarapp;
 
-
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -13,14 +12,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 
 public class RecordingActivity extends AppCompatActivity  {
 
@@ -28,7 +24,7 @@ public class RecordingActivity extends AppCompatActivity  {
     private MediaPlayer mediaPlayer;
     private MediaRecorder recorder;
     private String OUTPUT_FILE;
-    File home;
+    private File home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +38,6 @@ public class RecordingActivity extends AppCompatActivity  {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
                     System.out.println("playRecording parameter: " + Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + ((TextView) view).getText().toString());
-//                    playRecording(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + ((TextView) view).getText().toString());
                     OUTPUT_FILE = home+"/"+((TextView) view).getText().toString();
                     playRecording();
                     System.out.println("Playing saved recording");
@@ -55,6 +50,8 @@ public class RecordingActivity extends AppCompatActivity  {
         updatePlaylist();
     }
 
+    /**
+     * This method populates the ListView*/
     public void updatePlaylist() {
         List<String> recordings = new ArrayList<>();
 
@@ -69,6 +66,9 @@ public class RecordingActivity extends AppCompatActivity  {
         }
     }
 
+    /**
+     * Listener for all the buttons
+     * @param view the button that was pressed*/
     public void buttonTapped(View view){
         switch(view.getId()){
             case R.id.startBtn:
@@ -88,44 +88,17 @@ public class RecordingActivity extends AppCompatActivity  {
                 break;
             case R.id.stopBtn:
                 try{
-                    stopPlayback();
+                    stopAction();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
                 break;
-            case R.id.saveBtn:
-                try{
-                    saveLastRecordedAudio();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-        }
-    }
-
-
-    private void saveLastRecordedAudio() throws IOException {
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-            String timeStamp = dateFormat.format(new Date());
-//          FileOutputStream fos = new FileOutputStream(new File(this.getBaseContext().getFilesDir(),timeStamp+".mp3"));
-            FileOutputStream fos = new FileOutputStream(new File(this.getBaseContext().getFilesDir()+ "/" + timeStamp +".mp3"));
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-            fos.close();
-            oos.close();
-            System.out.println("Progress saved");
-            System.out.println(new File(this.getBaseContext().getFilesDir(),"test1.mp3"));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("ERROR: File not written");
-
         }
     }
 
     private void beginRecording() throws IOException {
         ditchMediaRecorder();
-
+        ((TextView)findViewById(R.id.textView_state)).setText("REC");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         String timeStamp = dateFormat.format(new Date());
         OUTPUT_FILE = home+"/"+timeStamp+".mp3";
@@ -144,15 +117,14 @@ public class RecordingActivity extends AppCompatActivity  {
         recorder.start();
     }
 
-
-    private void stopPlayback() {
+    private void stopAction() {
+        ((TextView)findViewById(R.id.textView_state)).setText("");
         if(mediaPlayer != null)
             mediaPlayer.stop();
 
         if(recorder != null)
             recorder.stop();
     }
-
 
     private void playRecording() throws IOException {
         ditchMediaPlayer();

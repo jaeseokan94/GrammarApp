@@ -79,13 +79,20 @@ public class HolidaysActivity extends Activity implements View.OnClickListener{
         Intent intent = new Intent(this, HolidayInstanceActivity.class);
         intent.putExtra(HOLIDAY_IMG, ((Holiday)v.getTag()).getImageURL());
         intent.putExtra(DATE, ((Holiday)v.getTag()).getDate());
-        intent.putExtra(NAME_IN_ENGLISH, ((Holiday)v.getTag()).getName_English());
-        intent.putExtra(NAME_IN_LANGUAGE, ((Holiday)v.getTag()).getName_InLanguage());
+        intent.putExtra(NAME_IN_ENGLISH, ((Holiday) v.getTag()).getName_English());
+        intent.putExtra(NAME_IN_LANGUAGE, ((Holiday) v.getTag()).getName_InLanguage());
 
         Log.e("asdf", ((Holiday)v.getTag()).getImageURL());
         Log.e("asdf", ((Holiday)v.getTag()).getDate());
         Log.e("asdf", ((Holiday)v.getTag()).getName_English());
 
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ResourcesActivity.class);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(MainActivity.DIALECT));
         startActivity(intent);
     }
 }

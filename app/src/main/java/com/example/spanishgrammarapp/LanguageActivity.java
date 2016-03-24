@@ -22,18 +22,12 @@ import com.example.spanishgrammarapp.Data.LanguageData;
 import java.util.List;
 
 public class LanguageActivity extends Activity implements OnClickListener {
-    public final static String CURRENT_LANGUAGE = "CURRENT_LANGUAGE";
-
     private DatabaseHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language);
-
-      /*  database = new DatabaseHelper(this.getBaseContext());
-        APIWrapper downloadAPI = new APIWrapper(database);
-        downloadAPI.getLangLevelAPI();*/
 
         Typeface font = Typeface.createFromAsset(getAssets(), "font2.ttf");
         TextView textView = ((TextView) findViewById(R.id.tv_language));
@@ -50,14 +44,9 @@ public class LanguageActivity extends Activity implements OnClickListener {
         rlp.addRule(RelativeLayout.ALIGN_LEFT);
 
         mainLayout.addView(imageView, rlp);
-        //mainLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         mainLayout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
 
-
-
-
         //This will pass subtopicList from Database
-       // List<LanguageData> languages = CMSconnector.getLanguages(getBaseContext(), database);
        APIWrapper apiWrapper = new APIWrapper(database);
         List<LanguageData> languages= apiWrapper.apiLanguage();
         int i = 200;

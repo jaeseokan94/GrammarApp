@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp.resources.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -26,9 +27,6 @@ import java.util.ArrayList;
  * Extra. Letters are dynamically created and can be clicked to listen to the pronunciation.
  */
 public class AlphabetActivity extends Activity {
-    private MediaPlayer player;
-    private String resource;
-    DatabaseHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +34,7 @@ public class AlphabetActivity extends Activity {
         setContentView(R.layout.activity_alphabet);
 
         //Get resource name
-        resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
+        String resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
 
         //Get instructions from API
         String instructions = APIWrapper.getInstructions(MainActivity.currentLanguage,
@@ -52,7 +50,7 @@ public class AlphabetActivity extends Activity {
         //TODO put if statement or change getLetters to only return Language
         //Get set of Letters from API
 
-        APIWrapper apiWrapper = new APIWrapper(database);
+        APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this));
 
         ArrayList<Letter> letters = apiWrapper.getLetters(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
 
@@ -80,13 +78,20 @@ public class AlphabetActivity extends Activity {
     public void playSound(View view) {
         Log.d("MainActivity","resource sound played" + (String)view.getTag());
         try {
-            player = new MediaPlayer();
-            player.setDataSource((String)view.getTag());
+            MediaPlayer player = new MediaPlayer();
+            player.setDataSource((String) view.getTag());
             player.prepare();
             player.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
         Toast.makeText(getApplicationContext(), "Start the Source", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ResourcesActivity.class);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(MainActivity.DIALECT));
+        startActivity(intent);
     }
 }

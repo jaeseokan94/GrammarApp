@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -31,8 +32,8 @@ import java.util.List;
  */
 public class ReviseActivity extends Activity implements AdapterView.OnItemClickListener{
 
-    RelativeLayout mainLayout; //This is the layout for this Activity
-    Context context; // This is the Context of this Activity
+    private RelativeLayout mainLayout; //This is the layout for this Activity
+    private Context context; // This is the Context of this Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +99,7 @@ public class ReviseActivity extends Activity implements AdapterView.OnItemClickL
     @Override
     public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
 
-        Exercise curExe = (Exercise) parent.getAdapter().getItem(position);
+        final Exercise curExe = (Exercise) parent.getAdapter().getItem(position);
         final String[] identifier = curExe.getIdentifier().split("/");
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -109,6 +110,7 @@ public class ReviseActivity extends Activity implements AdapterView.OnItemClickL
                 Intent intent = new Intent(context, ExercisesActivity.class);
                 intent.putExtra(MainActivity.TOPIC, identifier[0]);
                 intent.putExtra(MainActivity.SUBTOPIC, identifier[1]);
+                intent.putExtra(MainActivity.EXERCISE_ID, curExe.getId());
                 intent.putExtra("RESET", "true"); //this is for me, so when you start your Exercise from THIS class, I'll know to reset the exercise rather than ask user to reset it.
                 startActivity(intent);
             }
@@ -122,5 +124,10 @@ public class ReviseActivity extends Activity implements AdapterView.OnItemClickL
 
         dialogBuilder.create();
         dialogBuilder.show();
+    }
+    /**This method ensures the correct behaviour of the app when the back button is pressed.*/
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

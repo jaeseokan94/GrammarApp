@@ -23,20 +23,12 @@ import com.example.spanishgrammarapp.Data.LevelData;
 import java.util.List;
 
 public class LevelActivity extends Activity implements OnClickListener {
-    private String currentLanguage;
-    private DatabaseHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level);
 
-        //Get current Language from intent
-        currentLanguage = MainActivity.currentLanguage;
-
-        //Set up
-        //TextView textView = (TextView) findViewById(R.id.tv_level);
-        //textView.setText(currentLanguage);
         Typeface font = Typeface.createFromAsset(getAssets(), "font2.ttf");
         TextView textViewTitle = (TextView) findViewById(R.id.tv_level_title);
         textViewTitle.setTypeface(font);
@@ -55,7 +47,7 @@ public class LevelActivity extends Activity implements OnClickListener {
         mainLayout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
         mainLayout.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        APIWrapper apiWrapper = new APIWrapper(database);
+        APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this));
         //This will pass subtopicList from Database
         List<LevelData> levels = apiWrapper.apiLevel();
         System.out.println("LEVEL LIST : " + levels);

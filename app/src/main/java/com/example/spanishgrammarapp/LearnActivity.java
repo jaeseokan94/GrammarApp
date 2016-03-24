@@ -35,6 +35,7 @@ public class LearnActivity extends Activity {
         setContentView(mainLayout); //don't move this pls, it's initialise in createGUI()
     }
 
+    /**This method creates the GUI for this activity*/
     private void createGUI(int orientation){
         mainLayout.setBackground(getDrawable(R.drawable.bkg));
         if(orientation==Configuration.ORIENTATION_PORTRAIT){
@@ -88,10 +89,11 @@ public class LearnActivity extends Activity {
         setDefaultImageButtonSizes(orientation);
     }
 
+    /**This is the listener for the buttons in this activity*/
     public void enterTopic(View view){
         Intent intent = new Intent(this, TopicActivity.class);
-        String message = (String) view.getTag();
-        intent.putExtra(MainActivity.TOPIC, message);
+        String topic = (String) view.getTag();
+        intent.putExtra(MainActivity.TOPIC, topic);
         startActivity(intent);
     }
 

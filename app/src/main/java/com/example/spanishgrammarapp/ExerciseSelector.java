@@ -66,7 +66,8 @@ public class ExerciseSelector extends Activity {
         }
     }
 
-    /*This method starts exercises activity and relays the intent data from previous activity*/
+    /**This method starts exercises activity and relays the intent data from previous activity
+     * @param view the button that was pressed (its text decides which exercise the user will be directed to)*/
     private void goToExercise(View view){
         Intent intent = new Intent(this, ExercisesActivity.class);
         intent.putExtra(MainActivity.TOPIC, getIntent().getStringExtra(MainActivity.TOPIC)); //forward the topic string
