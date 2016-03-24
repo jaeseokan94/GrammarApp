@@ -456,9 +456,6 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
                     situationalVideoURL)
                     .get(); //this link is temporary, it needs to be generalized
 
-            // [{"language_topic":2,"situation_description":"Situational Description","video_with_transcript":"/media/U01-01-Gra-Pronombres_qpIFGPh.mp4",
-            // "video_without_transcript":"/media/U01-02-Gra-llamarse.mp4"}]
-
             System.out.println("URL FOR SITUATIONAL VIDEO - LISTEING COMP  " + situationalVideoURL);
 
             for(int i = 0 ; i < jsonArray.length(); i++ ){

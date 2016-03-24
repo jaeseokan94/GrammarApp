@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Data structure to hold listening comprehension
+ * Data structure to hold listening comprehension data
  */
 public class ListeningComprehension {
     private String url;
