@@ -1,6 +1,7 @@
 package com.example.spanishgrammarapp.resources.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,8 +22,6 @@ import java.util.ArrayList;
 public class NumberActivity extends Activity {
     private DatabaseHelper database;
     private GridView gridView;
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,5 +48,10 @@ public class NumberActivity extends Activity {
         });
 
     }
-
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ResourcesActivity.class);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(MainActivity.DIALECT));
+        startActivity(intent);
+    }
 }

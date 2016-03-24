@@ -61,4 +61,10 @@ public class HolidaysActivity extends Activity {
             }
         });
     }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this, ResourcesActivity.class);
+        intent.putExtra(MainActivity.DIALECT, getIntent().getStringExtra(MainActivity.DIALECT));
+        startActivity(intent);
+    }
 }

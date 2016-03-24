@@ -43,10 +43,6 @@ public class SeasonsAndMonthsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seasons_and_months);
 
-        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_END);
-
-//        findViewById(R.id.seasons_months_layout).setLayoutParams(rlp);
         //Get resource name
         resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
 
@@ -65,7 +61,6 @@ public class SeasonsAndMonthsActivity extends Activity {
 
         //Set up expandable list view
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-//        expandableListView.setLayoutParams(rlp);
 
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -123,8 +118,7 @@ public class SeasonsAndMonthsActivity extends Activity {
 
         APIWrapper apiWrapper = new APIWrapper(database);
         // Adding header data
-        ArrayList<Season> seasons = apiWrapper.getSeasonsAndMonthsData(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
-        System.out.print(seasons);
+        ArrayList<Season> seasons = apiWrapper.getSeasonsAndMonthsData(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
 
         // Adding child data
         for(Season season: seasons) {
@@ -139,8 +133,7 @@ public class SeasonsAndMonthsActivity extends Activity {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding header data
-        ArrayList<Time> times = APIWrapper.getTimeData(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
-        System.out.print(times);
+        ArrayList<Time> times = APIWrapper.getTimeData(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
 
         // Adding child data
         for(Time time: times) {

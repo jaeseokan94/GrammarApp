@@ -33,7 +33,6 @@ import java.util.ArrayList;
  */
 public class AlphabetActivity extends Activity {
     DatabaseHelper database;
-    private GridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +41,9 @@ public class AlphabetActivity extends Activity {
 
         APIWrapper apiWrapper = new APIWrapper(database);
         ArrayList<Letter> letters = new ArrayList<>();
-        letters = apiWrapper.getLetters(MainActivity.currentLanguage, ResourcesActivity.DIALECT);
+        letters = apiWrapper.getLetters(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
 
-        gridView = (GridView) findViewById(R.id.gridView1);
+        GridView gridView = (GridView) findViewById(R.id.gridView1);
 
         gridView.setAdapter(new LetterAdapter(this, letters));
 
