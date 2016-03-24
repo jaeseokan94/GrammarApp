@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -45,16 +46,18 @@ public class ExerciseSelector extends Activity {
      * @param relativeLayout the layout that we want to add these buttons to*/
     private void createGUI(ArrayList<Exercise> exerciseList, RelativeLayout relativeLayout){
         int buttonID = 10;
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        relativeLayout.setGravity(Gravity.CENTER);
         layoutParams.addRule(RelativeLayout.BELOW, buttonID); //first time adds button below the vocab button
         for (Exercise s : exerciseList){
             Button button = new Button(this);
             button.setText(s.getName());
             button.setTag(s.getId());
+            button.setBackground(getDrawable(R.drawable.button));
             if(buttonID==10){
-                relativeLayout.addView(button, layoutParams);
+                relativeLayout.addView(button);
             }else{
-                relativeLayout.addView(button); //the first button does not go below anything
+                relativeLayout.addView(button, layoutParams); //the first button does not go below anything
             }
             button.setId(buttonID++); //and set the id of current button to new value
             button.setOnClickListener(new View.OnClickListener() {

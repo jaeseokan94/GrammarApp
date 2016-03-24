@@ -1,11 +1,15 @@
 package com.example.spanishgrammarapp;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
+
+import com.example.spanishgrammarapp.Data.APIWrapper;
+import com.example.spanishgrammarapp.Data.DatabaseHelper;
 
 /**
  * Created by janaldoustorres on 06/03/2016.
@@ -32,6 +36,9 @@ public class GrammarVideoActivity extends Activity {
 
         VideoView video_player_view = (VideoView) findViewById(R.id.vv_grammar_video);
 
+        APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this));
+
+        video_player_view.setVideoURI(Uri.parse(apiWrapper.apiGrammarVideoUri(topicTitle, subtopicTitle)));
         video_player_view.requestFocus();
         video_player_view.start();
 

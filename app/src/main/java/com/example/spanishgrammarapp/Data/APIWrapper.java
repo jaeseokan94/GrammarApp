@@ -393,24 +393,13 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
          *          urls[1] situational video without transcript
          */
     public ArrayList<String> apiSituationalVideoURLs(String topicName) {
-        //TODO code here for getting url for situational video
         String SituationalVideoURL = URL+"/"+MainActivity.currentLanguage+"/"+MainActivity.currentLevel+"/"+topicName+"/situationalVideo/";
-
-        //String url is temporary
-     //   Uri[] urls = new Uri[2];
-        //without transcript
-     //   urls[0] = Uri.parse("https://lang-it-up.herokuapp.com/media/listening_comprehension/U01-E05.mp3");
-        //with transcript
-     //   urls[1] = Uri.parse("https://lang-it-up.herokuapp.com/media/U01-01.mp4");
 
         ArrayList<String> urlList = new ArrayList<>(3);
         try {
             JSONArray jsonArray = execute(
             SituationalVideoURL)
                     .get(); //this link is temporary, it needs to be generalized
-
-            // [{"language_topic":2,"situation_description":"Situational Description","video_with_transcript":"/media/U01-01-Gra-Pronombres_qpIFGPh.mp4",
-            // "video_without_transcript":"/media/U01-02-Gra-llamarse.mp4"}]
 
             System.out.println("URL FOR SITUATIONAL VIDEO  " + SituationalVideoURL);
 
@@ -501,23 +490,17 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      *
      * I PASS IT TO ARRAY LIST, MAKE SURE TO PARSE() -> YOU CAN SEE IN SITAUTIAONAL VIDEO CASE
      */
-    public  ArrayList<String> apiGrammarVideoUri(String topicName, String subtopicName) {
-        //TODO implement this method
-
-        ArrayList<String> urlGrammar = new ArrayList<>();
-        String grammarVideoURL = URL+"/"+MainActivity.currentLanguage+"/"+MainActivity.currentLevel+ topicName+"/"+subtopicName+"/"+"grammarVideo";
-
+    public  String apiGrammarVideoUri(String topicName, String subtopicName) {
+        String urlGrammar="";
+        String grammarVideoURL = URL+"/"+MainActivity.currentLanguage+"/"+MainActivity.currentLevel+"/"+ topicName+"/"+subtopicName+"/"+"grammarVideo";
+        System.out.println("grammarVideoURL  "+grammarVideoURL);
         try {
             JSONArray jsonArray = execute(grammarVideoURL).get(); //this link is temporary, it needs to be generalized
-
-            // [{"language_topic":2,"situation_description":"Situational Description","video_with_transcript":"/media/U01-01-Gra-Pronombres_qpIFGPh.mp4",
-            // "video_without_transcript":"/media/U01-02-Gra-llamarse.mp4"}]
 
             for(int i = 0 ; i < jsonArray.length(); i++ ){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                String grammar_video_file = jsonObject.getString("grammar_video_file");
-                urlGrammar.add(grammar_video_file);
+                urlGrammar = jsonObject.getString("grammar_video_file");
                 System.out.println("JSON PASSED TO DATABASE");
                 System.out.println(i);
             }

@@ -82,7 +82,7 @@ public class Exercise implements Serializable {
     @Override
     public String toString(){
         String[] order = getIdentifier().split("/");
-        return order[0]+" - "+order[1]+" - "+getCorrectnessRating();
+        return order[0]+" - "+order[1]+" - "+Math.round(getCorrectnessRating())*100+"%";
     }
 
     /**
