@@ -1,6 +1,5 @@
 package com.example.spanishgrammarapp.Data;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.example.spanishgrammarapp.Exercise;
@@ -240,12 +239,12 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
 
                     String questionText = jsonObject.getString("question_text"); // get question_text from API
                     String questionType = "dd";
-                    answers.add(URLMEDIA+jsonObject.getString("choice_1"));
-                    answers.add(URLMEDIA+jsonObject.getString("choice_2"));
-                    answers.add(URLMEDIA+jsonObject.getString("choice_3"));
-                    answers.add(URLMEDIA+jsonObject.getString("choice_4"));
-                    answers.add(URLMEDIA+jsonObject.getString("choice_5"));
-                    answers.add(URLMEDIA+jsonObject.getString("choice_6"));
+                    answers.add(jsonObject.getString("choice_1"));
+                    answers.add(jsonObject.getString("choice_2"));
+                    answers.add(jsonObject.getString("choice_3"));
+                    answers.add(jsonObject.getString("choice_4"));
+                    answers.add(jsonObject.getString("choice_5"));
+                    answers.add(jsonObject.getString("choice_6"));
                     //answers.add(jsonObject.getString("correct_answer"));
                     String correct_answer = jsonObject.getString("correct_answer");
                     Question question = new Question(questionType, questionText, correct_answer, answers);
@@ -304,6 +303,61 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
         System.out.println("QUESTION URL DEBUG : " + questionURL);
         return exercise;
     }
+
+    /**
+     *  Get listening comprehension array list. Please use this method, and change it accordingly. (a bit buggy now)
+     *  Probably you can send fixed exerciseId and exerciseName , and I can make change accordingly in CMS
+     */
+    public ArrayList getListeningComprehension(String topic, String subtopic, String exerciseId , String exerciseName) {
+
+
+        ArrayList<String> answers = new ArrayList<>();
+
+        // isVocabuary=false;
+
+        System.out.println("SUBTOPIC "+subtopic);
+
+        String questionURL = URL + "/" + MainActivity.currentLanguage + "/" + MainActivity.currentLevel + "/" + topic + "/" + subtopic ;
+        Exercise exercise = new Exercise(topic+"/"+subtopic, exerciseId, exerciseName);
+
+            questionURL +=  "/" + exerciseId+"/exerciseQuestions";
+            try {
+                JSONArray jsonArray = execute(questionURL).get();
+                //   jsonArray.getJSONObject("exercise_question");
+                System.out.println("JSON ARRAY "+jsonArray);
+
+                for(int k = 0 ; k <jsonArray.length() ; k++){
+                    JSONObject questions = jsonArray.getJSONObject(k);
+                    JSONArray sublist = questions.getJSONArray("exercise_questions");
+
+                    for (int i = 0; i < sublist.length(); i++) {
+
+
+                        JSONObject jsonObject = sublist.getJSONObject(i);
+                        answers.add(jsonObject.getString("question_text"));
+                        answers.add(jsonObject.getString("choice_1"));
+                        answers.add(jsonObject.getString("choice_2"));
+                        answers.add(jsonObject.getString("choice_3"));
+                        answers.add(jsonObject.getString("choice_4"));
+                        answers.add(jsonObject.getString("choice_5"));
+                        answers.add(jsonObject.getString("choice_6"));
+                        answers.add(jsonObject.getString("correct_answer"));
+
+
+                        System.out.println("LIST  " + answers);
+
+                    }
+                }
+
+            } catch (Exception e) {
+                System.out.println("JSON EXCEPTION ERROR IN QUESTONS");
+                e.printStackTrace();
+            }
+
+        System.out.println("QUESTION URL DEBUG : " + questionURL);
+        return answers;
+    }
+
 
     public ArrayList<Exercise> getExercisesList(String topic, String subtopic) {
         exercisesList.clear();
@@ -386,12 +440,14 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
      * @param topicName
      * @param subtopicName
      * @return grammar video url
+     *
+     * I PASS IT TO ARRAY LIST, MAKE SURE TO PARSE() -> YOU CAN SEE IN SITAUTIAONAL VIDEO CASE
      */
-    public  Uri apiGrammarVideoUri(String topicName, String subtopicName) {
+    public  ArrayList<String> apiGrammarVideoUri(String topicName, String subtopicName) {
         //TODO implement this method
-        String uri = "https://lang-it-up.herokuapp.com/media/U01-01.mp4";
 
-        String grammarVideoURL = URL+"/"+topicName+"/"+subtopicName+"/"+"grammarVideo";
+        ArrayList<String> urlGrammar = new ArrayList<>();
+        String grammarVideoURL = URL+"/"+MainActivity.currentLanguage+"/"+MainActivity.currentLevel+ topicName+"/"+subtopicName+"/"+"grammarVideo";
 
         try {
             JSONArray jsonArray = execute(grammarVideoURL).get(); //this link is temporary, it needs to be generalized
@@ -402,10 +458,8 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             for(int i = 0 ; i < jsonArray.length(); i++ ){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                String situation_description = jsonObject.getString("situation_description"); // get question_text from API
-                String video_with_transcript = jsonObject.getString("video_with_transcript");
-                String video_without_transcript= jsonObject.getString("video_without_transcript");
-
+                String grammar_video_file = jsonObject.getString("grammar_video_file");
+                urlGrammar.add(grammar_video_file);
                 System.out.println("JSON PASSED TO DATABASE");
                 System.out.println(i);
             }
@@ -414,7 +468,7 @@ public class APIWrapper extends AsyncTask<String,String,JSONArray>{
             e.printStackTrace();
         }
 
-        return Uri.parse(uri);
+        return urlGrammar;
     }
 
     /**
