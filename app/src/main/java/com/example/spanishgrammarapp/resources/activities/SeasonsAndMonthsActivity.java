@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -32,11 +33,10 @@ import java.util.List;
  * Created by janaldoustorres on 18/03/2016.
  */
 public class SeasonsAndMonthsActivity extends Activity {
-    private String resource;
     private ArrayList<String> listDataHeader;
     private HashMap<String, List<String>> listDataChild;
-    DatabaseHelper database;
-    ImageView imageView;
+    private DatabaseHelper database;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class SeasonsAndMonthsActivity extends Activity {
         setContentView(R.layout.activity_seasons_and_months);
 
         //Get resource name
-        resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
+        String resource = getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME);
 
         //Get instructions from API
         String instructions = APIWrapper.getInstructions(MainActivity.currentLanguage,
@@ -65,24 +65,32 @@ public class SeasonsAndMonthsActivity extends Activity {
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                String season= "spring";
-                switch(groupPosition){
-                    case 0:season="spring";
-                        break;
-                    case 1:season="summer";
-                        break;
-                    case 2:season="autumn";
-                        break;
-                    case 3:season="winter";
-                        break;
+                if (getIntent().getStringExtra(ResourcesActivity.RESOURCE_NAME).equals(ResourcesActivity.SEASONS_MONTHS)) {
+                    String season = "spring";
+                    switch (groupPosition) {
+                        case 0:
+                            season = "spring";
+                            break;
+                        case 1:
+                            season = "summer";
+                            break;
+                        case 2:
+                            season = "autumn";
+                            break;
+                        case 3:
+                            season = "winter";
+                            break;
+                    }
+                    setImageBackground(season);
+                }else{
+                    setClockBackground();
                 }
-                setImageBackground(season);
                 return false;
             }
         });
 
 
-        // preparing list data
+    // preparing list data
         if (resource.equals(ResourcesActivity.SEASONS_MONTHS)) {
             prepareSeasonsListData();
         } else {
@@ -95,13 +103,17 @@ public class SeasonsAndMonthsActivity extends Activity {
         expandableListView.setAdapter(listAdapter);
     }
 
+    private void setClockBackground(){
+        imageView.setBackground(getDrawable(R.drawable.clock1));
+    }
+
     private void setImageBackground(String season){
         switch (season){
             case "spring":
                 imageView.setBackground(getDrawable(R.drawable.spring));
                 break;
             case "summer":
-                imageView.setBackground(getDrawable(R.drawable.summer));
+                imageView.setBackground(getDrawable(R.drawable.spring));
                 break;
             case "autumn":
                 imageView.setBackground(getDrawable(R.drawable.autumn));
@@ -116,7 +128,7 @@ public class SeasonsAndMonthsActivity extends Activity {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<String, List<String>>();
 
-        APIWrapper apiWrapper = new APIWrapper(database);
+        APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this.getBaseContext()));
         // Adding header data
         ArrayList<Season> seasons = apiWrapper.getSeasonsAndMonthsData(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
 
@@ -125,6 +137,7 @@ public class SeasonsAndMonthsActivity extends Activity {
             String name = season.getSeason();
             listDataHeader.add(name);
             listDataChild.put(name, season.getMonths());
+//            Log.d("season", season.getSeason());
         }
     }
 
@@ -133,7 +146,8 @@ public class SeasonsAndMonthsActivity extends Activity {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding header data
-        ArrayList<Time> times = APIWrapper.getTimeData(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
+        APIWrapper apiWrapper = new APIWrapper(new DatabaseHelper(this));
+        ArrayList<Time> times = apiWrapper.getTimeData(MainActivity.currentLanguage, getIntent().getStringExtra(MainActivity.DIALECT));
 
         // Adding child data
         for(Time time: times) {

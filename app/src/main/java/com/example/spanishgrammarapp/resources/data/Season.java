@@ -26,6 +26,18 @@ public class Season {
         return season;
     }
 
+    public void setMonth1(String m) {
+        month1 = m;
+    }
+
+    public void setMonth2(String m) {
+        month2 = m;
+    }
+
+    public void setMonth3(String m) {
+        month3 = m;
+    }
+
     public ArrayList<String> getMonths() {
         ArrayList<String> months = new ArrayList();
         months.add(month1);
