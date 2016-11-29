@@ -29,8 +29,8 @@ public class MainActivity extends Activity{
     public final static String DIALECT = "DIALECT";
 
     public static UserProgress userProgress;
-    public static String currentLanguage ;
-    public static String currentLevel;
+    public static String currentLanguage = "Spanish";
+    public static String currentLevel = "Beginner";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
