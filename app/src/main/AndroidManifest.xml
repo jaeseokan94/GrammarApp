@@ -15,11 +15,7 @@
             android:name=".LanguageActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".RecordingActivity"
@@ -27,7 +23,13 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_learn" />
+            android:label="@string/title_activity_learn" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".LevelActivity"
             android:label="@string/title_activity_learn" />
