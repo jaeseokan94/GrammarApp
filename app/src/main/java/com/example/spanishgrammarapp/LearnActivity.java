@@ -37,7 +37,6 @@ public class LearnActivity extends Activity {
 
     /**This method creates the GUI for this activity*/
     private void createGUI(int orientation){
-        mainLayout.setBackground(getDrawable(R.drawable.bkg));
         if(orientation==Configuration.ORIENTATION_PORTRAIT){
             mainLayout.setRowCount(3);
             mainLayout.setColumnCount(3);
