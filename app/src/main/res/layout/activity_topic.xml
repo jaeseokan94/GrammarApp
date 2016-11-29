@@ -5,12 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <ImageView
         android:layout_width="197sp"
         android:layout_height="wrap_content"
         android:src="@drawable/planning2"
         android:id="@+id/imageView"
-        android:layout_weight="0.11" />
+        android:layout_weight="0.11"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="29dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/subtitle_situational_video"
+        android:id="@+id/tv_situational_video_title"
+        android:layout_marginTop="43dp"
+        android:layout_below="@+id/imageView"
+        android:layout_alignStart="@+id/tv_subtopic_title" />
 
     <Button
         android:layout_width="wrap_content"
@@ -21,20 +35,19 @@
         android:onClick="enterSituationalVideo"
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/tv_situational_video_title"
-        android:layout_alignEnd="@+id/tv_subtopic_title"
-        android:layout_marginEnd="28dp"
+        android:layout_alignEnd="@+id/tv_topic"
         android:layout_marginTop="11dp" />
-
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/subtitle_situational_video"
-        android:id="@+id/tv_situational_video_title"
-        android:layout_marginTop="41dp"
-        android:layout_below="@+id/imageView"
-        android:layout_alignStart="@+id/tv_subtopic_title" />
+        android:text="@string/subtitle_subtopics"
+        android:id="@+id/tv_subtopic_title"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="27dp"
+        android:layout_below="@+id/btn_situational_video"
+        android:layout_centerHorizontal="true" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -42,10 +55,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/main_layout_id"
         android:weightSum="1"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="39dp"
         android:paddingLeft="15sp"
         android:paddingRight="15sp"
-        android:layout_below="@+id/btn_situational_video"
+        android:layout_alignTop="@+id/tv_subtopic_title"
         android:layout_alignParentStart="true">
     </LinearLayout>
 
@@ -55,20 +68,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/tv_topic"
-        android:layout_marginBottom="45dp"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_toEndOf="@+id/tv_situational_video_title" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/subtitle_subtopics"
-        android:id="@+id/tv_subtopic_title"
-        android:gravity="center_horizontal"
-        android:layout_alignBottom="@+id/main_layout_id"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="21dp" />
-
+        android:layout_alignTop="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:layout_marginTop="50dp" />
 
 </RelativeLayout>

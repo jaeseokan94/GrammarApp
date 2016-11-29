@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_play_circle_filled_black_24dp"
+        android:id="@+id/imageButton8"
+        android:onClick="enterSituationalVideo"
+        android:layout_below="@+id/tv_situational_video_title"
+        android:layout_alignEnd="@+id/tv_situational_video_title" />
+
+    <TextView
+        android:text="In the train station"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_sitvid_name"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:layout_alignBottom="@+id/imageButton8"
+        android:layout_toEndOf="@+id/imageButton8"
+        android:paddingLeft="5sp" />
+
+</LinearLayout>
