@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/main_layout_id">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="197sp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/tv_topic" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/subtitle_situational_video"
-        android:id="@+id/tv_situational_video_title" />
+        android:src="@drawable/planning2"
+        android:id="@+id/imageView"
+        android:layout_weight="0.11" />
 
     <Button
         android:layout_width="wrap_content"
@@ -26,7 +19,45 @@
         android:background="@drawable/button1"
         android:id="@+id/btn_situational_video"
         android:onClick="enterSituationalVideo"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/tv_situational_video_title"
+        android:layout_alignEnd="@+id/tv_subtopic_title"
+        android:layout_marginEnd="28dp"
+        android:layout_marginTop="11dp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/subtitle_situational_video"
+        android:id="@+id/tv_situational_video_title"
+        android:layout_marginTop="41dp"
+        android:layout_below="@+id/imageView"
+        android:layout_alignStart="@+id/tv_subtopic_title" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_layout_id"
+        android:weightSum="1"
+        android:layout_marginTop="75dp"
+        android:paddingLeft="15sp"
+        android:paddingRight="15sp"
+        android:layout_below="@+id/btn_situational_video"
+        android:layout_alignParentStart="true">
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/tv_topic"
+        android:layout_marginBottom="45dp"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toEndOf="@+id/tv_situational_video_title" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,6 +66,9 @@
         android:text="@string/subtitle_subtopics"
         android:id="@+id/tv_subtopic_title"
         android:gravity="center_horizontal"
-        />
+        android:layout_alignBottom="@+id/main_layout_id"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="21dp" />
 
-</LinearLayout>
+
+</RelativeLayout>
